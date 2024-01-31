@@ -1,0 +1,1 @@
+export type ButtonsVariantType = "text" | "outlined" | "contained";
