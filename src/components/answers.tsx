@@ -1,5 +1,5 @@
-import React, {ChangeEvent, useEffect, useState} from "react";
-import {Formik, useFormik} from "formik";
+import React, {ChangeEvent, useState} from "react";
+import { useFormik} from "formik";
 import styles from "./survey_styles.module.css"
 import {API} from "API/api";
 import {handleFileChange} from "utils/transformStringToBase64";
@@ -14,7 +14,7 @@ import {LabelButton} from "components/LabelButton/LabelButton";
 import {UploadButton} from "components/UploadFileButton/UploadButton";
 import {v1} from "uuid";
 import {FormikErrorsType} from "types/formikErrorsType";
-
+import {decodeImage} from "utils/transformBase64ToString";
 
 export const SurveyAdmin = () => {
   const [base64String, setBase64String] = useState<string | null>(null);
@@ -49,9 +49,10 @@ export const SurveyAdmin = () => {
     setInputs(checked)
   }
 
-  const transformStringToBase64 = (event: ChangeEvent<HTMLInputElement>) => {
+  const encodingImageStringToBase64 = (event: ChangeEvent<HTMLInputElement>) => {
     handleFileChange(event, setBase64String)
   }
+
 
 
   const formik = useFormik({
@@ -125,7 +126,6 @@ export const SurveyAdmin = () => {
 
     }
   })
-  console.log(inputs.every(el => el.value))
   return (
     <form onSubmit={formik.handleSubmit} encType="myltipart/form-data">
       {loading === 'loading' && <LinearProgress/>}
@@ -182,8 +182,9 @@ export const SurveyAdmin = () => {
           </div>
           <div className={styles.downloadFile}>
             <LabelButton text={'Добавить ответ'} onclick={addNewAnswer} variant={'outlined'}/>
-            <UploadButton onChange={transformStringToBase64} error={!base64String}/>
+            <UploadButton onChange={encodingImageStringToBase64} error={!base64String} base64String={base64String}/>
           </div>
+          { base64String ? <div className={styles.image}>{ <img src={decodeImage(base64String)} alt={'Image'}/> }</div> : null}
           <div className={styles.strAnswers}>
             {inputs.map(el => <div key={el.id} className={styles.newAnswerElement}>
               <FieldInput

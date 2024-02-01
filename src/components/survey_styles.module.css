@@ -67,3 +67,11 @@
     font-size: small;
     margin-top: 10px;
 }
+.image{
+    margin-bottom: 30px;
+}
+.image img{
+    display: inline-block;
+    margin-left: 12%;
+    width: 75%;
+}
