@@ -15,13 +15,15 @@ import {FormikErrorsType} from "types/formikErrorsType";
 import {decodeImage} from "utils/transformBase64ToString";
 import {useAppSelector} from "hooks/selectors";
 import {useAppDispatch} from "hooks/dispatch";
+import {useNavigate} from "react-router-dom"
+
 
 export const CreateTask = () => {
-
   const [base64String, setBase64String] = useState<string | null>(null);
   const [loading, setLoading] = useState<StatusLoading>('successful');
   const selector = useAppSelector(state => state.answer);
   const {setNewAnswer, setNewAnswerValue, setChecked, createTask} = useAppDispatch();
+  const navigate = useNavigate();
 
   const addNewAnswer = () => {
     setNewAnswer({id: v1(), value: '', checked: false})
@@ -103,6 +105,7 @@ export const CreateTask = () => {
       const request = await createTask(payload);
       try {
         console.log(request)
+        navigate('/admin/viewAllTasks')
       } catch (e) {
 
       } finally {
