@@ -1,12 +1,14 @@
 import React from 'react';
-import logo from './logo.svg';
 import './App.css';
-import {SurveyAdmin} from "components/answers";
+import {CreateTask} from "components/admin/createTask/CreateTask";
+import {ViewAllTasks} from "components/admin/viewAllTasks/ViewAllTasks";
+
 
 function App() {
   return (
     <div className="App">
-     <SurveyAdmin/>
+     <CreateTask/>
+     {/* <ViewAllTasks/>*/}
     </div>
   );
 }
