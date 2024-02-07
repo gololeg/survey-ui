@@ -19,6 +19,14 @@ const createTask = createAsyncThunk<Itask, Itask>(
   }
 );
 
+const getTask = createAsyncThunk<Itask, number>(
+  'tasks/getTask',
+  async (id: number) => {
+    const response = await API.getTask(id)
+    return response.data as Itask
+  }
+)
+
 const initialState: Itask[] = [];
 const tasksSlice = createSlice({
   name: 'tasks',
@@ -32,6 +40,9 @@ const tasksSlice = createSlice({
       .addCase(createTask.fulfilled, (state, action) => {
 
       })
+      .addCase(getTask.fulfilled, (state, action) => {
+       return [...state, action.payload]
+      })
 
 
   }
@@ -40,4 +51,4 @@ const tasksSlice = createSlice({
 
 export const tasksReducer = tasksSlice.reducer;
 export const tasksActions = tasksSlice.actions;
-export const tasksThunk = {fetchTasks, createTask}
+export const tasksThunk = {fetchTasks, createTask,getTask}

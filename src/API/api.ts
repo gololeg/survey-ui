@@ -16,5 +16,8 @@ export const API = {
                 'Content-Type': 'application/json'
             }
         })
+    },
+    getTask(id:number){
+        return instance.get(`/api/v1/tasks/${id}`)
     }
 }
