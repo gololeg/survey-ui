@@ -1,7 +1,6 @@
 import React, {JSX, useEffect} from 'react';
 import {useAppDispatch} from "hooks/dispatch";
 import {useAppSelector} from "hooks/selectors";
-import styles from "./viewAllTasks.module.css"
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
@@ -9,11 +8,11 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
-import { Link } from 'react-router-dom';
+import {Link} from 'react-router-dom';
 
 export const ViewAllTasks = () => {
   const {fetchTasks} = useAppDispatch();
-  const allTasks = useAppSelector(state => state.tasks);
+  const allTasks = useAppSelector(state => state.tasks.allTasks);
 
 
   useEffect(() => {
@@ -32,7 +31,8 @@ export const ViewAllTasks = () => {
     return {id, name, description, type, level, actions, image};
   }
 
-  const rows = allTasks.map(el => createData(el.id, el.name, el.description, (el.type.name as string), (el.level.name as string), 'blabla', <Link to={`/admin/tasks/all/modal/${el.id}`}>Show</Link>))
+  const rows = allTasks.map((el) => createData(el.id, el.name, el.description, (el.type.name as string), (el.level.name as string), 'blabla',
+    <Link to={`/admin/tasks/all/modal/${el.id}`}>Show</Link>))
 
   return (
     <TableContainer component={Paper}>
@@ -40,7 +40,7 @@ export const ViewAllTasks = () => {
         <TableHead>
           <TableRow>
             <TableCell>№</TableCell>
-            <TableCell align="right" >Name</TableCell>
+            <TableCell align="right">Name</TableCell>
             <TableCell align="right">Description</TableCell>
             <TableCell align="right">Type</TableCell>
             <TableCell align="right">Level</TableCell>
@@ -49,12 +49,12 @@ export const ViewAllTasks = () => {
           </TableRow>
         </TableHead>
         <TableBody>
-          {rows.map((row) => (
+          {rows.map((row,index) => (
             <TableRow
-              key={row.name}
+              key={row.id}
               sx={{'&:last-child td, &:last-child th': {border: 0}}}
             >
-              <TableCell component="th" scope="row">{row.id}</TableCell>
+              <TableCell component="th" scope="row">{++index}</TableCell>
               <TableCell align="right">{row.name}</TableCell>
               <TableCell align="right">{row.description}</TableCell>
               <TableCell align="right">{row.type}</TableCell>

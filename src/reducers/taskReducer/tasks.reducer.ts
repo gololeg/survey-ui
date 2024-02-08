@@ -26,8 +26,14 @@ const getTask = createAsyncThunk<Itask, number>(
     return response.data as Itask
   }
 )
-
-const initialState: Itask[] = [];
+type InitialStateType = {
+  currentTasks: Itask | null,
+  allTasks: Itask[]
+}
+const initialState: InitialStateType = {
+  currentTasks: null,
+  allTasks: []
+}
 const tasksSlice = createSlice({
   name: 'tasks',
   initialState,
@@ -35,13 +41,13 @@ const tasksSlice = createSlice({
   extraReducers: (builder) => {
     builder
       .addCase(fetchTasks.fulfilled, (state, action) => {
-        return action.payload;
+        state.allTasks = [...action.payload];
       })
       .addCase(createTask.fulfilled, (state, action) => {
 
       })
       .addCase(getTask.fulfilled, (state, action) => {
-       return [...state, action.payload]
+        state.currentTasks = action.payload
       })
 
 
@@ -51,4 +57,4 @@ const tasksSlice = createSlice({
 
 export const tasksReducer = tasksSlice.reducer;
 export const tasksActions = tasksSlice.actions;
-export const tasksThunk = {fetchTasks, createTask,getTask}
+export const tasksThunk = {fetchTasks, createTask, getTask}
