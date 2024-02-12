@@ -1,4 +1,4 @@
-import React, {JSX, useEffect} from 'react';
+import React, {JSX, useEffect, useState} from 'react';
 import {useAppDispatch} from "hooks/dispatch";
 import {useAppSelector} from "hooks/selectors";
 import Table from '@mui/material/Table';
@@ -9,10 +9,13 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import {Link} from 'react-router-dom';
+import {LinearProgress} from "@mui/material";
+import {StatusLoading} from "types/statusLoading";
 
 export const ViewAllTasks = () => {
   const {fetchTasks} = useAppDispatch();
   const allTasks = useAppSelector(state => state.tasks.allTasks);
+  const [loading, setLoading] = useState<StatusLoading>('successful');
 
 
   useEffect(() => {
@@ -25,17 +28,17 @@ export const ViewAllTasks = () => {
     description: string,
     type: string,
     level: string,
-    actions: string,
-    image: JSX.Element
+    action: JSX.Element
   ) {
-    return {id, name, description, type, level, actions, image};
+    return {id, name, description, type, level, action};
   }
 
-  const rows = allTasks.map((el) => createData(el.id, el.name, el.description, (el.type.name as string), (el.level.name as string), 'blabla',
-    <Link to={`/admin/tasks/all/modal/${el.id}`}>Show</Link>))
+  const rows = allTasks.map((el) => createData(el.id, el.name, el.description, (el.type.name as string), (el.level.name as string),
+    <Link to={`/admin/tasks/all/modal/${el.id}`}>Show task</Link>))
 
   return (
     <TableContainer component={Paper}>
+      {loading === 'loading' && <LinearProgress/>}
       <Table sx={{minWidth: 650}} size="small" aria-label="a dense table">
         <TableHead>
           <TableRow>
@@ -44,12 +47,11 @@ export const ViewAllTasks = () => {
             <TableCell align="right">Description</TableCell>
             <TableCell align="right">Type</TableCell>
             <TableCell align="right">Level</TableCell>
-            <TableCell align="right">Actions</TableCell>
-            <TableCell align="right">Image</TableCell>
+            <TableCell align="right">Action</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
-          {rows.map((row,index) => (
+          {rows.map((row, index) => (
             <TableRow
               key={row.id}
               sx={{'&:last-child td, &:last-child th': {border: 0}}}
@@ -59,8 +61,7 @@ export const ViewAllTasks = () => {
               <TableCell align="right">{row.description}</TableCell>
               <TableCell align="right">{row.type}</TableCell>
               <TableCell align="right">{row.level}</TableCell>
-              <TableCell align="right">{row.actions}</TableCell>
-              <TableCell align="right">{row.image}</TableCell>
+              <TableCell align="right">{row.action}</TableCell>
             </TableRow>
           ))}
         </TableBody>

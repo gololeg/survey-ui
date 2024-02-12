@@ -29,13 +29,27 @@ export const ViewTaskModal = () => {
       <div className={styles.modalOverlay} onClick={toggleModal}>
         <div className={styles.modalContent}>
           <div className={styles.block}>
-            <h2 className={styles.name}>{task?.name}</h2>
-            <p className={styles.description}>Description: {task?.description}</p>
-            <p className={styles.typeName}>Type: {task?.type.name}</p>
-            <p className={styles.levelName}>Level: {task?.level.name}</p>
-            <img className={styles.image} src={task?.imageStr}/>
+            <h2>Show task</h2>
+            <div className={styles.description}>
+              <label>Description: </label>
+              <div>{task?.description}</div>
+            </div>
+            <div className={styles.image}>
+              <img src={task?.imageStr}/>
+            </div>
+            {task?.answers.map((answer) => (
+              <div className={styles.answers} key={answer.id}>
+                <label>Answer options:</label>
+                <div>
+                  {answer.text}
+                </div>
+                <label>IsRight:</label>
+                <div>{answer.right.toString()}</div>
+              </div>
+            ))}
+
+
           </div>
-          {/*<button onClick={toggleModal} className={styles.closeButton}>Закрыть</button>*/}
           <div className={styles.closeButton}>
             <LabelButton variant={"contained"} onclick={toggleModal} text={'close'}/>
           </div>
