@@ -1,0 +1,84 @@
+.modalContainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+
+.modalOverlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    /*background-color: rgba(0, 0, 0, 0.5);*/
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.modalContent {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 5px;
+}
+
+.block {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.description {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    width: 100%;
+    margin-top: 30px;
+    margin-bottom: 30px;
+    margin-right: 80px;
+}
+
+.description label {
+    font-weight: bold;
+    font-size: large;
+}
+
+.description div {
+    font-weight: bold;
+    font-size: large;
+}
+
+.image {
+    margin-bottom: 30px;
+}
+
+.image img {
+    width: 100%;
+}
+
+.answers {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    justify-content: space-around;
+    margin-bottom: 30px;
+    margin-right: 80px;
+}
+
+.answers label {
+    font-weight: bold;
+    font-size: large;
+}
+
+.answers div {
+    font-weight: bold;
+    font-size: large;
+}
+
+.closeButton {
+  margin-left: 35%;
+}
+
+

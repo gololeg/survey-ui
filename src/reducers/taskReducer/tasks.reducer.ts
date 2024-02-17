@@ -1,35 +1,64 @@
-import {AsyncThunkAction, createAsyncThunk, createSlice, PayloadAction} from "@reduxjs/toolkit";
+import {createAsyncThunk, createSlice} from "@reduxjs/toolkit";
 import {Itask} from "types/Itask";
-import {API} from "API/api";
+import {TasksService} from "services/tasksService";
+import {loadingActions} from "reducers/loadingReducer/loading.reducer";
+import {Simulate} from "react-dom/test-utils";
+import error = Simulate.error;
 
 
 const fetchTasks = createAsyncThunk<Itask[], undefined>(
   'tasks/fetchTasks',
-  async () => {
-    const response = await API.getAllTask();
-    return response.data as Itask[];
+  async (_, {dispatch}) => {
+    dispatch(loadingActions.setLoadingStatus('loading'))
+    try {
+      const response = await TasksService.getAllTask();
+      return response.data as Itask[];
+    } catch (e) {
+      throw error;
+    } finally {
+      dispatch(loadingActions.setLoadingStatus('successful'))
+    }
+
   }
 );
 
 const createTask = createAsyncThunk<Itask, Itask>(
   'tasks/createTask',
-  async (task: Itask) => {
-    const response = await API.createTask(JSON.stringify(task));
-    return response.data as Itask
+  async (task: Itask, {dispatch}) => {
+    dispatch(loadingActions.setLoadingStatus('loading'));
+    try {
+      const response = await TasksService.createTask(JSON.stringify(task));
+      return response.data as Itask;
+    } catch (e) {
+      throw error
+    } finally {
+      dispatch(loadingActions.setLoadingStatus('successful'))
+    }
+
   }
 );
 
 const getTask = createAsyncThunk<Itask, number>(
   'tasks/getTask',
-  async (id: number) => {
-    const response = await API.getTask(id)
-    return response.data as Itask
+  async (id: number, {dispatch}) => {
+    dispatch(loadingActions.setLoadingStatus('loading'))
+    try {
+      const response = await TasksService.getTask(id);
+      return response.data as Itask;
+    } catch (e) {
+      throw error;
+    } finally {
+      dispatch(loadingActions.setLoadingStatus('successful'))
+    }
+
   }
 )
+
 type InitialStateType = {
   currentTasks: Itask | null,
   allTasks: Itask[]
 }
+
 const initialState: InitialStateType = {
   currentTasks: null,
   allTasks: []
