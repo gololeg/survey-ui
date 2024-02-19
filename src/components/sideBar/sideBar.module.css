@@ -1,6 +1,6 @@
 .main {
     width: 150px;
-    height: 50vh;
+    height: 30vh;
     background-color: white;
     border-radius: 5px;
     margin-left: 10px;
@@ -27,7 +27,12 @@
     font-weight: normal;
     font-size: 20px;
 }
-
+.createTaskContent a:hover {
+    text-decoration: none;
+    color: blue;
+    font-weight: bold;
+    font-size: 20px;
+}
 .allTasks {
     border: 1px solid white;
 }
@@ -42,6 +47,13 @@
     font-weight: normal;
     font-size: 20px;
 }
+.allTasksContent a:hover{
+    text-decoration: none;
+    color: blue;
+    font-weight: bold;
+    font-size: 25px;
+}
+
 .settings {
     border: 1px solid white;
 }
@@ -55,4 +67,10 @@
     color: black;
     font-weight: normal;
     font-size: 20px;
+}
+.settingsContent a:hover {
+    text-decoration: none;
+    color: blue;
+    font-weight: bold;
+    font-size: 25px;
 }
