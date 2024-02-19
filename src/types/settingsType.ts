@@ -1,5 +1,5 @@
 export type SettingsType = {
-  name: string;
+  name?: string;
   lowLevelTaskCount: number;
   middleLevelTaskCount: number;
   highLevelTaskCount: number;

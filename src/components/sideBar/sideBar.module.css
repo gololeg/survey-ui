@@ -1,24 +1,21 @@
 .main {
-    width: 150px;
-    height: 30vh;
-    background-color: white;
+    width: 10%;
+    height: auto;
+    background-color: darkgrey;
     border-radius: 5px;
-    margin-left: 10px;
     cursor: pointer;
+    text-align: center;
 }
 
 .content {
     display: flex;
     flex-direction: column;
+    margin-top: 20%;
 }
 
-.createTask {
-    border: 1px solid white;
-}
 
 .createTaskContent {
-    border: 2px solid black;
-    padding-left: 20%;
+    height: 40px;
 }
 
 .createTaskContent a {
@@ -26,26 +23,25 @@
     color: black;
     font-weight: normal;
     font-size: 20px;
+
 }
 .createTaskContent a:hover {
     text-decoration: none;
     color: blue;
     font-weight: bold;
-    font-size: 20px;
-}
-.allTasks {
-    border: 1px solid white;
+    font-size: 24px;
 }
 
+
 .allTasksContent {
-    border: 2px solid black;
-    padding-left: 20%;
+    height: 40px;
 }
 .allTasksContent a {
     text-decoration: none;
     color: black;
     font-weight: normal;
     font-size: 20px;
+
 }
 .allTasksContent a:hover{
     text-decoration: none;
@@ -55,12 +51,10 @@
 }
 
 .settings {
-    border: 1px solid white;
 }
 
 .settingsContent {
-    border: 2px solid black;
-    padding-left: 20%;
+    height: 40px;
 }
 .settingsContent a {
     text-decoration: none;

@@ -20,6 +20,20 @@ const fetchSettings = createAsyncThunk<SettingsType, undefined>(
     }
   }
 )
+const createSettings = createAsyncThunk<SettingsType, SettingsType>(
+    'settings/createSettings',
+    async (settings: SettingsType, {dispatch}) => {
+        dispatch(loadingActions.setLoadingStatus('loading'));
+        try {
+            const response = await SettingsService.createSettings(settings);
+            return response.data
+        }catch (e){
+            throw error;
+        }finally {
+            dispatch(loadingActions.setLoadingStatus('successful'));
+        }
+    }
+)
 
 type InitialStateType = {
   setting: SettingsType | null
@@ -38,9 +52,12 @@ const settingsSlice = createSlice({
       .addCase(fetchSettings.fulfilled, (state, action) => {
         state.setting = action.payload;
       })
+        .addCase(createSettings.fulfilled, (state, action) => {
+
+        })
   }
 })
 
 export const settingsReducer = settingsSlice.reducer;
 export const settingsActions = settingsSlice.actions;
-export const settingsThunk = {fetchSettings};
+export const settingsThunk = {fetchSettings, createSettings};

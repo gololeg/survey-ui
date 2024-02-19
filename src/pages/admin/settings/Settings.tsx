@@ -9,7 +9,7 @@ import {settingsValidate} from "utils/validation/settingsValidate";
 import {SideBar} from "components/sideBar/SideBar";
 
 export const Settings = () => {
-  const {fetchSettings} = useAppDispatch();
+  const {fetchSettings, createSettings} = useAppDispatch();
   const settingsSelector = useAppSelector(state => state.settings.setting);
 
   useEffect(() => {
@@ -21,6 +21,7 @@ export const Settings = () => {
     validate: settingsValidate,
 
     initialValues: {
+      name: '',
       lowLevelTaskCount: 0,
       middleLevelTaskCount: 0,
       highLevelTaskCount: 0,
@@ -30,6 +31,7 @@ export const Settings = () => {
     },
 
     onSubmit: (values) => {
+      createSettings(values)
       console.log(values)
     }
   })
@@ -47,7 +49,6 @@ export const Settings = () => {
                   value={String(settingsSelector?.lowLevelTaskCount)}
                   getFieldProps={formik.getFieldProps('lowLevelTaskCount')}
               />
-              {formik.touched.lowLevelTaskCount && formik.errors.lowLevelTaskCount ? <p>{'hui vam'}</p> : null}
             </div>
             <div className={styles.middleLevelTaskCount}>
               <InputTypeNumberWrapper
@@ -84,13 +85,13 @@ export const Settings = () => {
                   getFieldProps={formik.getFieldProps('highLevelTaskTime')}
               />
             </div>
-
           </div>
           <div className={styles.send}>
             <ButtonWrapper
                 text={'Send'}
                 variant={'contained'}
                 type={'submit'}
+                size={'large'}
             />
           </div>
         </div>
