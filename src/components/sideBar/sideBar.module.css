@@ -1,0 +1,58 @@
+.main {
+    width: 150px;
+    height: 50vh;
+    background-color: white;
+    border-radius: 5px;
+    margin-left: 10px;
+    cursor: pointer;
+}
+
+.content {
+    display: flex;
+    flex-direction: column;
+}
+
+.createTask {
+    border: 1px solid white;
+}
+
+.createTaskContent {
+    border: 2px solid black;
+    padding-left: 20%;
+}
+
+.createTaskContent a {
+    text-decoration: none;
+    color: black;
+    font-weight: normal;
+    font-size: 20px;
+}
+
+.allTasks {
+    border: 1px solid white;
+}
+
+.allTasksContent {
+    border: 2px solid black;
+    padding-left: 20%;
+}
+.allTasksContent a {
+    text-decoration: none;
+    color: black;
+    font-weight: normal;
+    font-size: 20px;
+}
+.settings {
+    border: 1px solid white;
+}
+
+.settingsContent {
+    border: 2px solid black;
+    padding-left: 20%;
+}
+.settingsContent a {
+    text-decoration: none;
+    color: black;
+    font-weight: normal;
+    font-size: 20px;
+}

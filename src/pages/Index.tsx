@@ -6,7 +6,7 @@ const Index = () => {
     fetch('http://localhost:8080/api/v1/tasks', {
       method: 'GET',
       headers: {
-        Cookie: "authId=3dd66bee-4157-4961-8a05-187eb37d610b; Webstorm-594babca=20f851b9-b1f7-4ce3-82ec-8d4745bcc100"
+        Cookie: "authId=3dd66bee-4157-4961-8a05-187eb37d610b"
       }
 
     })

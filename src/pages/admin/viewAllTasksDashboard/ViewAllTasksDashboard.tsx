@@ -10,6 +10,8 @@ import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import {Link} from 'react-router-dom';
 import {LinearProgress} from "@mui/material";
+import styles from "./viewAllTasksDashboard.module.css";
+import {SideBar} from "components/sideBar/SideBar";
 
 
 export const ViewAllTasksDashboard = () => {
@@ -37,36 +39,41 @@ export const ViewAllTasksDashboard = () => {
     <Link to={`/admin/tasks/all/modal/${el.id}`}>Show task</Link>))
 
   return (
-    <TableContainer component={Paper}>
-      {loading === 'loading' && <LinearProgress/>}
-      <Table sx={{minWidth: 650}} size="small" aria-label="a dense table">
-        <TableHead>
-          <TableRow>
-            <TableCell>№</TableCell>
-            <TableCell align="right">Name</TableCell>
-            <TableCell align="right">Description</TableCell>
-            <TableCell align="right">Type</TableCell>
-            <TableCell align="right">Level</TableCell>
-            <TableCell align="right">Action</TableCell>
-          </TableRow>
-        </TableHead>
-        <TableBody>
-          {rows.map((row, index) => (
-            <TableRow
-              key={row.id}
-              sx={{'&:last-child td, &:last-child th': {border: 0}}}
-            >
-              <TableCell component="th" scope="row">{++index}</TableCell>
-              <TableCell align="right">{row.name}</TableCell>
-              <TableCell align="right">{row.description}</TableCell>
-              <TableCell align="right">{row.type}</TableCell>
-              <TableCell align="right">{row.level}</TableCell>
-              <TableCell align="right">{row.action}</TableCell>
-            </TableRow>
-          ))}
-        </TableBody>
-      </Table>
-    </TableContainer>
+    <div className={styles.content}>
+      <SideBar/>
+      <div className={styles.dashBoard}>
+        <TableContainer component={Paper}>
+          {loading === 'loading' && <LinearProgress/>}
+          <Table sx={{minWidth: 650}} size="small" aria-label="a dense table">
+            <TableHead>
+              <TableRow>
+                <TableCell>№</TableCell>
+                <TableCell align="right">Name</TableCell>
+                <TableCell align="right">Description</TableCell>
+                <TableCell align="right">Type</TableCell>
+                <TableCell align="right">Level</TableCell>
+                <TableCell align="right">Action</TableCell>
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {rows.map((row, index) => (
+                  <TableRow
+                      key={row.id}
+                      sx={{'&:last-child td, &:last-child th': {border: 0}}}
+                  >
+                    <TableCell component="th" scope="row">{++index}</TableCell>
+                    <TableCell align="right">{row.name}</TableCell>
+                    <TableCell align="right">{row.description}</TableCell>
+                    <TableCell align="right">{row.type}</TableCell>
+                    <TableCell align="right">{row.level}</TableCell>
+                    <TableCell align="right">{row.action}</TableCell>
+                  </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </TableContainer>
+      </div>
+    </div>
   );
 };
 

@@ -1,8 +1,15 @@
 .main {
     height: 100%;
-    margin-top: 30px;
+    width: 80%;
+
 }
 
+
+.content{
+    display: flex;
+    flex-direction: row;
+    margin-top: 30px;
+}
 .block {
     display: flex;
     flex-direction: column;

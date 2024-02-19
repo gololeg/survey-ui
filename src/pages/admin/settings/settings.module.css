@@ -1,10 +1,16 @@
-
-.block {
+.flex{
+    display: flex;
+    flex-direction: row;
     margin-top: 30px;
+}
+.block {
     height: 500px;
 }
 
+.main{
 
+    width: 100%;
+}
 .content {
     display: flex;
     flex-direction: row;
@@ -12,7 +18,7 @@
     justify-content: space-around;
     border-radius: 5px;
     margin: 0 auto;
-    width: 40%;
+    width: 50%;
     height: 100%;
     background-color: lightgrey;
     padding-top: 30px;
