@@ -3,7 +3,8 @@ import {useDispatch} from "react-redux";
 import {bindActionCreators} from "@reduxjs/toolkit";
 import {answerActions} from "reducers/answerReducer/answer.reducer";
 import {loadingActions} from "reducers/loadingReducer/loading.reducer";
-import {settingsActions, settingsThunk} from "reducers/settingsReducer/settings.reducer";
+import {settingsThunk} from "reducers/settingsReducer/settings.reducer";
+import {userThunk} from "reducers/userReducer/userReducer";
 
 
 const actions = {
@@ -11,7 +12,8 @@ const actions = {
   ...tasksThunk,
   ...answerActions,
   ...loadingActions,
-  ...settingsThunk
+  ...settingsThunk,
+  ...userThunk
 }
 
 export const useAppDispatch = () => {

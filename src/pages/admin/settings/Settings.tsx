@@ -31,11 +31,20 @@ export const Settings = () => {
     },
 
     onSubmit: (values) => {
-      createSettings(values)
-      console.log(values)
+      const payload = {
+        name: '',
+        lowLevelTaskCount: values.lowLevelTaskCount,
+        middleLevelTaskCount: values.middleLevelTaskCount,
+        highLevelTaskCount: values.highLevelTaskCount,
+        lowLevelTaskTime: values.lowLevelTaskTime,
+        middleLevelTaskTime: values.middleLevelTaskTime,
+        highLevelTaskTime: values.highLevelTaskTime
+      }
+      createSettings(payload)
+
     }
   })
-  console.log(settingsSelector)
+  // console.log(settingsSelector)
   return (
     <form onSubmit={formik.handleSubmit}>
     <div className={styles.flex}>
