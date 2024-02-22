@@ -23,9 +23,11 @@ const login = createAsyncThunk<boolean, LoginType>(
 type InitialStateType = {
     isLoggedIn: boolean
 }
+
 const initialState: InitialStateType = {
     isLoggedIn: false
 }
+
 const userSlice = createSlice({
     name: 'user',
     initialState,
@@ -34,7 +36,6 @@ const userSlice = createSlice({
         builder
             .addCase(login.fulfilled, (state, action) => {
                state.isLoggedIn = action.payload;
-                console.log(state.isLoggedIn)
             })
     }
 })

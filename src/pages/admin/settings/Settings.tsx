@@ -17,34 +17,32 @@ export const Settings = () => {
   }, []);
 
 
-  const formik = useFormik({
-    validate: settingsValidate,
-
-    initialValues: {
-      name: '',
-      lowLevelTaskCount: 0,
-      middleLevelTaskCount: 0,
-      highLevelTaskCount: 0,
-      lowLevelTaskTime: 0,
-      middleLevelTaskTime: 0,
-      highLevelTaskTime: 0
-    },
-
-    onSubmit: (values) => {
-      const payload = {
-        name: '',
-        lowLevelTaskCount: values.lowLevelTaskCount,
-        middleLevelTaskCount: values.middleLevelTaskCount,
-        highLevelTaskCount: values.highLevelTaskCount,
-        lowLevelTaskTime: values.lowLevelTaskTime,
-        middleLevelTaskTime: values.middleLevelTaskTime,
-        highLevelTaskTime: values.highLevelTaskTime
-      }
-      createSettings(payload)
-
-    }
-  })
-  // console.log(settingsSelector)
+    const formik = useFormik({
+        validate: settingsValidate,
+        enableReinitialize: true,
+        initialValues: {
+            name: '',
+            lowLevelTaskCount: settingsSelector ? Number(settingsSelector.lowLevelTaskCount) : 0,
+            middleLevelTaskCount: settingsSelector ? Number(settingsSelector.middleLevelTaskCount) : 0,
+            highLevelTaskCount: settingsSelector ? Number(settingsSelector.highLevelTaskCount) : 0,
+            lowLevelTaskTime: settingsSelector ? Number(settingsSelector.lowLevelTaskTime) : 0,
+            middleLevelTaskTime: settingsSelector ? Number(settingsSelector.middleLevelTaskTime) : 0,
+            highLevelTaskTime: settingsSelector ? Number(settingsSelector.highLevelTaskTime) : 0
+        },
+        onSubmit: (values) => {
+            const payload = {
+                name: '',
+                lowLevelTaskCount: Number(values.lowLevelTaskCount),
+                middleLevelTaskCount: Number(values.middleLevelTaskCount),
+                highLevelTaskCount: Number(values.highLevelTaskCount),
+                lowLevelTaskTime: Number(values.lowLevelTaskTime),
+                middleLevelTaskTime: Number(values.middleLevelTaskTime),
+                highLevelTaskTime: Number(values.highLevelTaskTime)
+            }
+            createSettings(payload)
+        }
+    });
+    console.log(settingsSelector?.lowLevelTaskCount)
   return (
     <form onSubmit={formik.handleSubmit}>
     <div className={styles.flex}>

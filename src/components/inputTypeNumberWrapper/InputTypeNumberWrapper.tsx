@@ -1,5 +1,4 @@
-import React, {ChangeEvent, useEffect, useState} from 'react';
-import styles from "./inputTypeNumberWrapper.module.css";
+import React, {ChangeEvent, useState} from 'react';
 import {TextField} from "@mui/material";
 
 type InputTypeNumberWrapperType = {
@@ -19,7 +18,7 @@ export const InputTypeNumberWrapper = (props: InputTypeNumberWrapperType) => {
         id="outlined-number"
         label={props.label}
         type="number"
-        value={ value ? value : props.value  }
+        value={ value  }
         onChange={handleTextFieldValueChange}
         {...props.getFieldProps}
         InputLabelProps={{

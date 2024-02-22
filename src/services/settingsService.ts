@@ -4,7 +4,7 @@ import {SettingsType} from "types/settingsType";
 
 const instance = axios.create({
     baseURL: 'http://localhost:8080',
-    // withCredentials:true
+    withCredentials:true
 })
 
 export const SettingsService = {

@@ -5,13 +5,11 @@ import {InputWrapper} from "components/inputWrapper/InputWrapper";
 import {ButtonWrapper} from "components/buttonWrapper/ButtonWrapper";
 import {InputTypePasswordWrapper} from "components/inputTypePasswordWrapper/InputTypePasswordWrapper";
 import {useAppDispatch} from "hooks/dispatch";
-import {useAppSelector} from "hooks/selectors";
 import {useNavigate} from "react-router-dom";
 
 
 export const Login = () => {
     const {login} = useAppDispatch();
-    const loginSelector = useAppSelector(state => state.users.isLoggedIn);
     const navigate = useNavigate();
 
     const loginForm = useFormik({
@@ -22,7 +20,6 @@ export const Login = () => {
         onSubmit(values) {
             login(values);
             navigate('/admin/tasks/all')
-            console.log(loginSelector)
         }
     })
     return (
