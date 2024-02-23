@@ -12,12 +12,13 @@ const fetchSettings = createAsyncThunk<SettingsType, undefined>(
     dispatch(loadingActions.setLoadingStatus('loading'))
     try {
       const response = await SettingsService.getSettings();
+        dispatch(loadingActions.setLoadingStatus('successful'))
       return response.data as SettingsType;
     } catch (e) {
       throw error;
-    } finally {
-      dispatch(loadingActions.setLoadingStatus('successful'))
     }
+
+
   }
 )
 const createSettings = createAsyncThunk<SettingsType, SettingsType>(
@@ -26,12 +27,13 @@ const createSettings = createAsyncThunk<SettingsType, SettingsType>(
         dispatch(loadingActions.setLoadingStatus('loading'));
         try {
             const response = await SettingsService.createSettings(settings);
+            dispatch(loadingActions.setLoadingStatus('successful'));
             return response.data
         }catch (e){
             throw error;
-        }finally {
-            dispatch(loadingActions.setLoadingStatus('successful'));
         }
+
+
     }
 )
 

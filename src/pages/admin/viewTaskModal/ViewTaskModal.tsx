@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import styles from  "./viewTaskModal.module.css"
-import {useNavigate, useParams} from "react-router-dom";
+import {Navigate, useNavigate, useParams} from "react-router-dom";
 import {useAppDispatch} from "hooks/dispatch";
 import {useAppSelector} from "hooks/selectors";
 import {ButtonWrapper} from "components/buttonWrapper/ButtonWrapper";
@@ -11,12 +11,15 @@ export const ViewTaskModal = () => {
   const {id} = useParams<{ id: string }>();
   const {getTask} = useAppDispatch();
   const task = useAppSelector(state => state.tasks.currentTasks);
-  const loading = useAppSelector(state => state.loading.status);
+  const {statusLoading} = useAppSelector(state => state.loading);
   const navigate = useNavigate();
-
+  const {isLoggedIn} = useAppSelector(state => state.users)
 
 
   useEffect(() => {
+    if (!isLoggedIn){
+      return;
+    }
     getTask(Number(id));
   }, [id]);
 
@@ -25,10 +28,12 @@ export const ViewTaskModal = () => {
     navigate('/admin/tasks/all')
   };
 
-  console.log(task)
+  if (!isLoggedIn){
+    return <Navigate to={'/'}/>
+  }
   return (
     <div className={styles.modalContainer}>
-      {loading === 'loading' && <LinearProgress/>}
+      {statusLoading === 'loading' && <LinearProgress/>}
       <div className={styles.modalOverlay} onClick={toggleModal}>
         <div className={styles.modalContent}>
           <div className={styles.block}>

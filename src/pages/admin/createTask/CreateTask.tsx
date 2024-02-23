@@ -9,7 +9,7 @@ import {ButtonWrapper} from "components/buttonWrapper/ButtonWrapper";
 import {v1} from "uuid";
 import {useAppSelector} from "hooks/selectors";
 import {useAppDispatch} from "hooks/dispatch";
-import {useNavigate} from "react-router-dom"
+import {Navigate, useNavigate} from "react-router-dom"
 import {useUploadImageToFormatBase64} from "hooks/useUploadImageToFormatBase64";
 import {useDeploadedBase64FormatToString} from "hooks/useDeploadedBase64FormatToString";
 
@@ -21,12 +21,12 @@ import {SideBar} from "components/sideBar/SideBar";
 
 export const CreateTask = () => {
     const answer = useAppSelector(state => state.answer);
-    const loading = useAppSelector(state => state.loading.status);
+    const {statusLoading} = useAppSelector(state => state.loading);
     const {setNewAnswer, setNewAnswerValue, setChecked, createTask} = useAppDispatch();
     const {base64, handleImageFileChange} = useUploadImageToFormatBase64();
     const {deploadedFromBase64} = useDeploadedBase64FormatToString(base64 as string);
     const navigate = useNavigate();
-
+    const {isLoggedIn} = useAppSelector(state => state.users)
 
     const addNewAnswer = () => {
         setNewAnswer({id: v1(), value: '', checked: false})
@@ -44,14 +44,15 @@ export const CreateTask = () => {
         handleImageFileChange(event)
     }
 
-    const redirectToGetAllTaskDashBoard = () => {
-        navigate('/admin/tasks/all')
-    }
-
+    const arrayFromStrAnswers = answer.map(el => ({
+        text: el.value.split(' ').join('\n'),
+        isRight: el.checked
+    }));
 
     const formik = useFormik({
         validate: createTaskValidate,
-        initialValues: {
+
+        initialValues : {
             taskName: '',
             image: '',
             taskLevel: '',
@@ -60,51 +61,44 @@ export const CreateTask = () => {
             strAnswers1: '',
             descriptionTask: '',
             isRight: false,
-            isRight1: false,
-
+            isRight1: false
         },
 
-        onSubmit: async (value) => {
-
-            const arrayFromStrAnswers = answer.map(el => ({
-                text: el.value.split(' ').join('\n'),
-                isRight: el.checked
-            }));
-
+        onSubmit: (values) => {
             const payload: Itask = {
                 id: 0,
                 nextTaskId: 0,
-                name: value.taskName,
+                name: values.taskName,
                 image: base64 as string,
                 file: null,
                 level: {
-                    id: value.taskLevel,
+                    id: values.taskLevel,
                     name: null
                 },
                 type: {
-                    id: value.answerType,
+                    id: values.answerType,
                     name: null
                 },
                 answers: [],
                 ars: null,
                 strAnswers: JSON.stringify(arrayFromStrAnswers),
-                description: value.descriptionTask
+                description: values.descriptionTask
             }
 
-            try {
-                await createTask(payload);
-                navigate('/admin/tasks/all');
-            } catch (e) {
-                console.error(e);
-            }
-
+            createTask(payload);
+            navigate('/admin/tasks/all')
 
         }
     })
 
+    ///уточнить у олега!
+    if (!isLoggedIn){
+        return <Navigate to={'/'}/>
+    }
+
     return (
         <form onSubmit={formik.handleSubmit} encType="myltipart/form-data">
-            {loading === 'loading' && <LinearProgress/>}
+            {statusLoading === 'loading' && <LinearProgress/>}
             <div className={styles.content}>
                 <SideBar/>
                 <div className={styles.main}>
@@ -125,7 +119,7 @@ export const CreateTask = () => {
                                     error={Boolean(formik.touched.descriptionTask && formik.errors.descriptionTask)}
                                     getFieldProps={formik.getFieldProps('descriptionTask')}/>
                                 {formik.touched.descriptionTask && formik.errors.descriptionTask ?
-                                    <div className={styles.errors}>{formik.errors.descriptionTask}</div> : null}
+                                    <div className={styles.errors}>{formik.errors.descriptionTask }</div> : null}
                             </div>
                         </div>
 
@@ -195,11 +189,6 @@ export const CreateTask = () => {
                         </div>
 
                         <div className={styles.buttonsBlock}>
-                            <ButtonWrapper
-                                text={'Get all tasks'}
-                                variant={'contained'}
-                                onclick={redirectToGetAllTaskDashBoard}
-                            />
                             <ButtonWrapper
                                 text={'Send task'}
                                 type={"submit"} variant={'contained'}

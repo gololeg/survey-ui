@@ -1,14 +1,14 @@
 import {createSlice, PayloadAction} from "@reduxjs/toolkit";
 import {StatusLoading} from "types/statusLoading";
 
-const initialState : { status: StatusLoading } = {status: 'successful'};
+const initialState : { statusLoading: StatusLoading } = {statusLoading: 'successful'};
 
 const loadingSlice = createSlice({
   name: 'statusLoading',
   initialState,
   reducers: {
     setLoadingStatus(state, action: PayloadAction<StatusLoading>) {
-      state.status = action.payload;
+      state.statusLoading = action.payload;
     }
   }
 })

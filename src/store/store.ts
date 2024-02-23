@@ -4,6 +4,7 @@ import {answerReducer} from "reducers/answerReducer/answer.reducer";
 import {loadingReducer} from "reducers/loadingReducer/loading.reducer";
 import {settingsReducer} from "reducers/settingsReducer/settings.reducer";
 import {userReducer} from "reducers/userReducer/userReducer";
+import {errorReducer} from "reducers/errorReducer/error.reducer";
 
 export const store = configureStore({
   reducer: {
@@ -11,7 +12,8 @@ export const store = configureStore({
     answer: answerReducer,
     loading: loadingReducer,
     settings: settingsReducer,
-    users: userReducer
+    users: userReducer,
+    error: errorReducer
   }
 })
 

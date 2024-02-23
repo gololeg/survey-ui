@@ -7,12 +7,20 @@ import {InputTypeNumberWrapper} from "components/inputTypeNumberWrapper/InputTyp
 import {ButtonWrapper} from "components/buttonWrapper/ButtonWrapper";
 import {settingsValidate} from "utils/validation/settingsValidate";
 import {SideBar} from "components/sideBar/SideBar";
+import {LinearProgress} from "@mui/material";
+import {Navigate} from "react-router-dom";
 
 export const Settings = () => {
   const {fetchSettings, createSettings} = useAppDispatch();
   const settingsSelector = useAppSelector(state => state.settings.setting);
+  const {statusLoading} = useAppSelector(state => state.loading)
+    const {isLoggedIn} = useAppSelector(state => state.users)
 
   useEffect(() => {
+      /// уточнить у олега!
+      if (!isLoggedIn){
+          return;
+      }
     fetchSettings();
   }, []);
 
@@ -30,21 +38,16 @@ export const Settings = () => {
             highLevelTaskTime: settingsSelector ? Number(settingsSelector.highLevelTaskTime) : 0
         },
         onSubmit: (values) => {
-            const payload = {
-                name: '',
-                lowLevelTaskCount: Number(values.lowLevelTaskCount),
-                middleLevelTaskCount: Number(values.middleLevelTaskCount),
-                highLevelTaskCount: Number(values.highLevelTaskCount),
-                lowLevelTaskTime: Number(values.lowLevelTaskTime),
-                middleLevelTaskTime: Number(values.middleLevelTaskTime),
-                highLevelTaskTime: Number(values.highLevelTaskTime)
-            }
-            createSettings(payload)
+            createSettings(values)
         }
     });
-    console.log(settingsSelector?.lowLevelTaskCount)
+    if (!isLoggedIn){
+        return <Navigate to={'/'}/>
+    }
+
   return (
     <form onSubmit={formik.handleSubmit}>
+        {statusLoading === 'loading' && <LinearProgress/>}
     <div className={styles.flex}>
       <SideBar/>
       <div className={styles.main}>

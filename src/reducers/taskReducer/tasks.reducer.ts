@@ -71,9 +71,10 @@ const tasksSlice = createSlice({
     builder
       .addCase(fetchTasks.fulfilled, (state, action) => {
         state.allTasks = [...action.payload];
+          console.log(action.payload.length)
       })
       .addCase(createTask.fulfilled, (state, action) => {
-
+          console.log(action.payload)
       })
       .addCase(getTask.fulfilled, (state, action) => {
         state.currentTasks = action.payload

@@ -5,23 +5,29 @@ import {InputWrapper} from "components/inputWrapper/InputWrapper";
 import {ButtonWrapper} from "components/buttonWrapper/ButtonWrapper";
 import {InputTypePasswordWrapper} from "components/inputTypePasswordWrapper/InputTypePasswordWrapper";
 import {useAppDispatch} from "hooks/dispatch";
-import {useNavigate} from "react-router-dom";
+import {Navigate} from "react-router-dom";
+import {useAppSelector} from "hooks/selectors";
 
 
 export const Login = () => {
     const {login} = useAppDispatch();
-    const navigate = useNavigate();
+    const {error} = useAppSelector(state => state.error);
+    const {isLoggedIn} = useAppSelector(state => state.users)
 
     const loginForm = useFormik({
         initialValues: {
             login: '',
             password: ''
         },
-        onSubmit(values) {
-            login(values);
-            navigate('/admin/tasks/all')
+        onSubmit: (values) => {
+           login(values);
         }
     })
+
+    if (isLoggedIn){
+       return <Navigate to={'/admin/tasks/all'}/>
+    }
+
     return (
         <form onSubmit={loginForm.handleSubmit}>
             <div className={styles.main}>
@@ -32,11 +38,17 @@ export const Login = () => {
                                 text={'Login'}
                                 getFieldProps={loginForm.getFieldProps('login')}
                             />
+                            {
+                                error ? <p className={styles.error}>{error}</p> : null
+                            }
                         </div>
                         <div className={styles.password}>
                             <InputTypePasswordWrapper
                                 getFieldProps={loginForm.getFieldProps('password')}
                             />
+                            {
+                                error ? <p className={styles.error}>{error}</p> : null
+                            }
                         </div>
                         <div className={styles.submit}>
                             <ButtonWrapper

@@ -1,21 +1,27 @@
-import {createAsyncThunk, createSlice} from "@reduxjs/toolkit";
+import {createAsyncThunk, createSlice, PayloadAction} from "@reduxjs/toolkit";
 import {LoginType} from "types/loginType";
 import {userService} from "services/userService";
 import {Simulate} from "react-dom/test-utils";
 import error = Simulate.error;
 import {loadingActions} from "reducers/loadingReducer/loading.reducer";
+import {Axios, AxiosError} from "axios";
+import {errorActions} from "reducers/errorReducer/error.reducer";
+import {useNavigate} from "react-router-dom";
 
 const login = createAsyncThunk<boolean, LoginType>(
     'user/isLoggedIn',
-    async (payload: LoginType, {dispatch}) => {
+    async (payload: LoginType, {dispatch,rejectWithValue}) => {
         dispatch(loadingActions.setLoadingStatus('loading'))
         try {
             const response = await userService.login(payload);
-            return response.data
-        } catch (e) {
-            throw error;
-        } finally {
-            dispatch(loadingActions.setLoadingStatus('successful'))
+            dispatch(loadingActions.setLoadingStatus('successful'));
+            return response.data;
+        } catch (error) {
+            // @ts-ignore
+            dispatch(errorActions.setError(error.response.data.message));
+            // @ts-ignore
+            return rejectWithValue(error.response.data.message);
+            // throw error
         }
     }
 )
@@ -35,7 +41,11 @@ const userSlice = createSlice({
     extraReducers: (builder) => {
         builder
             .addCase(login.fulfilled, (state, action) => {
-               state.isLoggedIn = action.payload;
+                state.isLoggedIn = action.payload;
+                localStorage.setItem('userId', action.payload.toString())
+            })
+            .addCase(login.rejected,  (state, action) => {
+                console.log(action.payload)
             })
     }
 })
