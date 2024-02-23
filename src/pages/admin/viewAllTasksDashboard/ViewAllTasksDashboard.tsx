@@ -8,7 +8,7 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
-import {Link, Navigate} from 'react-router-dom';
+import {Link, Navigate, useNavigate} from 'react-router-dom';
 import {LinearProgress} from "@mui/material";
 import styles from "./viewAllTasksDashboard.module.css";
 import {SideBar} from "components/sideBar/SideBar";
@@ -19,10 +19,10 @@ export const ViewAllTasksDashboard = () => {
     const allTasks = useAppSelector(state => state.tasks.allTasks);
     const {statusLoading} = useAppSelector(state => state.loading);
     const {isLoggedIn} = useAppSelector(state => state.users)
-
+    const navigate = useNavigate();
     useEffect(() => {
         if (!isLoggedIn) {
-            return;
+           navigate('/')
         }
         fetchTasks();
     }, []);
@@ -41,9 +41,6 @@ export const ViewAllTasksDashboard = () => {
     const rows = allTasks.map((el) => createData(el.id, el.name, el.description, (el.type.name as string), (el.level.name as string),
         <Link to={`/admin/tasks/all/modal/${el.id}`}>Show task</Link>))
 
-    if (!isLoggedIn){
-        return <Navigate to={'/'}/>
-    }
 
     return (
         <div className={styles.content}>

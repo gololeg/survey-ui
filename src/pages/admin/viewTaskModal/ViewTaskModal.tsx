@@ -18,7 +18,7 @@ export const ViewTaskModal = () => {
 
   useEffect(() => {
     if (!isLoggedIn){
-      return;
+      navigate('/')
     }
     getTask(Number(id));
   }, [id]);
@@ -28,9 +28,7 @@ export const ViewTaskModal = () => {
     navigate('/admin/tasks/all')
   };
 
-  if (!isLoggedIn){
-    return <Navigate to={'/'}/>
-  }
+
   return (
     <div className={styles.modalContainer}>
       {statusLoading === 'loading' && <LinearProgress/>}

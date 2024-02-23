@@ -8,18 +8,18 @@ import {ButtonWrapper} from "components/buttonWrapper/ButtonWrapper";
 import {settingsValidate} from "utils/validation/settingsValidate";
 import {SideBar} from "components/sideBar/SideBar";
 import {LinearProgress} from "@mui/material";
-import {Navigate} from "react-router-dom";
+import {Navigate, useNavigate} from "react-router-dom";
 
 export const Settings = () => {
   const {fetchSettings, createSettings} = useAppDispatch();
   const settingsSelector = useAppSelector(state => state.settings.setting);
   const {statusLoading} = useAppSelector(state => state.loading)
     const {isLoggedIn} = useAppSelector(state => state.users)
+    const navigate = useNavigate();
 
   useEffect(() => {
-      /// уточнить у олега!
       if (!isLoggedIn){
-          return;
+         navigate('/')
       }
     fetchSettings();
   }, []);
@@ -41,9 +41,6 @@ export const Settings = () => {
             createSettings(values)
         }
     });
-    if (!isLoggedIn){
-        return <Navigate to={'/'}/>
-    }
 
   return (
     <form onSubmit={formik.handleSubmit}>

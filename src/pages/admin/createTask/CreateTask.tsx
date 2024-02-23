@@ -91,7 +91,7 @@ export const CreateTask = () => {
         }
     })
 
-    ///уточнить у олега!
+
     if (!isLoggedIn){
         return <Navigate to={'/'}/>
     }
