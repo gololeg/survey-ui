@@ -4,33 +4,47 @@ import {loadingActions} from "reducers/loadingReducer/loading.reducer";
 import {SettingsService} from "services/settingsService";
 import {Simulate} from "react-dom/test-utils";
 import error = Simulate.error;
+import {errorActions} from "reducers/errorReducer/error.reducer";
+
+interface ErrorResponse {
+    message: string;
+}
+
+const fetchSettings = createAsyncThunk<SettingsType, undefined, { rejectValue: ErrorResponse }>(
+    'settings/fetchSettings',
+    async (_, {dispatch, rejectWithValue}) => {
+        dispatch(loadingActions.setLoadingStatus('loading'))
+        try {
+            const response = await SettingsService.getSettings();
+            dispatch(loadingActions.setLoadingStatus('successful'))
+            return response.data as SettingsType;
+        } catch (error: any) {
+            if (!error.response) {
+                dispatch(errorActions.setError(error.message))
+            } else {
+                dispatch(errorActions.setError(error.response.data.message))
+            }
+            return rejectWithValue(error.response ? error.response.data.message : error.message)
+        }
 
 
-const fetchSettings = createAsyncThunk<SettingsType, undefined>(
-  'settings/fetchSettings',
-  async (_, {dispatch}) => {
-    dispatch(loadingActions.setLoadingStatus('loading'))
-    try {
-      const response = await SettingsService.getSettings();
-        dispatch(loadingActions.setLoadingStatus('successful'))
-      return response.data as SettingsType;
-    } catch (e) {
-      throw error;
     }
-
-
-  }
 )
-const createSettings = createAsyncThunk<SettingsType, SettingsType>(
+const createSettings = createAsyncThunk<SettingsType, SettingsType, { rejectValue: ErrorResponse }>(
     'settings/createSettings',
-    async (settings: SettingsType, {dispatch}) => {
+    async (settings: SettingsType, {dispatch, rejectWithValue}) => {
         dispatch(loadingActions.setLoadingStatus('loading'));
         try {
             const response = await SettingsService.createSettings(settings);
             dispatch(loadingActions.setLoadingStatus('successful'));
             return response.data
-        }catch (e){
-            throw error;
+        } catch (error: any) {
+            if (!error.response) {
+                dispatch(errorActions.setError(error.message));
+            } else {
+                dispatch(errorActions.setError(error.response.data.message))
+            }
+            return rejectWithValue(error.response ? error.response.data.message : error.message)
         }
 
 
@@ -38,26 +52,26 @@ const createSettings = createAsyncThunk<SettingsType, SettingsType>(
 )
 
 type InitialStateType = {
-  setting: SettingsType | null
+    setting: SettingsType | null
 }
 
 const initialState: InitialStateType = {
-  setting: null
+    setting: null
 }
 
 const settingsSlice = createSlice({
-  name: 'settings',
-  initialState,
-  reducers: {},
-  extraReducers: (builder) => {
-    builder
-      .addCase(fetchSettings.fulfilled, (state, action) => {
-        state.setting = action.payload;
-      })
-        .addCase(createSettings.fulfilled, (state, action) => {
+    name: 'settings',
+    initialState,
+    reducers: {},
+    extraReducers: (builder) => {
+        builder
+            .addCase(fetchSettings.fulfilled, (state, action) => {
+                state.setting = action.payload;
+            })
+            .addCase(createSettings.fulfilled, (state, action) => {
 
-        })
-  }
+            })
+    }
 })
 
 export const settingsReducer = settingsSlice.reducer;

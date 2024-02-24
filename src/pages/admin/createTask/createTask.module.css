@@ -5,11 +5,12 @@
 }
 
 
-.content{
+.content {
     display: flex;
     flex-direction: row;
     margin-top: 30px;
 }
+
 .block {
     display: flex;
     flex-direction: column;
@@ -33,7 +34,7 @@
     margin-bottom: 30px;
 }
 
-.descriptionTask{
+.descriptionTask {
     margin-top: 30px;
     margin-left: 20px;
 }
@@ -87,6 +88,11 @@
     width: 100%;
     font-size: small;
     margin-top: 10px;
+}
+
+.responseError {
+    color: red;
+    margin-left: 35%;
 }
 
 .image {

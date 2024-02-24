@@ -4,84 +4,100 @@ import {TasksService} from "services/tasksService";
 import {loadingActions} from "reducers/loadingReducer/loading.reducer";
 import {Simulate} from "react-dom/test-utils";
 import error = Simulate.error;
+import {errorActions} from "reducers/errorReducer/error.reducer";
 
+interface ErrorResponse {
+    message: string;
+}
 
 const fetchTasks = createAsyncThunk<Itask[], undefined>(
-  'tasks/fetchTasks',
-  async (_, {dispatch}) => {
-    dispatch(loadingActions.setLoadingStatus('loading'))
-    try {
-      const response = await TasksService.getAllTask();
-      return response.data as Itask[];
-    } catch (e) {
-      throw error;
-    } finally {
-      dispatch(loadingActions.setLoadingStatus('successful'))
-    }
+    'tasks/fetchTasks',
+    async (_, {dispatch, rejectWithValue}) => {
+        dispatch(loadingActions.setLoadingStatus('loading'))
+        try {
+            const response = await TasksService.getAllTask();
+            dispatch(loadingActions.setLoadingStatus('successful'))
+            return response.data as Itask[];
+        } catch (error: any) {
+            console.log(error)
+            if (!error.response) {
+                dispatch(errorActions.setError(error.message))
+            } else {
+                dispatch(errorActions.setError(error.response.data.message))
+            }
+            return rejectWithValue(error.response ? error.response.message : error.message)
+        }
 
-  }
+    }
 );
 
-const createTask = createAsyncThunk<Itask, Itask>(
-  'tasks/createTask',
-  async (task: Itask, {dispatch}) => {
-    dispatch(loadingActions.setLoadingStatus('loading'));
-    try {
-      const response = await TasksService.createTask(JSON.stringify(task));
-      return response.data as Itask;
-    } catch (e) {
-      throw error
-    } finally {
-      dispatch(loadingActions.setLoadingStatus('successful'))
-    }
+const createTask = createAsyncThunk<Itask, Itask, { rejectValue: ErrorResponse }>(
+    'tasks/createTask',
+    async (task: Itask, {dispatch, rejectWithValue}) => {
+        dispatch(loadingActions.setLoadingStatus('loading'));
+        try {
+            const response = await TasksService.createTask(JSON.stringify(task));
+            dispatch(loadingActions.setLoadingStatus('successful'));
+            return response.data as Itask;
+        } catch (error: any) {
+            if (!error.response) {
+                dispatch(errorActions.setError(error.message));
+            } else {
+                dispatch(errorActions.setError(error.response.data.message))
+            }
+            return rejectWithValue(error.response ? error.response.data.message : error.message);
+        }
 
-  }
+
+    }
 );
 
-const getTask = createAsyncThunk<Itask, number>(
-  'tasks/getTask',
-  async (id: number, {dispatch}) => {
-    dispatch(loadingActions.setLoadingStatus('loading'))
-    try {
-      const response = await TasksService.getTask(id);
-      return response.data as Itask;
-    } catch (e) {
-      throw error;
-    } finally {
-      dispatch(loadingActions.setLoadingStatus('successful'))
-    }
+const getTask = createAsyncThunk<Itask, number, { rejectValue: ErrorResponse }>(
+    'tasks/getTask',
+    async (id: number, {dispatch, rejectWithValue}) => {
+        dispatch(loadingActions.setLoadingStatus('loading'))
+        try {
+            const response = await TasksService.getTask(id);
+            dispatch(loadingActions.setLoadingStatus('successful'))
+            return response.data as Itask;
+        } catch (error: any) {
+            if (!error.response) {
+                dispatch(errorActions.setError(error.message))
+            } else {
+                dispatch(errorActions.setError(error.response.data.message))
+            }
+            return rejectWithValue(error.response ? error.response.data.message : error.message)
+        }
 
-  }
+    }
 )
 
 type InitialStateType = {
-  currentTasks: Itask | null,
-  allTasks: Itask[]
+    currentTasks: Itask | null,
+    allTasks: Itask[]
 }
 
 const initialState: InitialStateType = {
-  currentTasks: null,
-  allTasks: []
+    currentTasks: null,
+    allTasks: []
 }
 const tasksSlice = createSlice({
-  name: 'tasks',
-  initialState,
-  reducers: {},
-  extraReducers: (builder) => {
-    builder
-      .addCase(fetchTasks.fulfilled, (state, action) => {
-        state.allTasks = [...action.payload];
-          console.log(action.payload.length)
-      })
-      .addCase(createTask.fulfilled, (state, action) => {
-          console.log(action.payload)
-      })
-      .addCase(getTask.fulfilled, (state, action) => {
-        state.currentTasks = action.payload
-      })
+    name: 'tasks',
+    initialState,
+    reducers: {},
+    extraReducers: (builder) => {
+        builder
+            .addCase(fetchTasks.fulfilled, (state, action) => {
+                state.allTasks = [...action.payload];
+            })
+            .addCase(createTask.fulfilled, (state, action) => {
+            })
+            .addCase(getTask.fulfilled, (state, action) => {
+                state.currentTasks = action.payload
+            })
 
 
-  }
+    }
 })
 
 
