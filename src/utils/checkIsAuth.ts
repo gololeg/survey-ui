@@ -1,20 +1,19 @@
 import {SettingsService} from "services/settingsService";
 
 
-export const checkIsAuth = () => {
 
+export const checkIsAuth = () => {
     const promise = new Promise((resolve, reject) => {
         const response = SettingsService.getSettings();
         response.then(res => {
             if (res.status === 200) {
-
-                resolve(true)
+                resolve(true);
+            } else {
+                reject(false);
             }
-        })
-        response.catch(error => {
-            reject(false)
-        })
-    })
+        }).catch(error => {
+            reject(false);
+        });
+    });
     return promise;
-
-}
+};

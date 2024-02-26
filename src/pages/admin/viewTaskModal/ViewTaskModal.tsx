@@ -13,23 +13,15 @@ export const ViewTaskModal = () => {
   const {getTask} = useAppDispatch();
   const task = useAppSelector(state => state.tasks.currentTasks);
   const {statusLoading} = useAppSelector(state => state.loading);
-  const {isLoggedIn} = useAppSelector(state => state.users);
   const {error} = useAppSelector(state => state.error);
   const navigate = useNavigate();
-
+  const isLoggedIn = useAppSelector(state => state.users.isLoggedIn);
 
 
   useEffect(() => {
-    // if (!isLoggedIn){
-    //   navigate('/')
-    // }
-    checkIsAuth()
-        .then(response => {
-
-        })
-        .catch(() => {
-          navigate('/login')
-        })
+    if (!isLoggedIn){
+      navigate('/login');
+    }
     getTask(Number(id));
   }, [id]);
 

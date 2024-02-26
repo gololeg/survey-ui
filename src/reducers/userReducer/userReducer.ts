@@ -19,7 +19,6 @@ export const login = createAsyncThunk<boolean, LoginType, { rejectValue: ErrorRe
         try {
             const response = await userService.login(payload);
             dispatch(loadingActions.setLoadingStatus('successful'));
-            console.log(response)
             return response.data;
 
         } catch (error: any) {
@@ -44,11 +43,15 @@ const initialState: InitialStateType = {
 const userSlice = createSlice({
     name: 'user',
     initialState,
-    reducers: {},
+    reducers: {
+        authMe(state, action: PayloadAction){
+            state.isLoggedIn = true;
+        }
+    },
     extraReducers: (builder) => {
         builder
             .addCase(login.fulfilled, (state, action) => {
-                state.isLoggedIn = action.payload;
+                state.isLoggedIn = true;
             })
             .addCase(login.rejected, (state, action) => {
                 console.log(action.payload)

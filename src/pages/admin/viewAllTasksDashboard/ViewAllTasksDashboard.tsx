@@ -19,21 +19,13 @@ export const ViewAllTasksDashboard = () => {
     const {fetchTasks} = useAppDispatch();
     const {allTasks} = useAppSelector(state => state.tasks);
     const {statusLoading} = useAppSelector(state => state.loading);
-    const {isLoggedIn} = useAppSelector(state => state.users);
     const {error} = useAppSelector(state => state.error);
     const navigate = useNavigate();
-
+    const isLoggedIn = useAppSelector(state => state.users.isLoggedIn);
     useEffect(() => {
-        // if (!isLoggedIn) {
-        //    navigate('/')
-        // }
-        checkIsAuth()
-            .then(response => {
-
-            })
-            .catch(() => {
-                navigate('/login')
-            })
+        if (!isLoggedIn){
+            navigate('/login');
+        }
         fetchTasks();
     }, []);
 

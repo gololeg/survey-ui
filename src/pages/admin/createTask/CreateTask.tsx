@@ -28,7 +28,13 @@ export const CreateTask = () => {
     const {base64, handleImageFileChange} = useUploadImageToFormatBase64();
     const {deploadedFromBase64} = useDeploadedBase64FormatToString(base64 as string);
     const navigate = useNavigate();
-    const {isLoggedIn} = useAppSelector(state => state.users)
+    const isLoggedIn = useAppSelector(state => state.users.isLoggedIn);
+
+    useEffect(() => {
+        if (!isLoggedIn){
+            navigate('/login')
+        }
+    }, []);
 
     const addNewAnswer = () => {
         setNewAnswer({id: v1(), value: '', checked: false})
@@ -94,16 +100,6 @@ export const CreateTask = () => {
     })
 
 
-    // if (!isLoggedIn){
-    //     return <Navigate to={'/'}/>
-    // }
-    checkIsAuth()
-        .then(response => {
-
-        })
-        .catch(() => {
-            navigate('/login')
-        })
 
     return (
         <form onSubmit={formik.handleSubmit} encType="myltipart/form-data">

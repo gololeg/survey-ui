@@ -19,7 +19,6 @@ const fetchTasks = createAsyncThunk<Itask[], undefined>(
             dispatch(loadingActions.setLoadingStatus('successful'))
             return response.data as Itask[];
         } catch (error: any) {
-            console.log(error)
             if (!error.response) {
                 dispatch(errorActions.setError(error.message))
             } else {

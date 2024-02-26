@@ -16,31 +16,13 @@ export const Settings = () => {
     const {fetchSettings, createSettings} = useAppDispatch();
     const settingsSelector = useAppSelector(state => state.settings.setting);
     const {statusLoading} = useAppSelector(state => state.loading);
-    const {isLoggedIn} = useAppSelector(state => state.users);
     const {error} = useAppSelector(state => state.error)
     const navigate = useNavigate();
-
+    const isLoggedIn = useAppSelector(state => state.users.isLoggedIn);
     useEffect(() => {
-        // if (!isLoggedIn){
-        //    navigate('/')
-        // }
-        // const response = SettingsService.getSettings();
-        // response.then(res => {
-        //     if (res.status === 200) {
-        //         return true;
-        //     }
-        // })
-        // response.catch(error => {
-        //     navigate('/login')
-        //
-        // })
-        checkIsAuth()
-            .then(response => {
-
-            })
-            .catch(() => {
-                navigate('/login')
-            })
+        if (!isLoggedIn){
+            navigate('/login')
+        }
         fetchSettings();
     }, []);
 
