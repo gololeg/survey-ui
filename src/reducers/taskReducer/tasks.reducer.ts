@@ -2,8 +2,6 @@ import {createAsyncThunk, createSlice} from "@reduxjs/toolkit";
 import {Itask} from "types/Itask";
 import {TasksService} from "services/tasksService";
 import {loadingActions} from "reducers/loadingReducer/loading.reducer";
-import {Simulate} from "react-dom/test-utils";
-import error = Simulate.error;
 import {errorActions} from "reducers/errorReducer/error.reducer";
 
 interface ErrorResponse {
@@ -20,9 +18,9 @@ const fetchTasks = createAsyncThunk<Itask[], undefined>(
             return response.data as Itask[];
         } catch (error: any) {
             if (!error.response) {
-                dispatch(errorActions.setError(error.message))
+                dispatch(errorActions.setAllTasksError(error.message))
             } else {
-                dispatch(errorActions.setError(error.response.data.message))
+                dispatch(errorActions.setAllTasksError(error.response.data.message))
             }
             return rejectWithValue(error.response ? error.response.message : error.message)
         }
@@ -40,9 +38,9 @@ const createTask = createAsyncThunk<Itask, Itask, { rejectValue: ErrorResponse }
             return response.data as Itask;
         } catch (error: any) {
             if (!error.response) {
-                dispatch(errorActions.setError(error.message));
+                dispatch(errorActions.setCreateTaskError(error.message));
             } else {
-                dispatch(errorActions.setError(error.response.data.message))
+                dispatch(errorActions.setCreateTaskError(error.response.data.message))
             }
             return rejectWithValue(error.response ? error.response.data.message : error.message);
         }
@@ -61,9 +59,9 @@ const getTask = createAsyncThunk<Itask, number, { rejectValue: ErrorResponse }>(
             return response.data as Itask;
         } catch (error: any) {
             if (!error.response) {
-                dispatch(errorActions.setError(error.message))
+                dispatch(errorActions.setTaskError(error.message))
             } else {
-                dispatch(errorActions.setError(error.response.data.message))
+                dispatch(errorActions.setTaskError(error.response.data.message))
             }
             return rejectWithValue(error.response ? error.response.data.message : error.message)
         }

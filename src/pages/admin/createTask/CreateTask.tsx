@@ -9,22 +9,21 @@ import {ButtonWrapper} from "components/buttonWrapper/ButtonWrapper";
 import {v1} from "uuid";
 import {useAppSelector} from "hooks/selectors";
 import {useAppDispatch} from "hooks/dispatch";
-import {Navigate, useNavigate} from "react-router-dom"
+import {useNavigate} from "react-router-dom"
 import {useUploadImageToFormatBase64} from "hooks/useUploadImageToFormatBase64";
 import {useDeploadedBase64FormatToString} from "hooks/useDeploadedBase64FormatToString";
-
 import {InputWrapper} from "components/inputWrapper/InputWrapper";
 import {UploadFileButtonWrapper} from "components/uploadFileButtonWrapper/UploadFileButtonWrapper";
 import {createTaskValidate} from "utils/validation/createTaskValidate";
 import {SideBar} from "components/sideBar/SideBar";
-import {checkIsAuth} from "utils/checkIsAuth";
+
 
 
 export const CreateTask = () => {
     const answer = useAppSelector(state => state.answer);
     const {statusLoading} = useAppSelector(state => state.loading);
     const {setNewAnswer, setNewAnswerValue, setChecked, createTask} = useAppDispatch();
-    const {error} = useAppSelector(state => state.error)
+    const error = useAppSelector(state => state.error.createTaskError)
     const {base64, handleImageFileChange} = useUploadImageToFormatBase64();
     const {deploadedFromBase64} = useDeploadedBase64FormatToString(base64 as string);
     const navigate = useNavigate();

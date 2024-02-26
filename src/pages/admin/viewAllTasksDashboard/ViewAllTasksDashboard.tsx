@@ -8,20 +8,21 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
-import {Link, Navigate, useNavigate} from 'react-router-dom';
+import {Link, useNavigate} from 'react-router-dom';
 import {LinearProgress} from "@mui/material";
 import styles from "./viewAllTasksDashboard.module.css";
 import {SideBar} from "components/sideBar/SideBar";
-import {checkIsAuth} from "utils/checkIsAuth";
+
 
 
 export const ViewAllTasksDashboard = () => {
     const {fetchTasks} = useAppDispatch();
     const {allTasks} = useAppSelector(state => state.tasks);
     const {statusLoading} = useAppSelector(state => state.loading);
-    const {error} = useAppSelector(state => state.error);
+    const error = useAppSelector(state => state.error.getAllTasksError);
     const navigate = useNavigate();
     const isLoggedIn = useAppSelector(state => state.users.isLoggedIn);
+
     useEffect(() => {
         if (!isLoggedIn){
             navigate('/login');

@@ -2,8 +2,6 @@ import {createAsyncThunk, createSlice} from "@reduxjs/toolkit";
 import {SettingsType} from "types/settingsType";
 import {loadingActions} from "reducers/loadingReducer/loading.reducer";
 import {SettingsService} from "services/settingsService";
-import {Simulate} from "react-dom/test-utils";
-import error = Simulate.error;
 import {errorActions} from "reducers/errorReducer/error.reducer";
 
 interface ErrorResponse {
@@ -20,9 +18,9 @@ const fetchSettings = createAsyncThunk<SettingsType, undefined, { rejectValue: E
             return response.data as SettingsType;
         } catch (error: any) {
             if (!error.response) {
-                dispatch(errorActions.setError(error.message))
+                dispatch(errorActions.setAllSettingsError(error.message))
             } else {
-                dispatch(errorActions.setError(error.response.data.message))
+                dispatch(errorActions.setAllSettingsError(error.response.data.message))
             }
             return rejectWithValue(error.response ? error.response.data.message : error.message)
         }
@@ -40,9 +38,9 @@ const createSettings = createAsyncThunk<SettingsType, SettingsType, { rejectValu
             return response.data
         } catch (error: any) {
             if (!error.response) {
-                dispatch(errorActions.setError(error.message));
+                dispatch(errorActions.setCreateSettingsError(error.message));
             } else {
-                dispatch(errorActions.setError(error.response.data.message))
+                dispatch(errorActions.setCreateSettingsError(error.response.data.message))
             }
             return rejectWithValue(error.response ? error.response.data.message : error.message)
         }

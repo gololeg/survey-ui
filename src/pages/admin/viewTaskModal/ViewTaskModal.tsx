@@ -1,11 +1,11 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect} from 'react';
 import styles from  "./viewTaskModal.module.css"
-import {Navigate, useNavigate, useParams} from "react-router-dom";
+import {useNavigate, useParams} from "react-router-dom";
 import {useAppDispatch} from "hooks/dispatch";
 import {useAppSelector} from "hooks/selectors";
 import {ButtonWrapper} from "components/buttonWrapper/ButtonWrapper";
 import { LinearProgress} from "@mui/material";
-import {checkIsAuth} from "utils/checkIsAuth";
+
 
 
 export const ViewTaskModal = () => {
@@ -13,7 +13,7 @@ export const ViewTaskModal = () => {
   const {getTask} = useAppDispatch();
   const task = useAppSelector(state => state.tasks.currentTasks);
   const {statusLoading} = useAppSelector(state => state.loading);
-  const {error} = useAppSelector(state => state.error);
+  const error = useAppSelector(state => state.error.getTaskError);
   const navigate = useNavigate();
   const isLoggedIn = useAppSelector(state => state.users.isLoggedIn);
 
@@ -44,7 +44,7 @@ export const ViewTaskModal = () => {
                   <div>{task?.description}</div>
                 </div>
                 <div className={styles.image}>
-                  <img src={task?.imageStr}/>
+                  <img src={task?.imageStr} alt={`${task?.description}`}/>
                 </div>
                 {task?.answers.map((answer) => (
                     <div className={styles.answers} key={answer.id}>

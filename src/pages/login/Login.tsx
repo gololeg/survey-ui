@@ -11,7 +11,7 @@ import {useAppSelector} from "hooks/selectors";
 
 export const Login = () => {
     const {login} = useAppDispatch();
-    const {error} = useAppSelector(state => state.error);
+    const  loginError = useAppSelector(state => state.error.loginError);
     const {isLoggedIn} = useAppSelector(state => state.users)
 
     const loginForm = useFormik({
@@ -39,7 +39,7 @@ export const Login = () => {
                                 getFieldProps={loginForm.getFieldProps('login')}
                             />
                             {
-                                error ? <p className={styles.error}>{error}</p> : null
+                                loginError ? <p className={styles.error}>{loginError}</p> : null
                             }
                         </div>
                         <div className={styles.password}>
@@ -47,7 +47,7 @@ export const Login = () => {
                                 getFieldProps={loginForm.getFieldProps('password')}
                             />
                             {
-                                error ? <p className={styles.error}>{error}</p> : null
+                                loginError ? <p className={styles.error}>{loginError}</p> : null
                             }
                         </div>
                         <div className={styles.submit}>

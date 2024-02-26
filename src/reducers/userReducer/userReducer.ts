@@ -1,12 +1,9 @@
 import {createAsyncThunk, createSlice, PayloadAction} from "@reduxjs/toolkit";
 import {LoginType} from "types/loginType";
 import {userService} from "services/userService";
-import {Simulate} from "react-dom/test-utils";
-import error = Simulate.error;
 import {loadingActions} from "reducers/loadingReducer/loading.reducer";
-import {Axios, AxiosError} from "axios";
 import {errorActions} from "reducers/errorReducer/error.reducer";
-import {useNavigate} from "react-router-dom";
+
 
 interface ErrorResponse {
     message: string;
@@ -23,9 +20,9 @@ export const login = createAsyncThunk<boolean, LoginType, { rejectValue: ErrorRe
 
         } catch (error: any) {
             if (!error.response) {
-                dispatch(errorActions.setError(error.message));
+                dispatch(errorActions.setLoginError(error.message));
             } else {
-                dispatch(errorActions.setError(error.response.data.message));
+                dispatch(errorActions.setLoginError(error.response.data.message));
             }
             return rejectWithValue(error.response ? error.response.data.message : error.message);
         }
