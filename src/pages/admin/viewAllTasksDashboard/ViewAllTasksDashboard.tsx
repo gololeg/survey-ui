@@ -8,25 +8,32 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
-import {Link, useNavigate} from 'react-router-dom';
+import {Link, Navigate, useNavigate} from 'react-router-dom';
 import {LinearProgress} from "@mui/material";
 import styles from "./viewAllTasksDashboard.module.css";
 import {SideBar} from "components/sideBar/SideBar";
-
+import {useDispatch} from "react-redux";
+import {checkIsAuth} from "utils/checkIsAuth";
+import {userAction} from "reducers/userReducer/userReducer";
 
 
 export const ViewAllTasksDashboard = () => {
     const {fetchTasks} = useAppDispatch();
     const {allTasks} = useAppSelector(state => state.tasks);
     const {statusLoading} = useAppSelector(state => state.loading);
-    const error = useAppSelector(state => state.error.getAllTasksError);
+    const getAllTasksError = useAppSelector(state => state.error.getAllTasksError);
     const navigate = useNavigate();
     const isLoggedIn = useAppSelector(state => state.users.isLoggedIn);
-
+    const dispatch = useDispatch();
     useEffect(() => {
-        if (!isLoggedIn){
-            navigate('/login');
-        }
+        checkIsAuth()
+            .then(() => {
+                dispatch(userAction.authMe(true))
+            })
+            .catch(() => {
+                dispatch(userAction.authMe(false))
+                navigate('/login')
+            });
         fetchTasks();
     }, []);
 
@@ -42,8 +49,11 @@ export const ViewAllTasksDashboard = () => {
     }
 
     const rows = allTasks.map((el) => createData(el.id, el.name, el.description, (el.type.name as string), (el.level.name as string),
-        <Link to={`/admin/tasks/all/modal/${el.id}`}>Show task</Link>))
+        <Link to={`/admin/tasks/all/modal/${el.id}`}>Show task</Link>));
 
+    if (!isLoggedIn) {
+    return <Navigate to={'/login'}/>
+    }
 
     return (
         <div className={styles.content}>
@@ -53,33 +63,34 @@ export const ViewAllTasksDashboard = () => {
                     {statusLoading === 'loading' && <LinearProgress/>}
 
                     {
-                        error ? <h1 className={styles.responseError}>{error}</h1> :  <Table sx={{minWidth: 650}} size="small" aria-label="a dense table">
-                            <TableHead>
-                                <TableRow>
-                                    <TableCell>№</TableCell>
-                                    <TableCell align="right">Name</TableCell>
-                                    <TableCell align="right">Description</TableCell>
-                                    <TableCell align="right">Type</TableCell>
-                                    <TableCell align="right">Level</TableCell>
-                                    <TableCell align="right">Action</TableCell>
-                                </TableRow>
-                            </TableHead>
-                            <TableBody>
-                                {rows.map((row, index) => (
-                                    <TableRow
-                                        key={row.id}
-                                        sx={{'&:last-child td, &:last-child th': {border: 0}}}
-                                    >
-                                        <TableCell component="th" scope="row">{++index}</TableCell>
-                                        <TableCell align="right">{row.name}</TableCell>
-                                        <TableCell align="right">{row.description}</TableCell>
-                                        <TableCell align="right">{row.type}</TableCell>
-                                        <TableCell align="right">{row.level}</TableCell>
-                                        <TableCell align="right">{row.action}</TableCell>
+                        getAllTasksError ? <h1 className={styles.responseError}>{getAllTasksError}</h1> :
+                            <Table sx={{minWidth: 650}} size="small" aria-label="a dense table">
+                                <TableHead>
+                                    <TableRow>
+                                        <TableCell>№</TableCell>
+                                        <TableCell align="right">Name</TableCell>
+                                        <TableCell align="right">Description</TableCell>
+                                        <TableCell align="right">Type</TableCell>
+                                        <TableCell align="right">Level</TableCell>
+                                        <TableCell align="right">Action</TableCell>
                                     </TableRow>
-                                ))}
-                            </TableBody>
-                        </Table>
+                                </TableHead>
+                                <TableBody>
+                                    {rows.map((row, index) => (
+                                        <TableRow
+                                            key={row.id}
+                                            sx={{'&:last-child td, &:last-child th': {border: 0}}}
+                                        >
+                                            <TableCell component="th" scope="row">{++index}</TableCell>
+                                            <TableCell align="right">{row.name}</TableCell>
+                                            <TableCell align="right">{row.description}</TableCell>
+                                            <TableCell align="right">{row.type}</TableCell>
+                                            <TableCell align="right">{row.level}</TableCell>
+                                            <TableCell align="right">{row.action}</TableCell>
+                                        </TableRow>
+                                    ))}
+                                </TableBody>
+                            </Table>
                     }
 
                 </TableContainer>

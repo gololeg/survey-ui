@@ -16,17 +16,19 @@ function App() {
     const navigate = useNavigate();
     const dispatch = useDispatch();
     const isLoggedIn = useAppSelector(state => state.users.isLoggedIn);
+
+
     useEffect(() => {
         checkIsAuth()
             .then(() => {
-                dispatch(userAction.authMe())
+                dispatch(userAction.authMe(true))
             })
             .catch(() => {
+                dispatch(userAction.authMe(false))
                 navigate('/login')
             });
     }, []);
 
-    console.log(isLoggedIn)
     return (
         <div className="App">
             <Routes>

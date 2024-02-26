@@ -11,8 +11,9 @@ import {useAppSelector} from "hooks/selectors";
 
 export const Login = () => {
     const {login} = useAppDispatch();
-    const  loginError = useAppSelector(state => state.error.loginError);
-    const {isLoggedIn} = useAppSelector(state => state.users)
+    const error = useAppSelector(state => state.error);
+    const {isLoggedIn} = useAppSelector(state => state.users);
+    const allErrors = Object.values(error).filter(el => el !== null).join('')
 
     const loginForm = useFormik({
         initialValues: {
@@ -20,12 +21,13 @@ export const Login = () => {
             password: ''
         },
         onSubmit: (values) => {
-           login(values);
+            login(values);
         }
     })
 
-    if (isLoggedIn){
-       return <Navigate to={'/admin/tasks/all'}/>
+
+    if (isLoggedIn) {
+        return <Navigate to={'/admin/tasks/all'}/>
     }
 
     return (
@@ -39,7 +41,7 @@ export const Login = () => {
                                 getFieldProps={loginForm.getFieldProps('login')}
                             />
                             {
-                                loginError ? <p className={styles.error}>{loginError}</p> : null
+                                allErrors ? <p className={styles.error}>{allErrors}</p> : null
                             }
                         </div>
                         <div className={styles.password}>
@@ -47,7 +49,7 @@ export const Login = () => {
                                 getFieldProps={loginForm.getFieldProps('password')}
                             />
                             {
-                                loginError ? <p className={styles.error}>{loginError}</p> : null
+                                allErrors ? <p className={styles.error}>{allErrors}</p> : null
                             }
                         </div>
                         <div className={styles.submit}>

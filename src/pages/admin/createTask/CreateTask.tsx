@@ -9,30 +9,39 @@ import {ButtonWrapper} from "components/buttonWrapper/ButtonWrapper";
 import {v1} from "uuid";
 import {useAppSelector} from "hooks/selectors";
 import {useAppDispatch} from "hooks/dispatch";
-import {useNavigate} from "react-router-dom"
+import {Navigate, useNavigate} from "react-router-dom"
 import {useUploadImageToFormatBase64} from "hooks/useUploadImageToFormatBase64";
 import {useDeploadedBase64FormatToString} from "hooks/useDeploadedBase64FormatToString";
 import {InputWrapper} from "components/inputWrapper/InputWrapper";
 import {UploadFileButtonWrapper} from "components/uploadFileButtonWrapper/UploadFileButtonWrapper";
 import {createTaskValidate} from "utils/validation/createTaskValidate";
 import {SideBar} from "components/sideBar/SideBar";
-
+import {checkIsAuth} from "utils/checkIsAuth";
+import {userAction} from "reducers/userReducer/userReducer";
+import {useDispatch} from "react-redux";
 
 
 export const CreateTask = () => {
     const answer = useAppSelector(state => state.answer);
     const {statusLoading} = useAppSelector(state => state.loading);
     const {setNewAnswer, setNewAnswerValue, setChecked, createTask} = useAppDispatch();
-    const error = useAppSelector(state => state.error.createTaskError)
+    const createTaskError = useAppSelector(state => state.error.createTaskError)
     const {base64, handleImageFileChange} = useUploadImageToFormatBase64();
     const {deploadedFromBase64} = useDeploadedBase64FormatToString(base64 as string);
     const navigate = useNavigate();
     const isLoggedIn = useAppSelector(state => state.users.isLoggedIn);
+    const dispatch = useDispatch();
 
     useEffect(() => {
-        if (!isLoggedIn){
-            navigate('/login')
-        }
+        checkIsAuth()
+            .then(() => {
+                dispatch(userAction.authMe(true))
+            })
+            .catch(() => {
+                dispatch(userAction.authMe(false))
+                navigate('/login')
+            });
+
     }, []);
 
     const addNewAnswer = () => {
@@ -59,7 +68,7 @@ export const CreateTask = () => {
     const formik = useFormik({
         validate: createTaskValidate,
 
-        initialValues : {
+        initialValues: {
             taskName: '',
             image: '',
             taskLevel: '',
@@ -98,8 +107,9 @@ export const CreateTask = () => {
         }
     })
 
-
-
+    if (!isLoggedIn) {
+       return <Navigate to={'/login'}/>
+    }
     return (
         <form onSubmit={formik.handleSubmit} encType="myltipart/form-data">
             {statusLoading === 'loading' && <LinearProgress/>}
@@ -108,7 +118,7 @@ export const CreateTask = () => {
                 <div className={styles.main}>
                     <div className={styles.block}>
                         {
-                            error ? <h1 className={styles.responseError}>{error}</h1> : <div>
+                            createTaskError ? <h1 className={styles.responseError}>{createTaskError}</h1> : <div>
                                 <div className={styles.taskName_descriptionTask}>
                                     <div className={styles.taskName}>
                                         <InputWrapper
@@ -125,7 +135,7 @@ export const CreateTask = () => {
                                             error={Boolean(formik.touched.descriptionTask && formik.errors.descriptionTask)}
                                             getFieldProps={formik.getFieldProps('descriptionTask')}/>
                                         {formik.touched.descriptionTask && formik.errors.descriptionTask ?
-                                            <div className={styles.errors}>{formik.errors.descriptionTask }</div> : null}
+                                            <div className={styles.errors}>{formik.errors.descriptionTask}</div> : null}
                                     </div>
                                 </div>
 
@@ -168,7 +178,8 @@ export const CreateTask = () => {
                                     />
                                 </div>
                                 {base64 ?
-                                    <div className={styles.image}><img src={deploadedFromBase64} alt={'Image'}/></div> : null}
+                                    <div className={styles.image}><img src={deploadedFromBase64} alt={'Image'}/>
+                                    </div> : null}
                                 <div className={styles.strAnswers}>
                                     {answer.map(el => <div key={el.id} className={styles.newAnswerElement}>
                                         <InputWrapper
@@ -184,7 +195,8 @@ export const CreateTask = () => {
                                             label={'Is this the correct answer?'}/>
                                         <div>
                                             {!el.value ?
-                                                <div className={styles.errors}>{'2 field must be required!'}</div> : null}
+                                                <div
+                                                    className={styles.errors}>{'2 field must be required!'}</div> : null}
                                             {answer.every(el => !el.checked) && (
                                                 <div
                                                     className={styles.errors}>{'There must be at least 1 correct answer!'}</div>

@@ -13,12 +13,12 @@ export const SideBar = () => {
                 </div>
                 <div className={styles.allTasks}>
                     <div className={styles.allTasksContent}>
-                        <Link to={'/admin/tasks/all'}>All tasks</Link>
+                        <Link to={'/admin/tasks/all'} >All tasks</Link>
                     </div>
                 </div>
                 <div className={styles.settings}>
                     <div className={styles.settingsContent}>
-                        <Link to={'/admin/settings'}>Settings</Link>
+                        <Link to={'/admin/settings'} >Settings</Link>
                     </div>
                 </div>
             </div>

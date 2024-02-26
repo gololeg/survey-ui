@@ -41,8 +41,8 @@ const userSlice = createSlice({
     name: 'user',
     initialState,
     reducers: {
-        authMe(state, action: PayloadAction){
-            state.isLoggedIn = true;
+        authMe(state, action: PayloadAction<boolean>){
+            state.isLoggedIn = action.payload;
         }
     },
     extraReducers: (builder) => {
@@ -51,7 +51,6 @@ const userSlice = createSlice({
                 state.isLoggedIn = true;
             })
             .addCase(login.rejected, (state, action) => {
-                console.log(action.payload)
             })
     }
 })

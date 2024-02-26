@@ -5,6 +5,9 @@ import {useAppDispatch} from "hooks/dispatch";
 import {useAppSelector} from "hooks/selectors";
 import {ButtonWrapper} from "components/buttonWrapper/ButtonWrapper";
 import { LinearProgress} from "@mui/material";
+import {checkIsAuth} from "utils/checkIsAuth";
+import {userAction} from "reducers/userReducer/userReducer";
+import {useDispatch} from "react-redux";
 
 
 
@@ -13,15 +16,20 @@ export const ViewTaskModal = () => {
   const {getTask} = useAppDispatch();
   const task = useAppSelector(state => state.tasks.currentTasks);
   const {statusLoading} = useAppSelector(state => state.loading);
-  const error = useAppSelector(state => state.error.getTaskError);
+  const getTaskError = useAppSelector(state => state.error.getTaskError);
   const navigate = useNavigate();
   const isLoggedIn = useAppSelector(state => state.users.isLoggedIn);
-
+  const dispatch = useDispatch();
 
   useEffect(() => {
-    if (!isLoggedIn){
-      navigate('/login');
-    }
+    checkIsAuth()
+        .then(() => {
+          dispatch(userAction.authMe(true))
+        })
+        .catch(() => {
+          dispatch(userAction.authMe(false))
+          navigate('/login')
+        });
     getTask(Number(id));
   }, [id]);
 
@@ -36,7 +44,7 @@ export const ViewTaskModal = () => {
       <div className={styles.modalOverlay} onClick={toggleModal}>
         <div className={styles.modalContent}>
           {
-            error ? <h1 className={styles.responseError}>{error}</h1> : <div>
+            getTaskError ? <h1 className={styles.responseError}>{getTaskError}</h1> : <div>
               <div className={styles.block}>
                 <h2>Show task</h2>
                 <div className={styles.description}>

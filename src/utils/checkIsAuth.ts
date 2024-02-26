@@ -8,7 +8,7 @@ export const checkIsAuth = () => {
         response.then(res => {
             if (res.status === 200) {
                 resolve(true);
-            } else {
+            } else if (res.status === 401) {
                 reject(false);
             }
         }).catch(error => {

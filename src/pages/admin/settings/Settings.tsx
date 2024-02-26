@@ -8,7 +8,10 @@ import {ButtonWrapper} from "components/buttonWrapper/ButtonWrapper";
 import {settingsValidate} from "utils/validation/settingsValidate";
 import {SideBar} from "components/sideBar/SideBar";
 import {LinearProgress} from "@mui/material";
-import { useNavigate} from "react-router-dom";
+import {Navigate, useNavigate} from "react-router-dom";
+import {useDispatch} from "react-redux";
+import {checkIsAuth} from "utils/checkIsAuth";
+import {userAction} from "reducers/userReducer/userReducer";
 
 
 export const Settings = () => {
@@ -18,10 +21,17 @@ export const Settings = () => {
     const createSettingsError = useAppSelector(state => state.error.createSettingsError)
     const navigate = useNavigate();
     const isLoggedIn = useAppSelector(state => state.users.isLoggedIn);
+    const dispatch = useDispatch();
+
     useEffect(() => {
-        if (!isLoggedIn){
-            navigate('/login')
-        }
+        checkIsAuth()
+            .then(() => {
+                dispatch(userAction.authMe(true))
+            })
+            .catch(() => {
+                dispatch(userAction.authMe(false))
+                navigate('/login')
+            });
         fetchSettings();
     }, []);
 
@@ -43,6 +53,9 @@ export const Settings = () => {
         }
     });
 
+    if (!isLoggedIn) {
+        return <Navigate to={'/login'}/>
+    }
     return (
         <form onSubmit={formik.handleSubmit}>
             {statusLoading === 'loading' && <LinearProgress/>}
