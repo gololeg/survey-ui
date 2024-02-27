@@ -7,6 +7,7 @@ type ErrorReducerStateType = {
     getTaskError: null | string
     getSettingsError: null | string,
     createSettingsError: null | string,
+    authError: null | string
 }
 
 const initialState: ErrorReducerStateType = {
@@ -15,7 +16,8 @@ const initialState: ErrorReducerStateType = {
     getAllTasksError: null,
     getTaskError: null,
     getSettingsError: null,
-    createTaskError: null
+    createTaskError: null,
+    authError: null
 }
 
 const errorSlice = createSlice({
@@ -39,6 +41,9 @@ const errorSlice = createSlice({
         },
         setCreateTaskError(state, action: PayloadAction<string>){
             state.createTaskError = action.payload;
+        },
+        setAuthMeError(state, action: PayloadAction<string>){
+            state.authError = action.payload
         }
     }
 })

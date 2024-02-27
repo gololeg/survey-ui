@@ -8,10 +8,8 @@ import {ButtonWrapper} from "components/buttonWrapper/ButtonWrapper";
 import {settingsValidate} from "utils/validation/settingsValidate";
 import {SideBar} from "components/sideBar/SideBar";
 import {LinearProgress} from "@mui/material";
-import {Navigate, useNavigate} from "react-router-dom";
-import {useDispatch} from "react-redux";
-import {checkIsAuth} from "utils/checkIsAuth";
-import {userAction} from "reducers/userReducer/userReducer";
+import {Navigate} from "react-router-dom";
+import {CustomizedSnackBar} from "components/customizedSnackBar/CustomizedSnackBar";
 
 
 export const Settings = () => {
@@ -19,20 +17,17 @@ export const Settings = () => {
     const settingsSelector = useAppSelector(state => state.settings.setting);
     const {statusLoading} = useAppSelector(state => state.loading);
     const createSettingsError = useAppSelector(state => state.error.createSettingsError)
-    const navigate = useNavigate();
+    const getSettingsError = useAppSelector(state => state.error.getSettingsError)
     const isLoggedIn = useAppSelector(state => state.users.isLoggedIn);
-    const dispatch = useDispatch();
-
+    const {isAuthMe} = useAppDispatch()
     useEffect(() => {
-        checkIsAuth()
-            .then(() => {
-                dispatch(userAction.authMe(true))
-            })
-            .catch(() => {
-                dispatch(userAction.authMe(false))
-                navigate('/login')
-            });
-        fetchSettings();
+        isAuthMe()
+        if (isLoggedIn) {
+            fetchSettings();
+        } else {
+            return;
+        }
+
     }, []);
 
 
@@ -121,6 +116,10 @@ export const Settings = () => {
                     </div>
                 </div>
             </div>
+            {
+                createSettingsError || getSettingsError ?
+                    <CustomizedSnackBar error={createSettingsError || getSettingsError}/> : null
+            }
         </form>
     );
 };

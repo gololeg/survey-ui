@@ -8,13 +8,12 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
-import {Link, Navigate, useNavigate} from 'react-router-dom';
+import {Link, Navigate} from 'react-router-dom';
 import {LinearProgress} from "@mui/material";
 import styles from "./viewAllTasksDashboard.module.css";
 import {SideBar} from "components/sideBar/SideBar";
-import {useDispatch} from "react-redux";
-import {checkIsAuth} from "utils/checkIsAuth";
-import {userAction} from "reducers/userReducer/userReducer";
+import {CustomizedSnackBar} from "components/customizedSnackBar/CustomizedSnackBar";
+
 
 
 export const ViewAllTasksDashboard = () => {
@@ -22,19 +21,18 @@ export const ViewAllTasksDashboard = () => {
     const {allTasks} = useAppSelector(state => state.tasks);
     const {statusLoading} = useAppSelector(state => state.loading);
     const getAllTasksError = useAppSelector(state => state.error.getAllTasksError);
-    const navigate = useNavigate();
     const isLoggedIn = useAppSelector(state => state.users.isLoggedIn);
-    const dispatch = useDispatch();
+    const {isAuthMe} = useAppDispatch();
+
+
     useEffect(() => {
-        checkIsAuth()
-            .then(() => {
-                dispatch(userAction.authMe(true))
-            })
-            .catch(() => {
-                dispatch(userAction.authMe(false))
-                navigate('/login')
-            });
-        fetchTasks();
+        isAuthMe();
+        if (isLoggedIn){
+            fetchTasks();
+        }else{
+            return;
+        }
+
     }, []);
 
     function createData(
@@ -52,7 +50,7 @@ export const ViewAllTasksDashboard = () => {
         <Link to={`/admin/tasks/all/modal/${el.id}`}>Show task</Link>));
 
     if (!isLoggedIn) {
-    return <Navigate to={'/login'}/>
+        return <Navigate to={'/login'}/>
     }
 
     return (
@@ -62,8 +60,7 @@ export const ViewAllTasksDashboard = () => {
                 <TableContainer component={Paper}>
                     {statusLoading === 'loading' && <LinearProgress/>}
 
-                    {
-                        getAllTasksError ? <h1 className={styles.responseError}>{getAllTasksError}</h1> :
+
                             <Table sx={{minWidth: 650}} size="small" aria-label="a dense table">
                                 <TableHead>
                                     <TableRow>
@@ -91,10 +88,11 @@ export const ViewAllTasksDashboard = () => {
                                     ))}
                                 </TableBody>
                             </Table>
-                    }
-
                 </TableContainer>
             </div>
+            {
+                getAllTasksError && <CustomizedSnackBar error={getAllTasksError}/>
+            }
         </div>
     );
 };

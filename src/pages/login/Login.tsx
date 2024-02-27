@@ -7,13 +7,14 @@ import {InputTypePasswordWrapper} from "components/inputTypePasswordWrapper/Inpu
 import {useAppDispatch} from "hooks/dispatch";
 import {Navigate} from "react-router-dom";
 import {useAppSelector} from "hooks/selectors";
+import {CustomizedSnackBar} from "components/customizedSnackBar/CustomizedSnackBar";
 
 
 export const Login = () => {
     const {login} = useAppDispatch();
     const error = useAppSelector(state => state.error);
     const {isLoggedIn} = useAppSelector(state => state.users);
-    const allErrors = Object.values(error).filter(el => el !== null).join('')
+    const allErrors = Object.values(error).find(el => el !== null)
 
     const loginForm = useFormik({
         initialValues: {
@@ -22,6 +23,7 @@ export const Login = () => {
         },
         onSubmit: (values) => {
             login(values);
+
         }
     })
 
@@ -29,6 +31,7 @@ export const Login = () => {
     if (isLoggedIn) {
         return <Navigate to={'/admin/tasks/all'}/>
     }
+
 
     return (
         <form onSubmit={loginForm.handleSubmit}>
@@ -40,17 +43,11 @@ export const Login = () => {
                                 text={'Login'}
                                 getFieldProps={loginForm.getFieldProps('login')}
                             />
-                            {
-                                allErrors ? <p className={styles.error}>{allErrors}</p> : null
-                            }
                         </div>
                         <div className={styles.password}>
                             <InputTypePasswordWrapper
                                 getFieldProps={loginForm.getFieldProps('password')}
                             />
-                            {
-                                allErrors ? <p className={styles.error}>{allErrors}</p> : null
-                            }
                         </div>
                         <div className={styles.submit}>
                             <ButtonWrapper
@@ -61,7 +58,11 @@ export const Login = () => {
                         </div>
                     </div>
                 </div>
+
             </div>
+            {
+                allErrors && <div className={styles.snackBar}><CustomizedSnackBar error={allErrors}/></div>
+            }
         </form>
     );
 };
