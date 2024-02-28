@@ -2,13 +2,13 @@ import React, {ChangeEvent, useEffect} from "react";
 import {useFormik} from "formik";
 import styles from "./createTask.module.css"
 import {LinearProgress} from '@mui/material';
-import {Itask} from "types/Itask";
+
 import {SelectWrapper} from "components/selectWrapper/SelectWrapper";
 import {CheckboxWrapper} from "components/checkboxWrapper/CheckboxWrapper";
 import {ButtonWrapper} from "components/buttonWrapper/ButtonWrapper";
 import {v1} from "uuid";
-import {useAppSelector} from "hooks/selectors";
-import {useAppDispatch} from "hooks/dispatch";
+import {useAppSelector} from "hooks/useAppSelector";
+import {useAppDispatch} from "hooks/useAppDispatch";
 import {Navigate, useNavigate} from "react-router-dom"
 import {useUploadImageToFormatBase64} from "hooks/useUploadImageToFormatBase64";
 import {useDeploadedBase64FormatToString} from "hooks/useDeploadedBase64FormatToString";
@@ -17,6 +17,8 @@ import {UploadFileButtonWrapper} from "components/uploadFileButtonWrapper/Upload
 import {createTaskValidate} from "utils/validation/createTaskValidate";
 import {SideBar} from "components/sideBar/SideBar";
 import {CustomizedSnackBar} from "components/customizedSnackBar/CustomizedSnackBar";
+import {useAuthValidation} from "hooks/useAuthValidation";
+import {Itask} from "types/requestAndResponseItaskType/Itask";
 
 
 export const CreateTask = () => {
@@ -27,12 +29,13 @@ export const CreateTask = () => {
     const {base64, handleImageFileChange} = useUploadImageToFormatBase64();
     const {deploadedFromBase64} = useDeploadedBase64FormatToString(base64 as string);
     const navigate = useNavigate();
-    const isLoggedIn = useAppSelector(state => state.users.isLoggedIn);
-    const {isAuthMe} = useAppDispatch()
+    const isLoggedIn = useAuthValidation()
 
     useEffect(() => {
-        isAuthMe();
-    }, []);
+        if(!isLoggedIn){
+            return
+        }
+    }, [isLoggedIn]);
 
     const addNewAnswer = () => {
         setNewAnswer({id: v1(), value: '', checked: false})

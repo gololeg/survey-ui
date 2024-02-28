@@ -1,5 +1,6 @@
 import {FormikValues} from "formik";
-import {FormikSettingsErrorsType} from "types/formikSettingsErrorsType";
+import {FormikSettingsErrorsType} from "types/formikErrorTypes/FormikSettingsErrorsType";
+
 
 
 export const settingsValidate = (values: FormikValues) => {

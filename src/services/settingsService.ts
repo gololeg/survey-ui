@@ -1,11 +1,7 @@
-import axios from "axios";
-import {SettingsType} from "types/settingsType";
 
+import {SettingsType} from "types/settingsType/SettingsType";
+import {instance} from "services/api/instance";
 
-const instance = axios.create({
-    baseURL: 'http://localhost:8080',
-    withCredentials:true
-})
 
 export const SettingsService = {
     getSettings() {

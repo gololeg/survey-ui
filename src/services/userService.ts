@@ -1,11 +1,9 @@
-import axios from "axios";
-import {LoginType} from "types/loginType";
+
+import {LoginType} from "types/loginType/loginType";
+import {instance} from "services/api/instance";
 
 
-const instance = axios.create({
-    baseURL: 'http://localhost:8080',
-    withCredentials: true
-})
+
 
 export const userService = {
     login(payload: LoginType) {

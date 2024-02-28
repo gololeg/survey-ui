@@ -1,8 +1,10 @@
 import {createAsyncThunk, createSlice} from "@reduxjs/toolkit";
-import {Itask} from "types/Itask";
+
 import {TasksService} from "services/tasksService";
 import {loadingActions} from "reducers/loadingReducer/loading.reducer";
 import {errorActions} from "reducers/errorReducer/error.reducer";
+import {TasksReducerInitialStateType} from "types/initialStateTypesForReducers/TasksReducerInitialStateType";
+import {Itask} from "types/requestAndResponseItaskType/Itask";
 
 interface ErrorResponse {
     message: string;
@@ -17,6 +19,7 @@ const fetchTasks = createAsyncThunk<Itask[], undefined>(
             dispatch(loadingActions.setLoadingStatus('successful'))
             return response.data as Itask[];
         } catch (error: any) {
+
             if (!error.response) {
                 dispatch(errorActions.setAllTasksError(error.message))
             } else {
@@ -69,12 +72,7 @@ const getTask = createAsyncThunk<Itask, number, { rejectValue: ErrorResponse }>(
     }
 )
 
-type InitialStateType = {
-    currentTasks: Itask | null,
-    allTasks: Itask[]
-}
-
-const initialState: InitialStateType = {
+const initialState: TasksReducerInitialStateType = {
     currentTasks: null,
     allTasks: []
 }

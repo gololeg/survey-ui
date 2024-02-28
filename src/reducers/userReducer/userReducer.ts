@@ -1,15 +1,15 @@
 import {createAsyncThunk, createSlice} from "@reduxjs/toolkit";
-import {LoginType} from "types/loginType";
+
 import {userService} from "services/userService";
 import {loadingActions} from "reducers/loadingReducer/loading.reducer";
 import {errorActions} from "reducers/errorReducer/error.reducer";
+import {UserReducerInitialStateType} from "types/initialStateTypesForReducers/UserReducerInitialStateType";
+import {LoginType} from "types/loginType/loginType";
 
 
-interface ErrorResponse {
-    message: string;
-}
 
-export const login = createAsyncThunk<boolean, LoginType, { rejectValue: ErrorResponse }>(
+
+ const login = createAsyncThunk<boolean, LoginType>(
     'user/isLoggedIn',
     async (payload: LoginType, {dispatch, rejectWithValue}) => {
         dispatch(loadingActions.setLoadingStatus('loading'));
@@ -29,7 +29,7 @@ export const login = createAsyncThunk<boolean, LoginType, { rejectValue: ErrorRe
     }
 );
 
-export const isAuthMe = createAsyncThunk<boolean, undefined>(
+  const isAuthMe = createAsyncThunk<boolean, undefined>(
     'user/isAuthMe',
     async (_, {dispatch, rejectWithValue}) => {
         dispatch(loadingActions.setLoadingStatus('loading'));
@@ -49,11 +49,8 @@ export const isAuthMe = createAsyncThunk<boolean, undefined>(
     }
 )
 
-type InitialStateType = {
-    isLoggedIn: boolean
-}
 
-const initialState: InitialStateType = {
+const initialState: UserReducerInitialStateType = {
     isLoggedIn: false
 }
 
@@ -78,6 +75,5 @@ const userSlice = createSlice({
     }
 })
 
-export const userAction = userSlice.actions;
 export const userReducer = userSlice.reducer;
 export const userThunk = {login, isAuthMe}

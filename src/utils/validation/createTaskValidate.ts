@@ -1,5 +1,6 @@
-import {FormikCreateTaskErrorsType} from "types/formikCreateTaskErrorsType";
+
 import {FormikValues} from "formik";
+import {FormikCreateTaskErrorsType} from "types/formikErrorTypes/FormikCreateTaskErrorsType";
 
 export const createTaskValidate = (values: FormikValues) => {
   const errors: FormikCreateTaskErrorsType = {};

@@ -1,6 +1,7 @@
 import {createSlice, PayloadAction} from "@reduxjs/toolkit";
 import {v1} from "uuid";
-import {NewAnswer} from "types/newAnswer";
+import {NewAnswer} from "types/newAnswerType/NewAnswer";
+
 
 const initialState: NewAnswer[] = [
   {id: v1(), value: '', checked: false},

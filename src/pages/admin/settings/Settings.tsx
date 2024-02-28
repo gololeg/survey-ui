@@ -1,6 +1,6 @@
 import React, {useEffect} from 'react';
-import {useAppDispatch} from "hooks/dispatch";
-import {useAppSelector} from "hooks/selectors";
+import {useAppDispatch} from "hooks/useAppDispatch";
+import {useAppSelector} from "hooks/useAppSelector";
 import {useFormik} from "formik";
 import styles from "./settings.module.css";
 import {InputTypeNumberWrapper} from "components/inputTypeNumberWrapper/InputTypeNumberWrapper";
@@ -10,6 +10,7 @@ import {SideBar} from "components/sideBar/SideBar";
 import {LinearProgress} from "@mui/material";
 import {Navigate} from "react-router-dom";
 import {CustomizedSnackBar} from "components/customizedSnackBar/CustomizedSnackBar";
+import {useAuthValidation} from "hooks/useAuthValidation";
 
 
 export const Settings = () => {
@@ -18,17 +19,15 @@ export const Settings = () => {
     const {statusLoading} = useAppSelector(state => state.loading);
     const createSettingsError = useAppSelector(state => state.error.createSettingsError)
     const getSettingsError = useAppSelector(state => state.error.getSettingsError)
-    const isLoggedIn = useAppSelector(state => state.users.isLoggedIn);
-    const {isAuthMe} = useAppDispatch()
+    const isLoggedIn = useAuthValidation()
     useEffect(() => {
-        isAuthMe()
         if (isLoggedIn) {
             fetchSettings();
         } else {
             return;
         }
 
-    }, []);
+    }, [isLoggedIn]);
 
 
     const formik = useFormik({

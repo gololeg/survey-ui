@@ -1,6 +1,6 @@
 import React, {JSX, useEffect} from 'react';
-import {useAppDispatch} from "hooks/dispatch";
-import {useAppSelector} from "hooks/selectors";
+import {useAppDispatch} from "hooks/useAppDispatch";
+import {useAppSelector} from "hooks/useAppSelector";
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
@@ -13,6 +13,7 @@ import {LinearProgress} from "@mui/material";
 import styles from "./viewAllTasksDashboard.module.css";
 import {SideBar} from "components/sideBar/SideBar";
 import {CustomizedSnackBar} from "components/customizedSnackBar/CustomizedSnackBar";
+import {useAuthValidation} from "hooks/useAuthValidation";
 
 
 
@@ -21,19 +22,17 @@ export const ViewAllTasksDashboard = () => {
     const {allTasks} = useAppSelector(state => state.tasks);
     const {statusLoading} = useAppSelector(state => state.loading);
     const getAllTasksError = useAppSelector(state => state.error.getAllTasksError);
-    const isLoggedIn = useAppSelector(state => state.users.isLoggedIn);
-    const {isAuthMe} = useAppDispatch();
+    const isLoggedIn = useAuthValidation()
 
 
     useEffect(() => {
-        isAuthMe();
         if (isLoggedIn){
             fetchTasks();
         }else{
             return;
         }
 
-    }, []);
+    }, [isLoggedIn]);
 
     function createData(
         id: number,

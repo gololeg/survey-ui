@@ -1,11 +1,10 @@
 import React, {useEffect, useState} from 'react';
 import {Alert, Snackbar} from "@mui/material";
 import styles from "./customizedSnackBar.module.css"
+import {CustomizedSnackBarPropsType} from "types/componentsPropsType/CustomizedSnackBarPropsType";
 
-type CustomizedSnackBarType = {
-    error: any
-}
-export const CustomizedSnackBar = (props: CustomizedSnackBarType) => {
+
+export const CustomizedSnackBar = (props: CustomizedSnackBarPropsType) => {
     const [open, setOpen] = useState(false);
 
     useEffect(() => {

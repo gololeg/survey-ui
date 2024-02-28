@@ -4,9 +4,9 @@ import styles from './login.module.css'
 import {InputWrapper} from "components/inputWrapper/InputWrapper";
 import {ButtonWrapper} from "components/buttonWrapper/ButtonWrapper";
 import {InputTypePasswordWrapper} from "components/inputTypePasswordWrapper/InputTypePasswordWrapper";
-import {useAppDispatch} from "hooks/dispatch";
+import {useAppDispatch} from "hooks/useAppDispatch";
 import {Navigate} from "react-router-dom";
-import {useAppSelector} from "hooks/selectors";
+import {useAppSelector} from "hooks/useAppSelector";
 import {CustomizedSnackBar} from "components/customizedSnackBar/CustomizedSnackBar";
 
 

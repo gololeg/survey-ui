@@ -1,18 +1,11 @@
 import Button from "@mui/material/Button";
 import React from "react";
-import {ButtonsVariantType} from "types/buttonsVariant";
 import styles from "./buttonWrapper.module.css"
+import {ButtonWrapperPropsType} from "types/componentsPropsType/ButtonWrapperPropsType";
 
-export type LabelButtonType = {
-    variant?: ButtonsVariantType;
-    onclick?: () => void;
-    text: string;
-    type?: string;
-    disable?: boolean;
-    size?: 'small' | 'medium' | 'large';
-}
 
-export const ButtonWrapper = (props: LabelButtonType) => {
+
+export const ButtonWrapper = (props: ButtonWrapperPropsType) => {
     return (
         <div className={styles.content}>
             <Button

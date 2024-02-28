@@ -1,16 +1,8 @@
 import {createSlice, PayloadAction} from "@reduxjs/toolkit";
+import {ErrorReducerInitialStateType} from "types/initialStateTypesForReducers/ErrorReducerInitialStateType";
 
-type ErrorReducerStateType = {
-    loginError: null | string,
-    createTaskError: null | string,
-    getAllTasksError: null | string,
-    getTaskError: null | string
-    getSettingsError: null | string,
-    createSettingsError: null | string,
-    authError: null | string
-}
 
-const initialState: ErrorReducerStateType = {
+const initialState: ErrorReducerInitialStateType = {
     loginError: null,
     createSettingsError: null,
     getAllTasksError: null,

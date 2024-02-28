@@ -2,13 +2,9 @@ import Button from "@mui/material/Button";
 import CloudUploadIcon from "@mui/icons-material/CloudUpload";
 import React, {ChangeEvent} from "react";
 import styles from "components/uploadFileButtonWrapper/uploadFileButtonWrapper.module.css"
+import {UploadFileButtonPropsType} from "types/componentsPropsType/UploadFileButtonPropsType";
 
-export type UploadButtonType = {
-  onChange: (event: ChangeEvent<HTMLInputElement>) => void;
-  error: boolean
-  base64String: string | null
-}
-export const UploadFileButtonWrapper = React.memo((props: UploadButtonType) => {
+export const UploadFileButtonWrapper = (props: UploadFileButtonPropsType) => {
   return (
     <div className={styles.mainBlock}>
       <div>
@@ -26,4 +22,4 @@ export const UploadFileButtonWrapper = React.memo((props: UploadButtonType) => {
       </div>
     </div>
   )
-})
+}

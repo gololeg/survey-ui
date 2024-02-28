@@ -1,15 +1,11 @@
 import styles from "components/checkboxWrapper/checkboxWrapper.module.css";
 import {Checkbox} from "@mui/material";
 import React, {ChangeEvent, useState} from "react";
+import {CheckboxWrapperPropsType} from "types/componentsPropsType/CheckboxWrapperPropsType";
 
 
-export type LabelCheckboxType = {
-  label: string;
-  getFieldProps?: any;
-  id?:string;
-  isChecked?: (id:string, value:boolean) => void
-}
-export const CheckboxWrapper = (props: LabelCheckboxType) => {
+
+export const CheckboxWrapper = (props: CheckboxWrapperPropsType) => {
   const [state, setState] = useState<boolean>(false)
   const saveValue = (event: ChangeEvent<HTMLInputElement>) => {
     setState(event.target.value === 'false')

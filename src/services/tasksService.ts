@@ -1,11 +1,9 @@
-import axios from "axios";
-import {Itask} from "types/Itask";
+
+import {Itask} from "types/requestAndResponseItaskType/Itask";
+import {instance} from "services/api/instance";
 
 
-const instance = axios.create({
-    baseURL: 'http://localhost:8080',
-    withCredentials: true
-})
+
 
 export const TasksService = {
     getAllTask() {

@@ -1,8 +1,10 @@
 import {createAsyncThunk, createSlice} from "@reduxjs/toolkit";
-import {SettingsType} from "types/settingsType";
+
 import {loadingActions} from "reducers/loadingReducer/loading.reducer";
 import {SettingsService} from "services/settingsService";
 import {errorActions} from "reducers/errorReducer/error.reducer";
+import {SettingsReducerInitialStateType} from "types/initialStateTypesForReducers/SettingsReducerInitialStateType";
+import {SettingsType} from "types/settingsType/SettingsType";
 
 interface ErrorResponse {
     message: string;
@@ -49,11 +51,8 @@ const createSettings = createAsyncThunk<SettingsType, SettingsType, { rejectValu
     }
 )
 
-type InitialStateType = {
-    setting: SettingsType | null
-}
 
-const initialState: InitialStateType = {
+const initialState: SettingsReducerInitialStateType = {
     setting: null
 }
 
@@ -73,5 +72,4 @@ const settingsSlice = createSlice({
 })
 
 export const settingsReducer = settingsSlice.reducer;
-export const settingsActions = settingsSlice.actions;
 export const settingsThunk = {fetchSettings, createSettings};

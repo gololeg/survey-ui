@@ -1,11 +1,12 @@
 import React, {useEffect} from 'react';
 import styles from "./viewTaskModal.module.css"
 import {Navigate, useNavigate, useParams} from "react-router-dom";
-import {useAppDispatch} from "hooks/dispatch";
-import {useAppSelector} from "hooks/selectors";
+import {useAppDispatch} from "hooks/useAppDispatch";
+import {useAppSelector} from "hooks/useAppSelector";
 import {ButtonWrapper} from "components/buttonWrapper/ButtonWrapper";
 import {LinearProgress} from "@mui/material";
 import {CustomizedSnackBar} from "components/customizedSnackBar/CustomizedSnackBar";
+import {useAuthValidation} from "hooks/useAuthValidation";
 
 
 export const ViewTaskModal = () => {
@@ -15,21 +16,18 @@ export const ViewTaskModal = () => {
     const {statusLoading} = useAppSelector(state => state.loading);
     const getTaskError = useAppSelector(state => state.error.getTaskError);
     const navigate = useNavigate();
-    const isLoggedIn = useAppSelector(state => state.users.isLoggedIn);
-    const {isAuthMe} = useAppDispatch();
-
+    const isLoggedIn = useAuthValidation()
 
 
 
     useEffect(() => {
-        isAuthMe()
         if (isLoggedIn){
             getTask(Number(id));
         }else{
             return;
         }
 
-    }, [id]);
+    }, [id, isLoggedIn]);
 
 
     const toggleModal = () => {
@@ -53,7 +51,7 @@ export const ViewTaskModal = () => {
                                 <div className={styles.image}>
                                     <img src={task?.imageStr} alt={`${task?.description}`}/>
                                 </div>
-                                {task?.answers.map((answer) => (
+                                {task?.answers.map((answer:any) => (
                                     <div className={styles.answers} key={answer.id}>
                                         <label>Answer options:</label>
                                         <div>

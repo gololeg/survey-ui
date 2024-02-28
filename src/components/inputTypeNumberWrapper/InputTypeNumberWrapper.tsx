@@ -1,12 +1,8 @@
 import React, {ChangeEvent, useState} from 'react';
 import {TextField} from "@mui/material";
+import {InputTypeNumberWrapperPropsType} from "types/componentsPropsType/InputTypeNumberWrapperPropsType";
 
-type InputTypeNumberWrapperType = {
-  label: string;
-  value: string;
-  getFieldProps:any
-}
-export const InputTypeNumberWrapper = (props: InputTypeNumberWrapperType) => {
+export const InputTypeNumberWrapper = (props: InputTypeNumberWrapperPropsType) => {
   const [value, setValue] = useState<string>('')
 
   const handleTextFieldValueChange = (event: ChangeEvent<HTMLInputElement>) => {
