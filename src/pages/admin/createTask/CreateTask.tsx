@@ -2,7 +2,6 @@ import React, {ChangeEvent, useEffect} from "react";
 import {useFormik} from "formik";
 import styles from "./createTask.module.css"
 import {LinearProgress} from '@mui/material';
-
 import {SelectWrapper} from "components/selectWrapper/SelectWrapper";
 import {CheckboxWrapper} from "components/checkboxWrapper/CheckboxWrapper";
 import {ButtonWrapper} from "components/buttonWrapper/ButtonWrapper";
@@ -17,7 +16,6 @@ import {UploadFileButtonWrapper} from "components/uploadFileButtonWrapper/Upload
 import {createTaskValidate} from "utils/validation/createTaskValidate";
 import {SideBar} from "components/sideBar/SideBar";
 import {CustomizedSnackBar} from "components/customizedSnackBar/CustomizedSnackBar";
-import {useAuthValidation} from "hooks/useAuthValidation";
 import {Itask} from "types/requestAndResponseItaskType/Itask";
 
 
@@ -28,15 +26,12 @@ export const CreateTask = () => {
     const createTaskError = useAppSelector(state => state.error.createTaskError)
     const {base64, handleImageFileChange} = useUploadImageToFormatBase64();
     const {deploadedFromBase64} = useDeploadedBase64FormatToString(base64 as string);
+    const isLoggedIn = useAppSelector(state => state.users.isLoggedIn)
     const navigate = useNavigate();
-    const isLoggedIn = useAuthValidation()
-
+    const {isAuthMe} = useAppDispatch();
     useEffect(() => {
-        if(!isLoggedIn){
-            return
-        }
-    }, [isLoggedIn]);
-
+        isAuthMe();
+    }, []);
     const addNewAnswer = () => {
         setNewAnswer({id: v1(), value: '', checked: false})
     }
@@ -100,9 +95,11 @@ export const CreateTask = () => {
         }
     })
 
-    if (!isLoggedIn) {
+    if (isLoggedIn === false){
         return <Navigate to={'/login'}/>
     }
+
+
     return (
         <form onSubmit={formik.handleSubmit} encType="myltipart/form-data">
             {statusLoading === 'loading' && <LinearProgress/>}

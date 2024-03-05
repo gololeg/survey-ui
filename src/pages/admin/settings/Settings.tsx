@@ -10,7 +10,7 @@ import {SideBar} from "components/sideBar/SideBar";
 import {LinearProgress} from "@mui/material";
 import {Navigate} from "react-router-dom";
 import {CustomizedSnackBar} from "components/customizedSnackBar/CustomizedSnackBar";
-import {useAuthValidation} from "hooks/useAuthValidation";
+
 
 
 export const Settings = () => {
@@ -19,15 +19,19 @@ export const Settings = () => {
     const {statusLoading} = useAppSelector(state => state.loading);
     const createSettingsError = useAppSelector(state => state.error.createSettingsError)
     const getSettingsError = useAppSelector(state => state.error.getSettingsError)
-    const isLoggedIn = useAuthValidation()
-    useEffect(() => {
-        if (isLoggedIn) {
-            fetchSettings();
-        } else {
-            return;
-        }
+    const isLoggedIn = useAppSelector(state => state.users.isLoggedIn);
+    const {isAuthMe} = useAppDispatch();
 
-    }, [isLoggedIn]);
+
+    useEffect(() => {
+        isAuthMe()
+            .then((response: any) => {
+                if (response.payload === true) {
+                    fetchSettings();
+                }
+            })
+
+    }, []);
 
 
     const formik = useFormik({
@@ -47,9 +51,12 @@ export const Settings = () => {
         }
     });
 
-    if (!isLoggedIn) {
+
+    if (isLoggedIn === false) {
         return <Navigate to={'/login'}/>
     }
+
+
     return (
         <form onSubmit={formik.handleSubmit}>
             {statusLoading === 'loading' && <LinearProgress/>}
@@ -117,7 +124,7 @@ export const Settings = () => {
             </div>
             {
                 createSettingsError || getSettingsError ?
-                    <CustomizedSnackBar error={createSettingsError || getSettingsError}/> : null
+                    <CustomizedSnackBar error={createSettingsError && getSettingsError}/> : null
             }
         </form>
     );

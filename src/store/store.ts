@@ -5,6 +5,8 @@ import {loadingReducer} from "reducers/loadingReducer/loading.reducer";
 import {settingsReducer} from "reducers/settingsReducer/settings.reducer";
 import {userReducer} from "reducers/userReducer/userReducer";
 import {errorReducer} from "reducers/errorReducer/error.reducer";
+import {useDispatch} from "react-redux";
+
 
 export const store = configureStore({
   reducer: {
@@ -16,6 +18,6 @@ export const store = configureStore({
     error: errorReducer
   }
 })
-
+export const useAppDispatch = () => useDispatch<AppDispatch>()
 export type AppRootStateType = ReturnType<typeof store.getState>;
 export type AppDispatch = typeof store.dispatch;

@@ -7,43 +7,59 @@ import {UserReducerInitialStateType} from "types/initialStateTypesForReducers/Us
 import {LoginType} from "types/loginType/loginType";
 
 
-
-
- const login = createAsyncThunk<boolean, LoginType>(
+const login = createAsyncThunk<boolean, LoginType>(
     'user/isLoggedIn',
     async (payload: LoginType, {dispatch, rejectWithValue}) => {
         dispatch(loadingActions.setLoadingStatus('loading'));
         try {
             const response = await userService.login(payload);
             dispatch(loadingActions.setLoadingStatus('successful'));
-            return response.data;
+            if (response.status === 200) {
+                return true
+            } else {
+                return rejectWithValue(null);
+            }
+
 
         } catch (error: any) {
             if (!error.response) {
                 dispatch(errorActions.setLoginError(error.message));
+                return rejectWithValue(null);
             } else {
-                dispatch(errorActions.setLoginError(error.response.data.message));
+                if (error.response.status === 401) {
+                    dispatch(errorActions.setLoginError(error.response.data.message));
+                    return rejectWithValue(null);
+                }
+
             }
             return rejectWithValue(error.response ? error.response.data.message : error.message);
         }
     }
 );
 
-  const isAuthMe = createAsyncThunk<boolean, undefined>(
+const isAuthMe = createAsyncThunk<boolean, undefined>(
     'user/isAuthMe',
     async (_, {dispatch, rejectWithValue}) => {
         dispatch(loadingActions.setLoadingStatus('loading'));
         try {
             const response = await userService.authMe();
             dispatch(loadingActions.setLoadingStatus('successful'));
-            return response.data;
+            if (response.status === 200) {
+                return response.data;
+            }
+
         } catch (error: any) {
             if (!error.response) {
                 dispatch(errorActions.setAuthMeError(error.message));
+                    return rejectWithValue(null);
             } else {
-                dispatch(errorActions.setAuthMeError(error.response.data.message))
+                if (error.response.status === 401) {
+                    dispatch(errorActions.setAuthMeError(error.response.data.message))
+                    return rejectWithValue(null);
+                }
+
             }
-            return rejectWithValue(error.response ? error.response.data.message : error.message);
+
         }
 
     }
@@ -51,7 +67,7 @@ import {LoginType} from "types/loginType/loginType";
 
 
 const initialState: UserReducerInitialStateType = {
-    isLoggedIn: false
+    isLoggedIn: null
 }
 
 const userSlice = createSlice({
@@ -64,12 +80,14 @@ const userSlice = createSlice({
                 state.isLoggedIn = true;
             })
             .addCase(login.rejected, (state, action) => {
+                debugger
                 state.isLoggedIn = false;
             })
             .addCase(isAuthMe.fulfilled, (state, action) => {
                 state.isLoggedIn = true;
             })
             .addCase(isAuthMe.rejected, (state, action) => {
+
                 state.isLoggedIn = false;
             })
     }

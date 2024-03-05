@@ -13,8 +13,6 @@ import {LinearProgress} from "@mui/material";
 import styles from "./viewAllTasksDashboard.module.css";
 import {SideBar} from "components/sideBar/SideBar";
 import {CustomizedSnackBar} from "components/customizedSnackBar/CustomizedSnackBar";
-import {useAuthValidation} from "hooks/useAuthValidation";
-
 
 
 export const ViewAllTasksDashboard = () => {
@@ -22,17 +20,19 @@ export const ViewAllTasksDashboard = () => {
     const {allTasks} = useAppSelector(state => state.tasks);
     const {statusLoading} = useAppSelector(state => state.loading);
     const getAllTasksError = useAppSelector(state => state.error.getAllTasksError);
-    const isLoggedIn = useAuthValidation()
-
+    const isLoggedIn = useAppSelector(state => state.users.isLoggedIn)
+    const {isAuthMe} = useAppDispatch();
 
     useEffect(() => {
-        if (isLoggedIn){
-            fetchTasks();
-        }else{
-            return;
-        }
+        isAuthMe()
+            .then((response: any) => {
+               if(response.payload === true){
+                   fetchTasks();
+               }
+            })
 
-    }, [isLoggedIn]);
+
+    }, []);
 
     function createData(
         id: number,
@@ -48,7 +48,7 @@ export const ViewAllTasksDashboard = () => {
     const rows = allTasks.map((el) => createData(el.id, el.name, el.description, (el.type.name as string), (el.level.name as string),
         <Link to={`/admin/tasks/all/modal/${el.id}`}>Show task</Link>));
 
-    if (!isLoggedIn) {
+    if (isLoggedIn === false) {
         return <Navigate to={'/login'}/>
     }
 
@@ -60,33 +60,33 @@ export const ViewAllTasksDashboard = () => {
                     {statusLoading === 'loading' && <LinearProgress/>}
 
 
-                            <Table sx={{minWidth: 650}} size="small" aria-label="a dense table">
-                                <TableHead>
-                                    <TableRow>
-                                        <TableCell>№</TableCell>
-                                        <TableCell align="right">Name</TableCell>
-                                        <TableCell align="right">Description</TableCell>
-                                        <TableCell align="right">Type</TableCell>
-                                        <TableCell align="right">Level</TableCell>
-                                        <TableCell align="right">Action</TableCell>
-                                    </TableRow>
-                                </TableHead>
-                                <TableBody>
-                                    {rows.map((row, index) => (
-                                        <TableRow
-                                            key={row.id}
-                                            sx={{'&:last-child td, &:last-child th': {border: 0}}}
-                                        >
-                                            <TableCell component="th" scope="row">{++index}</TableCell>
-                                            <TableCell align="right">{row.name}</TableCell>
-                                            <TableCell align="right">{row.description}</TableCell>
-                                            <TableCell align="right">{row.type}</TableCell>
-                                            <TableCell align="right">{row.level}</TableCell>
-                                            <TableCell align="right">{row.action}</TableCell>
-                                        </TableRow>
-                                    ))}
-                                </TableBody>
-                            </Table>
+                    <Table sx={{minWidth: 650}} size="small" aria-label="a dense table">
+                        <TableHead>
+                            <TableRow>
+                                <TableCell>№</TableCell>
+                                <TableCell align="right">Name</TableCell>
+                                <TableCell align="right">Description</TableCell>
+                                <TableCell align="right">Type</TableCell>
+                                <TableCell align="right">Level</TableCell>
+                                <TableCell align="right">Action</TableCell>
+                            </TableRow>
+                        </TableHead>
+                        <TableBody>
+                            {rows.map((row, index) => (
+                                <TableRow
+                                    key={row.id}
+                                    sx={{'&:last-child td, &:last-child th': {border: 0}}}
+                                >
+                                    <TableCell component="th" scope="row">{++index}</TableCell>
+                                    <TableCell align="right">{row.name}</TableCell>
+                                    <TableCell align="right">{row.description}</TableCell>
+                                    <TableCell align="right">{row.type}</TableCell>
+                                    <TableCell align="right">{row.level}</TableCell>
+                                    <TableCell align="right">{row.action}</TableCell>
+                                </TableRow>
+                            ))}
+                        </TableBody>
+                    </Table>
                 </TableContainer>
             </div>
             {

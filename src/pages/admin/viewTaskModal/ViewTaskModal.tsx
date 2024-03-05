@@ -6,7 +6,7 @@ import {useAppSelector} from "hooks/useAppSelector";
 import {ButtonWrapper} from "components/buttonWrapper/ButtonWrapper";
 import {LinearProgress} from "@mui/material";
 import {CustomizedSnackBar} from "components/customizedSnackBar/CustomizedSnackBar";
-import {useAuthValidation} from "hooks/useAuthValidation";
+
 
 
 export const ViewTaskModal = () => {
@@ -15,25 +15,25 @@ export const ViewTaskModal = () => {
     const task = useAppSelector(state => state.tasks.currentTasks);
     const {statusLoading} = useAppSelector(state => state.loading);
     const getTaskError = useAppSelector(state => state.error.getTaskError);
+    const isLoggedIn = useAppSelector(state => state.users.isLoggedIn);
     const navigate = useNavigate();
-    const isLoggedIn = useAuthValidation()
-
-
-
+    const {isAuthMe} = useAppDispatch();
     useEffect(() => {
-        if (isLoggedIn){
-            getTask(Number(id));
-        }else{
-            return;
-        }
+        isAuthMe()
+            .then((response: any) => {
+                if (response.payload === true) {
+                    getTask(Number(id))
+                }
+            })
 
-    }, [id, isLoggedIn]);
+    }, [id]);
 
 
     const toggleModal = () => {
         navigate('/admin/tasks/all')
     };
-    if (!isLoggedIn) {
+
+    if (isLoggedIn === false) {
         return <Navigate to={'/login'}/>
     }
 
@@ -42,28 +42,28 @@ export const ViewTaskModal = () => {
             {statusLoading === 'loading' && <LinearProgress/>}
             <div className={styles.modalOverlay} onClick={toggleModal}>
                 <div className={styles.modalContent}>
-                            <div className={styles.block}>
-                                <h2>Show task</h2>
-                                <div className={styles.description}>
-                                    <label>Description: </label>
-                                    <div>{task?.description}</div>
+                    <div className={styles.block}>
+                        <h2>Show task</h2>
+                        <div className={styles.description}>
+                            <label>Description: </label>
+                            <div>{task?.description}</div>
+                        </div>
+                        <div className={styles.image}>
+                            <img src={task?.imageStr} alt={`${task?.description}`}/>
+                        </div>
+                        {task?.answers.map((answer: any) => (
+                            <div className={styles.answers} key={answer.id}>
+                                <label>Answer options:</label>
+                                <div>
+                                    {answer.text}
                                 </div>
-                                <div className={styles.image}>
-                                    <img src={task?.imageStr} alt={`${task?.description}`}/>
-                                </div>
-                                {task?.answers.map((answer:any) => (
-                                    <div className={styles.answers} key={answer.id}>
-                                        <label>Answer options:</label>
-                                        <div>
-                                            {answer.text}
-                                        </div>
-                                    </div>
-                                ))}
+                            </div>
+                        ))}
 
-                            </div>
-                            <div className={styles.closeButton}>
-                                <ButtonWrapper variant={"contained"} onclick={toggleModal} text={'close'}/>
-                            </div>
+                    </div>
+                    <div className={styles.closeButton}>
+                        <ButtonWrapper variant={"contained"} onclick={toggleModal} text={'close'}/>
+                    </div>
                 </div>
             </div>
             {

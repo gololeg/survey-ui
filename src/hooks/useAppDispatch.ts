@@ -5,6 +5,9 @@ import {answerActions} from "reducers/answerReducer/answer.reducer";
 import {loadingActions} from "reducers/loadingReducer/loading.reducer";
 import {settingsThunk} from "reducers/settingsReducer/settings.reducer";
 import {userThunk} from "reducers/userReducer/userReducer";
+import {AppDispatch} from "store/store";
+
+
 
 
 const actions = {
@@ -17,6 +20,6 @@ const actions = {
 }
 
 export const useAppDispatch = () => {
-  const dispatch = useDispatch()
-  return bindActionCreators(actions, dispatch)
+  const dispatch = useDispatch<AppDispatch>()
+  return bindActionCreators(actions as any, dispatch as AppDispatch)
 }

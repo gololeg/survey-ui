@@ -1,3 +1,3 @@
 export type UserReducerInitialStateType = {
-    isLoggedIn: boolean
+    isLoggedIn: boolean | null
 }
