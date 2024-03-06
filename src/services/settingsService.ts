@@ -5,9 +5,9 @@ import {instance} from "services/api/instance";
 
 export const SettingsService = {
     getSettings() {
-        return instance.get<SettingsType>('/api/v1/settings')
+        return instance.get<SettingsType>('/settings')
     },
     createSettings(settings: SettingsType) {
-        return instance.post<SettingsType>('/api/v1/settings', settings)
+        return instance.post<SettingsType>('/settings', settings)
     }
 }

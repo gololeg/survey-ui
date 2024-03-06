@@ -32,7 +32,7 @@ const login = createAsyncThunk<boolean, LoginType>(
                 }
 
             }
-            return rejectWithValue(error.response ? error.response.data.message : error.message);
+            return rejectWithValue(null);
         }
     }
 );

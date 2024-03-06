@@ -7,16 +7,16 @@ import {instance} from "services/api/instance";
 
 export const TasksService = {
     getAllTask() {
-        return instance.get<Itask[]>('/api/v1/tasks');
+        return instance.get<Itask[]>('/tasks');
     },
     createTask(task: any) {
-        return instance.post<Itask>('/api/v1/tasks', task, {
+        return instance.post<Itask>('/tasks', task, {
             headers: {
                 'Content-Type': 'application/json'
             }
         })
     },
     getTask(id: number) {
-        return instance.get<Itask>(`/api/v1/tasks/${id}`)
+        return instance.get<Itask>(`/tasks/${id}`)
     }
 }

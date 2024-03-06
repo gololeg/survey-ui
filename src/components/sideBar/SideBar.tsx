@@ -23,6 +23,11 @@ export const SideBar = () => {
                         <Link to={'/admin/settings'}>Settings</Link>
                     </div>
                 </div>
+                <div className={styles.viewAllAccessesDashboard}>
+                    <div className={styles.viewAllAccessesContent}>
+                        <Link to={'/admin/accesses/all'}>All accesses</Link>
+                    </div>
+                </div>
             </div>
         </div>
     );

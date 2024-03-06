@@ -7,4 +7,5 @@ export type ErrorReducerInitialStateType = {
     getSettingsError: null | string,
     createSettingsError: null | string,
     authError: null | string
+    accessesError: null | string
 }

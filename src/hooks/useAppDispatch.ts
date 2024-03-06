@@ -6,6 +6,7 @@ import {loadingActions} from "reducers/loadingReducer/loading.reducer";
 import {settingsThunk} from "reducers/settingsReducer/settings.reducer";
 import {userThunk} from "reducers/userReducer/userReducer";
 import {AppDispatch} from "store/store";
+import {accessesThunk} from "reducers/acessesReducer/accesses.reducer";
 
 
 
@@ -16,7 +17,8 @@ const actions = {
   ...answerActions,
   ...loadingActions,
   ...settingsThunk,
-  ...userThunk
+  ...userThunk,
+  ...accessesThunk
 }
 
 export const useAppDispatch = () => {
