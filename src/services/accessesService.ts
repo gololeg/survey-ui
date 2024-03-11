@@ -7,7 +7,7 @@ export const accessesService = {
         return instance.get<AccessesType[]>('/settings/accesses')
     },
 
-    getAccess(email: number) {
+    getAccess(email: string) {
         return instance.get<AccessesType>(`/settings/accesses/${email}`)
     }
 }

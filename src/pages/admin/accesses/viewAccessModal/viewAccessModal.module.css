@@ -1,0 +1,71 @@
+.modalContainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+
+.modalOverlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.modalContent {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 5px;
+}
+
+.block {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100vh;
+}
+.title{
+    text-align: center;
+}
+.email{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    width: 150px;
+    margin-bottom: 20px;
+}
+.email label{
+    font-weight: bold;
+    font-size: large;
+}
+.email div{
+    font-weight: bold;
+    font-size: large;
+
+}
+
+.attemptsCount{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    width: 150px;
+    margin-bottom: 30px;
+}
+.attemptsCount label{
+    font-weight: bold;
+    font-size: large;
+}
+.attemptsCount div{
+    font-weight: bold;
+    font-size: large;
+}
+
+.buttonBlock{
+    margin-left: -6%;
+    margin-bottom: 20px;
+}

@@ -12,6 +12,7 @@ import {ViewAllAccessesDashboard} from "pages/admin/accesses/viewAllAccessesDash
 import {ViewAccessModal} from "pages/admin/accesses/viewAccessModal/ViewAccessModal";
 
 
+
 function App() {
 
     return (
@@ -24,7 +25,7 @@ function App() {
                 <Route path='/admin/tasks/all/modal/:id' element={<ViewTaskModal/>}/>
                 <Route path='/admin/settings' element={<Settings/>}/>
                 <Route path='/admin/accesses/all' element={<ViewAllAccessesDashboard/>}/>
-                <Route path='/admin/access/modal/:id' element={<ViewAccessModal/>}/>
+                <Route path='/admin/access/modal/:email' element={<ViewAccessModal/>}/>
                 <Route path={'*'} element={<Error404/>}/>
             </Routes>
         </div>
