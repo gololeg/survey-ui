@@ -5,46 +5,59 @@ import {SettingsService} from "services/settingsService";
 import {errorActions} from "reducers/errorReducer/error.reducer";
 import {SettingsReducerInitialStateType} from "types/initialStateTypesForReducers/SettingsReducerInitialStateType";
 import {SettingsType} from "types/settingsType/SettingsType";
+import {ResponseStatusEnum} from "enums/responseStatusEnum";
 
-interface ErrorResponse {
-    message: string;
-}
 
-const fetchSettings = createAsyncThunk<SettingsType, undefined, { rejectValue: ErrorResponse }>(
+
+const fetchSettings = createAsyncThunk<SettingsType, undefined>(
     'settings/fetchSettings',
     async (_, {dispatch, rejectWithValue}) => {
         dispatch(loadingActions.setLoadingStatus('loading'))
         try {
             const response = await SettingsService.getSettings();
-            dispatch(loadingActions.setLoadingStatus('successful'))
-            return response.data as SettingsType;
+            dispatch(loadingActions.setLoadingStatus('successful'));
+            if (response.status === ResponseStatusEnum.successful){
+                return response.data as SettingsType;
+            }else {
+                return rejectWithValue(null)
+            }
+
         } catch (error: any) {
             if (!error.response) {
                 dispatch(errorActions.setAllSettingsError(error.message))
+                return rejectWithValue(null);
             } else {
                 dispatch(errorActions.setAllSettingsError(error.response.data.message))
+                return rejectWithValue(null);
             }
-            return rejectWithValue(error.response ? error.response.data.message : error.message)
+
         }
 
 
     }
 )
-const createSettings = createAsyncThunk<SettingsType, SettingsType, { rejectValue: ErrorResponse }>(
+const createSettings = createAsyncThunk<SettingsType, SettingsType>(
     'settings/createSettings',
     async (settings: SettingsType, {dispatch, rejectWithValue}) => {
         dispatch(loadingActions.setLoadingStatus('loading'));
         try {
             const response = await SettingsService.createSettings(settings);
             dispatch(loadingActions.setLoadingStatus('successful'));
-            return response.data
+            if (response.status === ResponseStatusEnum.successful){
+                return response.data
+            }else {
+                return rejectWithValue(null)
+            }
+
         } catch (error: any) {
             if (!error.response) {
                 dispatch(errorActions.setCreateSettingsError(error.message));
+                return rejectWithValue(null);
             } else {
-                dispatch(errorActions.setCreateSettingsError(error.response.data.message))
+                dispatch(errorActions.setCreateSettingsError(error.response.data.message));
+                return rejectWithValue(null)
             }
-            return rejectWithValue(error.response ? error.response.data.message : error.message)
+
         }
 
 

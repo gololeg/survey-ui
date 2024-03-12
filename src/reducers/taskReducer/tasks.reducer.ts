@@ -5,6 +5,7 @@ import {loadingActions} from "reducers/loadingReducer/loading.reducer";
 import {errorActions} from "reducers/errorReducer/error.reducer";
 import {TasksReducerInitialStateType} from "types/initialStateTypesForReducers/TasksReducerInitialStateType";
 import {Itask} from "types/requestAndResponseItaskType/Itask";
+import {ResponseStatusEnum} from "enums/responseStatusEnum";
 
 interface ErrorResponse {
     message: string;
@@ -16,57 +17,78 @@ const fetchTasks = createAsyncThunk<Itask[], undefined>(
         dispatch(loadingActions.setLoadingStatus('loading'))
         try {
             const response = await TasksService.getAllTask();
-            dispatch(loadingActions.setLoadingStatus('successful'))
-            return response.data as Itask[];
+            dispatch(loadingActions.setLoadingStatus('successful'));
+            if (response.status === ResponseStatusEnum.successful){
+                return response.data as Itask[];
+            }else{
+                return rejectWithValue(null);
+            }
+
         } catch (error: any) {
 
             if (!error.response) {
                 dispatch(errorActions.setAllTasksError(error.message))
+                return rejectWithValue(null)
             } else {
                 dispatch(errorActions.setAllTasksError(error.response.data.message))
+                return rejectWithValue(null)
             }
-            return rejectWithValue(error.response ? error.response.message : error.message)
+
         }
 
     }
 );
 
-const createTask = createAsyncThunk<Itask, Itask, { rejectValue: ErrorResponse }>(
+const createTask = createAsyncThunk<Itask, Itask>(
     'tasks/createTask',
     async (task: Itask, {dispatch, rejectWithValue}) => {
         dispatch(loadingActions.setLoadingStatus('loading'));
         try {
             const response = await TasksService.createTask(JSON.stringify(task));
             dispatch(loadingActions.setLoadingStatus('successful'));
-            return response.data as Itask;
+            if (response.status === ResponseStatusEnum.successful){
+                return response.data as Itask;
+            }else{
+                return rejectWithValue(null)
+            }
+
         } catch (error: any) {
             if (!error.response) {
                 dispatch(errorActions.setCreateTaskError(error.message));
+                return rejectWithValue(null)
             } else {
-                dispatch(errorActions.setCreateTaskError(error.response.data.message))
+                dispatch(errorActions.setCreateTaskError(error.response.data.message));
+                return rejectWithValue(null)
             }
-            return rejectWithValue(error.response ? error.response.data.message : error.message);
+
         }
 
 
     }
 );
 
-const getTask = createAsyncThunk<Itask, number, { rejectValue: ErrorResponse }>(
+const getTask = createAsyncThunk<Itask, number>(
     'tasks/getTask',
     async (id: number, {dispatch, rejectWithValue}) => {
         dispatch(loadingActions.setLoadingStatus('loading'))
         try {
             const response = await TasksService.getTask(id);
-            dispatch(loadingActions.setLoadingStatus('successful'))
-            return response.data as Itask;
+            dispatch(loadingActions.setLoadingStatus('successful'));
+            if (response.status === ResponseStatusEnum.successful){
+                return response.data as Itask;
+            }else{
+                return rejectWithValue(null);
+            }
+
         } catch (error: any) {
             if (!error.response) {
                 dispatch(errorActions.setTaskError(error.message))
+                return rejectWithValue(null);
             } else {
                 dispatch(errorActions.setTaskError(error.response.data.message))
+                return rejectWithValue(null);
             }
-            return rejectWithValue(error.response ? error.response.data.message : error.message)
+
         }
 
     }

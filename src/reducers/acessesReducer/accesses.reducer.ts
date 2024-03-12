@@ -4,11 +4,7 @@ import {AccessesType} from "types/accessesType/AccessesType";
 import {accessesService} from "services/accessesService";
 import {loadingActions} from "reducers/loadingReducer/loading.reducer";
 import {errorActions} from "reducers/errorReducer/error.reducer";
-
-const initialState: AccessesReducerInitialStateType = {
-    allAccesses: [],
-    access: null
-}
+import {ResponseStatusEnum} from "enums/responseStatusEnum";
 
 
 const fetchAllAccesses = createAsyncThunk<AccessesType[], undefined>(
@@ -18,7 +14,7 @@ const fetchAllAccesses = createAsyncThunk<AccessesType[], undefined>(
         try {
             const response = await accessesService.getAllAccesses();
             dispatch(loadingActions.setLoadingStatus('successful'));
-            if (response.status === 200) {
+            if (response.status === ResponseStatusEnum.successful) {
                 return response.data as AccessesType[];
             } else {
                 return rejectWithValue(null);
@@ -29,12 +25,10 @@ const fetchAllAccesses = createAsyncThunk<AccessesType[], undefined>(
                 dispatch(errorActions.setAccessesError(error.message));
                 return rejectWithValue(null);
             } else {
-                if (error.response.status === 401) {
                     dispatch(errorActions.setAccessesError(error.response.data.message));
                     return rejectWithValue(null);
-                }
             }
-            return rejectWithValue(null);
+
         }
     }
 )
@@ -46,7 +40,7 @@ const getAccess = createAsyncThunk<AccessesType, string>(
         try {
             const response = await accessesService.getAccess(email)
             dispatch(loadingActions.setLoadingStatus('successful'));
-            if (response.status === 200) {
+            if (response.status === ResponseStatusEnum.successful) {
                 return response.data as AccessesType;
             } else {
                 return rejectWithValue(null)
@@ -72,7 +66,7 @@ const createAccesses = createAsyncThunk<AccessesType, AccessesType>(
         try {
             const response = await accessesService.createAccesses(accesses);
             dispatch(loadingActions.setLoadingStatus('successful'));
-            if (response.status === 200) {
+            if (response.status === ResponseStatusEnum.successful) {
                 return response.data
             } else {
                 return rejectWithValue(null);
@@ -89,6 +83,13 @@ const createAccesses = createAsyncThunk<AccessesType, AccessesType>(
         }
     }
 )
+
+
+const initialState: AccessesReducerInitialStateType = {
+    allAccesses: [],
+    access: null
+}
+
 const accessesSlice = createSlice({
     name: 'accesses',
     initialState,

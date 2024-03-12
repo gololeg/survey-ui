@@ -5,6 +5,7 @@ import {loadingActions} from "reducers/loadingReducer/loading.reducer";
 import {errorActions} from "reducers/errorReducer/error.reducer";
 import {UserReducerInitialStateType} from "types/initialStateTypesForReducers/UserReducerInitialStateType";
 import {LoginType} from "types/loginType/loginType";
+import {ResponseStatusEnum} from "enums/responseStatusEnum";
 
 
 const login = createAsyncThunk<boolean, LoginType>(
@@ -14,7 +15,7 @@ const login = createAsyncThunk<boolean, LoginType>(
         try {
             const response = await userService.login(payload);
             dispatch(loadingActions.setLoadingStatus('successful'));
-            if (response.status === 200) {
+            if (response.status === ResponseStatusEnum.successful) {
                 return true
             } else {
                 return rejectWithValue(null);
@@ -26,7 +27,7 @@ const login = createAsyncThunk<boolean, LoginType>(
                 dispatch(errorActions.setLoginError(error.message));
                 return rejectWithValue(null);
             } else {
-                if (error.response.status === 401) {
+                if (error.response.status === ResponseStatusEnum.failed) {
                     dispatch(errorActions.setLoginError(error.response.data.message));
                     return rejectWithValue(null);
                 }
@@ -44,16 +45,16 @@ const isAuthMe = createAsyncThunk<boolean, undefined>(
         try {
             const response = await userService.authMe();
             dispatch(loadingActions.setLoadingStatus('successful'));
-            if (response.status === 200) {
+            if (response.status === ResponseStatusEnum.successful) {
                 return response.data;
             }
 
         } catch (error: any) {
             if (!error.response) {
                 dispatch(errorActions.setAuthMeError(error.message));
-                    return rejectWithValue(null);
+                return rejectWithValue(null);
             } else {
-                if (error.response.status === 401) {
+                if (error.response.status === ResponseStatusEnum.failed) {
                     dispatch(errorActions.setAuthMeError(error.response.data.message))
                     return rejectWithValue(null);
                 }
