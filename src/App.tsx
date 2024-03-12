@@ -9,7 +9,7 @@ import {Settings} from "pages/admin/settings/Settings";
 import {ViewTaskModal} from "pages/admin/viewTaskModal/ViewTaskModal";
 import {Navigate} from "react-router-dom";
 import {ViewAllAccessesDashboard} from "pages/admin/accesses/viewAllAccessesDashboard/ViewAllAccessesDashboard";
-import {ViewAccessModal} from "pages/admin/accesses/viewAccessModal/ViewAccessModal";
+import {ViewAndChangeAccessModal} from "pages/admin/accesses/viewAndChangeAccessModal/ViewAndChangeAccessModal";
 
 
 
@@ -25,7 +25,7 @@ function App() {
                 <Route path='/admin/tasks/all/modal/:id' element={<ViewTaskModal/>}/>
                 <Route path='/admin/settings' element={<Settings/>}/>
                 <Route path='/admin/accesses/all' element={<ViewAllAccessesDashboard/>}/>
-                <Route path='/admin/access/modal/:email' element={<ViewAccessModal/>}/>
+                <Route path='/admin/access/modal/:email' element={<ViewAndChangeAccessModal/>}/>
                 <Route path={'*'} element={<Error404/>}/>
             </Routes>
         </div>

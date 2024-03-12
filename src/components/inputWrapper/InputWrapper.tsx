@@ -15,6 +15,7 @@ export const InputWrapper = (props: InputWrapperPropsType) => {
         <div>
             <TextField
                 id="outlined-multiline-flexible"
+                disabled={props.disabled}
                 label={props.text}
                 error={props.error}
                 multiline

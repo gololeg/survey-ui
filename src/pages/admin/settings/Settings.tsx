@@ -26,7 +26,7 @@ export const Settings = () => {
     useEffect(() => {
         isAuthMe()
             .then((response: any) => {
-                if (response.payload === true) {
+                if (response.payload) {
                     fetchSettings();
                 }
             })

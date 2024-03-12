@@ -19,7 +19,7 @@ export const ViewAllAccessesDashboard = () => {
     const {isAuthMe} = useAppDispatch();
     const accesses = useAppSelector(state => state.accesses.allAccesses);
     const isLoggedIn = useAppSelector(state => state.users.isLoggedIn);
-    const statusLoading = useAppSelector(state => state.loading)
+    const statusLoading = useAppSelector(state => state.loading.statusLoading)
 
     useEffect(() => {
         isAuthMe()
@@ -49,8 +49,8 @@ export const ViewAllAccessesDashboard = () => {
     return (
         <div className={styles.block}>
             <SideBar/>
-            {statusLoading.statusLoading === 'loading' && <LinearProgress/>}
           <div className={styles.dashboard}>
+              {statusLoading === 'loading' && <LinearProgress/>}
               <TableContainer component={Paper}>
                   <Table sx={{ minWidth: 650 }} size="small" aria-label="a dense table">
                       <TableHead>

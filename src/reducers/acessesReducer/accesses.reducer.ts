@@ -65,7 +65,30 @@ const getAccess = createAsyncThunk<AccessesType, string>(
         }
     }
 )
+const createAccesses = createAsyncThunk<AccessesType, AccessesType>(
+    'accesses/createAccesses',
+    async (accesses: AccessesType, {dispatch, rejectWithValue}) => {
+        dispatch(loadingActions.setLoadingStatus('loading'));
+        try {
+            const response = await accessesService.createAccesses(accesses);
+            dispatch(loadingActions.setLoadingStatus('successful'));
+            if (response.status === 200) {
+                return response.data
+            } else {
+                return rejectWithValue(null);
+            }
+        } catch (error: any) {
+            if (!error.response) {
+                dispatch(errorActions.setAccessesError(error.message))
+                return rejectWithValue(null)
+            } else {
+                dispatch(errorActions.setAccessesError(error.response.data.message));
+                return rejectWithValue(null);
+            }
 
+        }
+    }
+)
 const accessesSlice = createSlice({
     name: 'accesses',
     initialState,
@@ -75,11 +98,14 @@ const accessesSlice = createSlice({
             .addCase(fetchAllAccesses.fulfilled, (state, action) => {
                 state.allAccesses = [...action.payload];
             })
-            .addCase(getAccess.fulfilled, (state, action)=> {
+            .addCase(getAccess.fulfilled, (state, action) => {
                 state.access = action.payload;
+            })
+            .addCase(createAccesses.fulfilled, (state, action) => {
+
             })
     }
 })
 
 export const accessesReducer = accessesSlice.reducer;
-export const accessesThunk = {fetchAllAccesses,getAccess};
+export const accessesThunk = {fetchAllAccesses, getAccess, createAccesses};

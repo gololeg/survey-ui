@@ -9,5 +9,8 @@ export const accessesService = {
 
     getAccess(email: string) {
         return instance.get<AccessesType>(`/settings/accesses/${email}`)
+    },
+    createAccesses(accesses: AccessesType) {
+        return instance.post<AccessesType>('/settings/accesses', accesses)
     }
 }

@@ -40,7 +40,7 @@ export const ViewTaskModal = () => {
     return (
         <div className={styles.modalContainer}>
             {statusLoading === 'loading' && <LinearProgress/>}
-            <div className={styles.modalOverlay} onClick={toggleModal}>
+            <div className={styles.modalOverlay} >
                 <div className={styles.modalContent}>
                     <div className={styles.block}>
                         <h2>Show task</h2>
