@@ -6,6 +6,7 @@ import {settingsReducer} from "reducers/settingsReducer/settings.reducer";
 import {userReducer} from "reducers/userReducer/userReducer";
 import {errorReducer} from "reducers/errorReducer/error.reducer";
 import {accessesReducer} from "reducers/acessesReducer/accesses.reducer";
+import {surveyReducer} from "reducers/surveyReducer/survey.reducer";
 
 
 export const store = configureStore({
@@ -16,7 +17,8 @@ export const store = configureStore({
         settings: settingsReducer,
         users: userReducer,
         error: errorReducer,
-        accesses: accessesReducer
+        accesses: accessesReducer,
+        survey: surveyReducer
     }
 });
 

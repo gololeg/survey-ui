@@ -10,7 +10,8 @@ const initialState: ErrorReducerInitialStateType = {
     getSettingsError: null,
     createTaskError: null,
     authError: null,
-    accessesError: null
+    accessesError: null,
+    surveyError: null
 }
 
 const errorSlice = createSlice({
@@ -26,20 +27,23 @@ const errorSlice = createSlice({
         setAllTasksError(state, action: PayloadAction<string>) {
             state.getAllTasksError = action.payload;
         },
-        setTaskError(state, action: PayloadAction<string>){
+        setTaskError(state, action: PayloadAction<string>) {
             state.getTaskError = action.payload;
         },
-        setAllSettingsError(state, action: PayloadAction<string>){
+        setAllSettingsError(state, action: PayloadAction<string>) {
             state.getSettingsError = action.payload;
         },
-        setCreateTaskError(state, action: PayloadAction<string>){
+        setCreateTaskError(state, action: PayloadAction<string>) {
             state.createTaskError = action.payload;
         },
-        setAuthMeError(state, action: PayloadAction<string>){
+        setAuthMeError(state, action: PayloadAction<string>) {
             state.authError = action.payload
         },
-        setAccessesError(state, action: PayloadAction<string>){
+        setAccessesError(state, action: PayloadAction<string>) {
             state.accessesError = action.payload;
+        },
+        setSurveyError(state, action: PayloadAction<string>) {
+            state.surveyError = action.payload;
         }
     }
 })
