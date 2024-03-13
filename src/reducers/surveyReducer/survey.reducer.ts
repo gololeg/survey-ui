@@ -13,7 +13,6 @@ const getStartSurvey = createAsyncThunk<SurveyStartType, string>(
         dispatch(loadingActions.setLoadingStatus('loading'));
         try {
             const response = await SurveyService.getSurvey(email);
-            dispatch(loadingActions.setLoadingStatus('successful'))
             if (response.status === ResponseStatusEnum.successful) {
                 return response.data as SurveyStartType
             } else {
@@ -21,12 +20,14 @@ const getStartSurvey = createAsyncThunk<SurveyStartType, string>(
             }
         } catch (error: any) {
             if (!error.response) {
-                dispatch(errorActions.setSurveyError(error.message))
+                dispatch(errorActions.setSurveyError(error.message));
                 return rejectWithValue(null);
             } else {
                 dispatch(errorActions.setSurveyError(error.response.data.message))
                 return rejectWithValue(null);
             }
+        }finally {
+            dispatch(loadingActions.setLoadingStatus('successful'))
         }
     }
 )

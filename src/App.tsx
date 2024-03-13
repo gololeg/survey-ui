@@ -11,6 +11,7 @@ import {Navigate} from "react-router-dom";
 import {ViewAllAccessesDashboard} from "pages/admin/accesses/viewAllAccessesDashboard/ViewAllAccessesDashboard";
 import {ViewAndChangeAccessModal} from "pages/admin/accesses/viewAndChangeAccessModal/ViewAndChangeAccessModal";
 import {GenerateSurvey} from "pages/generateSurvey/GenerateSurvey";
+import {Survey} from "pages/survey/Survey";
 
 
 
@@ -19,7 +20,8 @@ function App() {
     return (
         <div className="App">
             <Routes>
-                <Route path={'/'} element={<GenerateSurvey/>}/>
+                <Route path={'/'} element={<Survey/>}/>
+                <Route path={'/generate/survey'} element={<GenerateSurvey/>}/>
                 <Route path="/login" element={<Login/>}/>
                 <Route path='/admin/tasks/create' element={<CreateTask/>}/>
                 <Route path='/admin/tasks/all' element={<ViewAllTasksDashboard/>}/>
