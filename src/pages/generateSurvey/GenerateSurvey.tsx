@@ -19,9 +19,14 @@ export const GenerateSurvey = () => {
     })
     return (
         <form onSubmit={generateSurveyFormik.handleSubmit}>
-            <div>
-                <InputWrapper text={'Email'} getFieldProps={generateSurveyFormik.getFieldProps('email')}/>
-                <ButtonWrapper variant={"contained"} text={'Send'} type={'submit'}/>
+            <div className={styles.block}>
+                <div className={styles.contentBlock}>
+                    <div className={styles.content}>
+                        <h1>Write email</h1>
+                        <InputWrapper text={'Email'} getFieldProps={generateSurveyFormik.getFieldProps('email')}/>
+                        <ButtonWrapper variant={"contained"} text={'Send'} type={'submit'}/>
+                    </div>
+                </div>
             </div>
         </form>
     );

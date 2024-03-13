@@ -7,7 +7,7 @@
     text-align: center;
 }
 
-.content {
+.content{
     display: flex;
     flex-direction: column;
     margin-top: 20%;
