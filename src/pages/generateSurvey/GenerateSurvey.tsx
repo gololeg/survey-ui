@@ -9,13 +9,13 @@ import {Navigate} from "react-router-dom";
 import {LinearProgress} from "@mui/material";
 import {CustomizedSnackBar} from "components/customizedSnackBar/CustomizedSnackBar";
 import {generateSurveyValidate} from "utils/validation/generateSurveyValidate";
-import {red} from "@mui/material/colors";
 
 export const GenerateSurvey = () => {
     const {getStartSurvey} = useAppDispatch();
     const startSurvey = useAppSelector(state => state.survey.startSurvey);
     const statusLoading = useAppSelector(state => state.loading.statusLoading);
     const surveyError = useAppSelector(state => state.error.surveyError);
+
     const generateSurveyFormik = useFormik({
         validate: generateSurveyValidate,
         initialValues: {

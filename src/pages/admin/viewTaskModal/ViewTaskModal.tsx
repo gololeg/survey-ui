@@ -18,6 +18,8 @@ export const ViewTaskModal = () => {
     const isLoggedIn = useAppSelector(state => state.users.isLoggedIn);
     const navigate = useNavigate();
     const {isAuthMe} = useAppDispatch();
+
+
     useEffect(() => {
         isAuthMe()
             .then((response: any) => {
