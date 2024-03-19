@@ -5,4 +5,5 @@ export type InputWrapperPropsType = {
     getValue?: (id: string, value: string) => void;
     error?: boolean;
     disabled?: boolean
+    value?:string
 }
