@@ -7,7 +7,7 @@ import {RadioWrapper} from "components/radioWrapper/RadioWrapper";
 import {useFormik} from "formik";
 import {InputWrapper} from "components/inputWrapper/InputWrapper";
 import {ButtonWrapper} from "components/buttonWrapper/ButtonWrapper";
-
+import SendRoundedIcon from '@mui/icons-material/SendRounded';
 export const Survey = () => {
     const tasksIds = localStorage.getItem('tasksIds');
     const secondsCount = localStorage.getItem('secondsCount');
@@ -19,16 +19,16 @@ export const Survey = () => {
 
     useEffect(() => {
         const taskId = JSON.parse(tasksIds as string);
-        console.log(tasksIds, secondsCount, surveyId);
+        // console.log(tasksIds, secondsCount, surveyId);
         getSurveyTask(taskId[0]);
     }, []);
 
 
-    console.log(surveyTask)
-    const surveyFormik = useFormik({
-        initialValues: {
+    console.log(surveyTask);
 
-        },
+
+    const surveyFormik = useFormik({
+        initialValues: {},
 
         onSubmit: values => {
             alert(values)
@@ -36,22 +36,31 @@ export const Survey = () => {
     })
 
     return (
-        <form action="">
+        <form onSubmit={surveyFormik.handleSubmit}>
             <div className={styles.main}>
                 <div className={styles.block}>
                     <div className={styles.content}>
-                        <h1 className={styles.description}>{surveyTask?.description}</h1>
-                        <img className={styles.image} src={surveyTask?.imageStr} alt=""/>
+                        <div className={styles.description}>
+                            <h1 >{surveyTask?.description}</h1>
+                        </div>
+
+                        <img className={styles.image} src={surveyTask?.imageStr} alt="survey"/>
                         {
                             surveyTask?.answers.map(survey =>
-                                <div key={survey.id} className={styles.answer}>
+                                <div key={survey.id}
+                                     className={styles.answer}
+                                >
                                     <RadioWrapper/>
                                     <InputWrapper value={survey.text}/>
                                 </div>
                             )
                         }
                         <div className={styles.buttonBlock}>
-                            <ButtonWrapper text={'Next>>>'} variant={"contained"}/>
+                            <ButtonWrapper text={'Next'}
+                                           variant={"contained"}
+                                           type={'submit'}
+                                           endIcon={<SendRoundedIcon/>}
+                            />
                         </div>
                     </div>
                 </div>

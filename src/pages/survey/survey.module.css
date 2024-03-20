@@ -1,26 +1,31 @@
 .main {
     margin-left: 15%;
     margin-top: 5%;
-    height: 80vh;
     width: 70%;
+    cursor: pointer;
 }
 
 .block {
     width: 100%;
-    height: 100%;
+
 }
 
 .content {
     width: 100%;
-    height: 100%;
     background: darkgrey;
-    border-radius: 3px;
+    border-radius: 4px;
+    padding-top: 30px;
 }
 
 .description {
     margin-left: 15%;
 }
-
+.description h1 {
+    font-size: 2em;
+    color: #333;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+    margin: 0;
+}
 .image {
     display: inline-block;
     margin-left: 35%;
@@ -33,7 +38,9 @@
     margin-left: 35%;
     margin-top: 20px;
 }
-.buttonBlock{
+
+.buttonBlock {
     margin-top: 40px;
     margin-left: 43%;
+    padding-bottom: 40px;
 }
