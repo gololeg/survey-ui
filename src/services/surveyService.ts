@@ -2,6 +2,7 @@ import {instance} from "services/api/instance";
 import {SurveyStartType} from "types/surveyType/SurveyStartType";
 import {GetSurveyTasksType} from "types/getSurveyTasksType/GetSurveyTasksType";
 import {CreateSurveyTaskType} from "types/createSurveyTaskType/CreateSurveyTaskType";
+import {SurveyResultResponseType} from "types/surveyResultResponseType/SurveyResultResponseType";
 
 
 export const SurveyService = {
@@ -13,9 +14,11 @@ export const SurveyService = {
     },
     saveAnswers(surveyId: string, payload: CreateSurveyTaskType) {
         return instance.post<string>(`/survey/${surveyId}`, payload);
+    },
+    getResult(surveyId: string) {
+        return instance.get<SurveyResultResponseType>(`survey/${surveyId}/result`)
     }
 }
-
 
 
 

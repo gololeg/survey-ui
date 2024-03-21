@@ -7,6 +7,7 @@ import {errorActions} from "reducers/errorReducer/error.reducer";
 import {SurveyInitialStateType} from "types/initialStateTypesForReducers/SurveyInitialStateType";
 import {GetSurveyTasksType} from "types/getSurveyTasksType/GetSurveyTasksType";
 import {CreateSurveyTaskType} from "types/createSurveyTaskType/CreateSurveyTaskType";
+import {SurveyResultResponseType} from "types/surveyResultResponseType/SurveyResultResponseType";
 
 const getStartSurvey = createAsyncThunk<SurveyStartType, string>(
     'survey/startSurvey',
@@ -15,7 +16,6 @@ const getStartSurvey = createAsyncThunk<SurveyStartType, string>(
         try {
             const response = await SurveyService.getSurvey(email);
             if (response.status === ResponseStatusEnum.successful) {
-                debugger
                 localStorage.setItem('tasksIds', JSON.stringify(response.data.taskIds))
                 localStorage.setItem('surveyId', JSON.stringify(response.data.surveyId));
                 localStorage.setItem('secondsCount', JSON.stringify(response.data.secondsCount))
@@ -72,6 +72,11 @@ const createSurvey = createAsyncThunk<string, { surveyId: string, values: Create
             const response = await SurveyService.saveAnswers(surveyId, values);
             debugger
             if (response.status === ResponseStatusEnum.successful) {
+
+                const arrayTasksId = localStorage.getItem('tasksIds');
+                const tasksId = JSON.parse(arrayTasksId as string);
+                localStorage.setItem('tasksIds', JSON.stringify(tasksId.slice(1)))
+
                 return response.data as string;
             } else {
                 return rejectWithValue(null);
@@ -92,10 +97,37 @@ const createSurvey = createAsyncThunk<string, { surveyId: string, values: Create
     }
 )
 
+const surveyResult = createAsyncThunk<SurveyResultResponseType, string>(
+    'survey/result',
+    async (surveyId: string, {dispatch, rejectWithValue}) => {
+        dispatch(loadingActions.setLoadingStatus('loading'));
+        try {
+            const response = await SurveyService.getResult(surveyId);
+            if (response.status === 200) {
+                return response.data as SurveyResultResponseType;
+            } else {
+                return rejectWithValue(null);
+            }
+        } catch (error: any) {
+            if (!error.response) {
+                dispatch(errorActions.setSurveyError(error.message));
+                return rejectWithValue(null);
+            } else {
+                dispatch(errorActions.setSurveyError(error.response.data.message))
+                return rejectWithValue(null);
+            }
+        } finally {
+            dispatch(loadingActions.setLoadingStatus('successful'))
+        }
+    }
+)
+
 const initialState: SurveyInitialStateType = {
     startSurvey: null,
     survey: null,
-    surveyTask: null
+    surveyTask: null,
+    surveyString: null,
+    result: null
 }
 
 const surveySlice = createSlice({
@@ -111,13 +143,16 @@ const surveySlice = createSlice({
                 state.surveyTask = action.payload;
             })
             .addCase(createSurvey.fulfilled, (state, action) => {
-                debugger
+                state.surveyString = action.payload;
+            })
+            .addCase(surveyResult.fulfilled, (state, action) => {
+                state.result = action.payload;
             })
 
     }
 })
 
-export const surveyThunk = {getStartSurvey, getSurveyTask, createSurvey};
+export const surveyThunk = {getStartSurvey, getSurveyTask, createSurvey, surveyResult,};
 export const surveyReducer = surveySlice.reducer;
 
 

@@ -8,21 +8,21 @@ import {useFormik} from "formik";
 import {InputWrapper} from "components/inputWrapper/InputWrapper";
 import {ButtonWrapper} from "components/buttonWrapper/ButtonWrapper";
 import SendRoundedIcon from '@mui/icons-material/SendRounded';
+import {Navigate} from "react-router-dom";
 
 export const Survey = () => {
     const tasksIds = localStorage.getItem('tasksIds');
+    const arrayTasksIds = JSON.parse(tasksIds as string);
     const secondsCount = localStorage.getItem('secondsCount');
     const surveyIdLocalStorage = localStorage.getItem('surveyId');
     const {getSurveyTask, createSurvey} = useAppDispatch();
     const surveyTask = useAppSelector(state => state.survey.surveyTask);
-    //description, image if not null, list answers, button, timer
+    const surveyString = useAppSelector(state => state.survey.surveyString);
     const [taskId, setTaskId] = useState<number[]>([]);
 
     useEffect(() => {
-        const taskId = JSON.parse(tasksIds as string);
-        getSurveyTask(taskId[2]);
-
-    }, []);
+        getSurveyTask(arrayTasksIds[0]);
+    }, [surveyString, arrayTasksIds]);
 
     const setTaskIds = (taskId: number) => {
         setTaskId((state) => [...state, taskId])
@@ -42,6 +42,10 @@ export const Survey = () => {
             createSurvey({surveyId, values})
         }
     })
+
+    if (arrayTasksIds.length === 0) {
+        return <Navigate to={'/survey/result'}/>
+    }
 
     return (
         <form onSubmit={surveyFormik.handleSubmit}>

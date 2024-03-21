@@ -7,11 +7,11 @@ import {Error404} from "pages/error404/Error404";
 import {Login} from "pages/login/Login";
 import {Settings} from "pages/admin/settings/Settings";
 import {ViewTaskModal} from "pages/admin/viewTaskModal/ViewTaskModal";
-import {Navigate} from "react-router-dom";
 import {ViewAllAccessesDashboard} from "pages/admin/accesses/viewAllAccessesDashboard/ViewAllAccessesDashboard";
 import {ViewAndChangeAccessModal} from "pages/admin/accesses/viewAndChangeAccessModal/ViewAndChangeAccessModal";
 import {GenerateSurvey} from "pages/generateSurvey/GenerateSurvey";
 import {Survey} from "pages/survey/Survey";
+import {SurveyResult} from "pages/surveyResult/SurveyResult";
 
 
 
@@ -22,6 +22,7 @@ function App() {
             <Routes>
                 <Route path={'/'} element={<Survey/>}/>
                 <Route path={'/generate/survey'} element={<GenerateSurvey/>}/>
+                <Route path={'/survey/result'} element={<SurveyResult/>}/>
                 <Route path="/login" element={<Login/>}/>
                 <Route path='/admin/tasks/create' element={<CreateTask/>}/>
                 <Route path='/admin/tasks/all' element={<ViewAllTasksDashboard/>}/>
