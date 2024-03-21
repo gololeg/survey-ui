@@ -12,7 +12,7 @@ import SendRoundedIcon from '@mui/icons-material/SendRounded';
 export const Survey = () => {
     const tasksIds = localStorage.getItem('tasksIds');
     const secondsCount = localStorage.getItem('secondsCount');
-    const surveyId = localStorage.getItem('surveyId');
+    const surveyIdLocalStorage = localStorage.getItem('surveyId');
     const {getSurveyTask, createSurvey} = useAppDispatch();
     const surveyTask = useAppSelector(state => state.survey.surveyTask);
     //description, image if not null, list answers, button, timer
@@ -20,13 +20,10 @@ export const Survey = () => {
 
     useEffect(() => {
         const taskId = JSON.parse(tasksIds as string);
-        getSurveyTask(taskId[0]);
+        getSurveyTask(taskId[2]);
 
     }, []);
 
-
-    // console.log(surveyTask?.answers);
-    // console.log(taskId);
     const setTaskIds = (taskId: number) => {
         setTaskId((state) => [...state, taskId])
     }
@@ -35,74 +32,14 @@ export const Survey = () => {
         enableReinitialize: true,
 
         initialValues: {
-
             id: surveyTask?.id,
-            nextTaskId: 0,
-            name: '',
-            image: [
-                ''
-            ],
-            file: '',
-            level: {
-                id: 0,
-                name: ''
-            },
-            type: {
-                id: 0,
-                name: ''
-            },
-            answers: [
-                {
-                    id: 0,
-                    name: '',
-                    text: '',
-                    value: '',
-                    rowTextNum: 0,
-                    right: true
-                }
-            ],
             ars: taskId,
-            strAnswers: '',
-            description: '',
-            imageStr: ''
 
         },
 
         onSubmit: values => {
-            const payload = {
-
-                id: values.id,
-                nextTaskId: 0,
-                name: '',
-                image: [
-                    ''
-                ],
-                file: '',
-                level: {
-                    id: 0,
-                    name: ''
-                },
-                type: {
-                    id: 0,
-                    name: ''
-                },
-                answers: [
-                    {
-                        id: 0,
-                        name: '',
-                        text: '',
-                        value: '',
-                        rowTextNum: 0,
-                        right: true
-                    }
-                ],
-                ars: values.ars,
-                strAnswers: '',
-                description: '',
-                imageStr: ''
-            }
-            console.log(payload)
-            createSurvey(JSON.parse(surveyId as string), payload)
+            const surveyId = JSON.parse(surveyIdLocalStorage as string)
+            createSurvey({surveyId, values})
         }
     })
 

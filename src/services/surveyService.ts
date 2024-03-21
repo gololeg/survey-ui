@@ -12,7 +12,6 @@ export const SurveyService = {
         return instance.get<GetSurveyTasksType>(`/survey/task/${taskId}`);
     },
     saveAnswers(surveyId: string, payload: CreateSurveyTaskType) {
-        debugger
         return instance.post<string>(`/survey/${surveyId}`, payload);
     }
 }

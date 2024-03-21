@@ -64,12 +64,12 @@ const getSurveyTask = createAsyncThunk<GetSurveyTasksType, number>(
     }
 )
 
-const createSurvey = createAsyncThunk<string, { surveyId: string, payload: CreateSurveyTaskType }>(
+const createSurvey = createAsyncThunk<string, { surveyId: string, values: CreateSurveyTaskType }>(
     'survey/createSurvey',
-    async ({surveyId, payload}, {dispatch, rejectWithValue}) => {
+    async ({surveyId, values}, {dispatch, rejectWithValue}) => {
         dispatch(loadingActions.setLoadingStatus('loading'));
         try {
-            const response = await SurveyService.saveAnswers(surveyId, payload);
+            const response = await SurveyService.saveAnswers(surveyId, values);
             debugger
             if (response.status === ResponseStatusEnum.successful) {
                 return response.data as string;
