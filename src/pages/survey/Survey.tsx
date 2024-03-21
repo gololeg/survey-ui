@@ -8,30 +8,101 @@ import {useFormik} from "formik";
 import {InputWrapper} from "components/inputWrapper/InputWrapper";
 import {ButtonWrapper} from "components/buttonWrapper/ButtonWrapper";
 import SendRoundedIcon from '@mui/icons-material/SendRounded';
+
 export const Survey = () => {
     const tasksIds = localStorage.getItem('tasksIds');
     const secondsCount = localStorage.getItem('secondsCount');
     const surveyId = localStorage.getItem('surveyId');
-    const {getSurveyTask} = useAppDispatch();
+    const {getSurveyTask, createSurvey} = useAppDispatch();
     const surveyTask = useAppSelector(state => state.survey.surveyTask);
     //description, image if not null, list answers, button, timer
-
+    const [taskId, setTaskId] = useState<number[]>([]);
 
     useEffect(() => {
         const taskId = JSON.parse(tasksIds as string);
-        // console.log(tasksIds, secondsCount, surveyId);
         getSurveyTask(taskId[0]);
+
     }, []);
 
 
-    console.log(surveyTask);
-
+    // console.log(surveyTask?.answers);
+    // console.log(taskId);
+    const setTaskIds = (taskId: number) => {
+        setTaskId((state) => [...state, taskId])
+    }
 
     const surveyFormik = useFormik({
-        initialValues: {},
+        enableReinitialize: true,
+
+        initialValues: {
+
+            id: surveyTask?.id,
+            nextTaskId: 0,
+            name: '',
+            image: [
+                ''
+            ],
+            file: '',
+            level: {
+                id: 0,
+                name: ''
+            },
+            type: {
+                id: 0,
+                name: ''
+            },
+            answers: [
+                {
+                    id: 0,
+                    name: '',
+                    text: '',
+                    value: '',
+                    rowTextNum: 0,
+                    right: true
+                }
+            ],
+            ars: taskId,
+            strAnswers: '',
+            description: '',
+            imageStr: ''
+
+        },
 
         onSubmit: values => {
-            alert(values)
+            const payload = {
+
+                id: values.id,
+                nextTaskId: 0,
+                name: '',
+                image: [
+                    ''
+                ],
+                file: '',
+                level: {
+                    id: 0,
+                    name: ''
+                },
+                type: {
+                    id: 0,
+                    name: ''
+                },
+                answers: [
+                    {
+                        id: 0,
+                        name: '',
+                        text: '',
+                        value: '',
+                        rowTextNum: 0,
+                        right: true
+                    }
+                ],
+                ars: values.ars,
+                strAnswers: '',
+                description: '',
+                imageStr: ''
+            }
+            console.log(payload)
+            createSurvey(JSON.parse(surveyId as string), payload)
         }
     })
 
@@ -41,7 +112,7 @@ export const Survey = () => {
                 <div className={styles.block}>
                     <div className={styles.content}>
                         <div className={styles.description}>
-                            <h1 >{surveyTask?.description}</h1>
+                            <h1>{surveyTask?.description}</h1>
                         </div>
 
                         <img className={styles.image} src={surveyTask?.imageStr} alt="survey"/>
@@ -50,7 +121,9 @@ export const Survey = () => {
                                 <div key={survey.id}
                                      className={styles.answer}
                                 >
-                                    <RadioWrapper/>
+                                    <CheckboxWrapper value={survey.id}
+                                                     setTaskId={setTaskIds}
+                                    />
                                     <InputWrapper value={survey.text}/>
                                 </div>
                             )

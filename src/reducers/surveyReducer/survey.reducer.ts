@@ -70,6 +70,7 @@ const createSurvey = createAsyncThunk<string, { surveyId: string, payload: Creat
         dispatch(loadingActions.setLoadingStatus('loading'));
         try {
             const response = await SurveyService.saveAnswers(surveyId, payload);
+            debugger
             if (response.status === ResponseStatusEnum.successful) {
                 return response.data as string;
             } else {
@@ -77,6 +78,7 @@ const createSurvey = createAsyncThunk<string, { surveyId: string, payload: Creat
             }
 
         } catch (error: any) {
+            debugger
             if (!error.response) {
                 dispatch(errorActions.setSurveyError(error.message));
                 return rejectWithValue(null);
@@ -109,13 +111,13 @@ const surveySlice = createSlice({
                 state.surveyTask = action.payload;
             })
             .addCase(createSurvey.fulfilled, (state, action) => {
-
+                debugger
             })
 
     }
 })
 
-export const surveyThunk = {getStartSurvey,  getSurveyTask, createSurvey};
+export const surveyThunk = {getStartSurvey, getSurveyTask, createSurvey};
 export const surveyReducer = surveySlice.reducer;
 
 
