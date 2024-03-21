@@ -126,7 +126,7 @@ const initialState: SurveyInitialStateType = {
     startSurvey: null,
     survey: null,
     surveyTask: null,
-    surveyString: null,
+    surveyString: [],
     result: null
 }
 
@@ -143,7 +143,8 @@ const surveySlice = createSlice({
                 state.surveyTask = action.payload;
             })
             .addCase(createSurvey.fulfilled, (state, action) => {
-                state.surveyString = action.payload;
+                debugger
+                state.surveyString = [...state.surveyString,action.payload];
             })
             .addCase(surveyResult.fulfilled, (state, action) => {
                 state.result = action.payload;

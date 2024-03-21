@@ -8,6 +8,6 @@ export type SurveyInitialStateType ={
     startSurvey: null | SurveyStartType,
     survey: null | SurveyResponseType,
     surveyTask: null | GetSurveyTasksType,
-    surveyString: null | string,
+    surveyString: string[],
     result: null | SurveyResultResponseType
 }

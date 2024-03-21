@@ -1,0 +1,11 @@
+.main {
+    border: 1px solid red;
+}
+
+.block {
+    border: 1px solid blue;
+}
+
+.content {
+    border: 1px solid white;
+}

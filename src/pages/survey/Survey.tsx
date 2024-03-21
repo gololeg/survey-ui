@@ -21,8 +21,11 @@ export const Survey = () => {
     const [taskId, setTaskId] = useState<number[]>([]);
 
     useEffect(() => {
-        getSurveyTask(arrayTasksIds[0]);
-    }, [surveyString, arrayTasksIds]);
+        if (arrayTasksIds.length !== 0) {
+            getSurveyTask(arrayTasksIds[0]);
+        }
+
+    }, [surveyString]);
 
     const setTaskIds = (taskId: number) => {
         setTaskId((state) => [...state, taskId])
