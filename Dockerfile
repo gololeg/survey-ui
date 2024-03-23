@@ -2,14 +2,10 @@ FROM node:18-alpine
 
 WORKDIR /app
 
-EXPOSE 9000
+EXPOSE 3000
 
-COPY /package.json /app/package.json
-COPY /package.json /.
-COPY /yarn.lock /yarn.lock
+COPY . .
 
 RUN yarn install
 
-COPY . /.
-
-CMD ["yarn", "start"]
+ENTRYPOINT ["yarn", "start"]
