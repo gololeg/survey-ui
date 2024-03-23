@@ -70,7 +70,6 @@ const createSurvey = createAsyncThunk<string, { surveyId: string, values: Create
         dispatch(loadingActions.setLoadingStatus('loading'));
         try {
             const response = await SurveyService.saveAnswers(surveyId, values);
-            debugger
             if (response.status === ResponseStatusEnum.successful) {
 
                 const arrayTasksId = localStorage.getItem('tasksIds');
@@ -83,7 +82,6 @@ const createSurvey = createAsyncThunk<string, { surveyId: string, values: Create
             }
 
         } catch (error: any) {
-            debugger
             if (!error.response) {
                 dispatch(errorActions.setSurveyError(error.message));
                 return rejectWithValue(null);
@@ -143,7 +141,6 @@ const surveySlice = createSlice({
                 state.surveyTask = action.payload;
             })
             .addCase(createSurvey.fulfilled, (state, action) => {
-                debugger
                 state.surveyString = [...state.surveyString,action.payload];
             })
             .addCase(surveyResult.fulfilled, (state, action) => {

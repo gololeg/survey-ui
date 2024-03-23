@@ -18,7 +18,9 @@ export const Survey = () => {
     const {getSurveyTask, createSurvey} = useAppDispatch();
     const surveyTask = useAppSelector(state => state.survey.surveyTask);
     const surveyString = useAppSelector(state => state.survey.surveyString);
+
     const [taskId, setTaskId] = useState<number[]>([]);
+
 
     useEffect(() => {
         if (arrayTasksIds.length !== 0) {
@@ -27,29 +29,34 @@ export const Survey = () => {
 
     }, [surveyString]);
 
-    const setTaskIds = (taskId: number) => {
+    const setTaskIdsCheckbox = (taskId: number) => {
         setTaskId((state) => [...state, taskId])
     }
+    const setTaskIDsRadio = (taskId: number) => {
+        setTaskId(() => [taskId])
+    }
+
 
     const surveyFormik = useFormik({
         enableReinitialize: true,
 
         initialValues: {
             id: surveyTask?.id,
-            ars: taskId,
+            ars: taskId
 
         },
 
         onSubmit: values => {
             const surveyId = JSON.parse(surveyIdLocalStorage as string)
             createSurvey({surveyId, values})
+            setTaskId([]);
         }
     })
 
     if (arrayTasksIds.length === 0) {
         return <Navigate to={'/survey/result'}/>
     }
-
+    console.log(surveyTask?.answers)
     return (
         <form onSubmit={surveyFormik.handleSubmit}>
             <div className={styles.main}>
@@ -65,9 +72,15 @@ export const Survey = () => {
                                 <div key={survey.id}
                                      className={styles.answer}
                                 >
-                                    <CheckboxWrapper value={survey.id}
-                                                     setTaskId={setTaskIds}
-                                    />
+                                    {
+                                        surveyTask.type.name === 'CHECKBOX' ? <CheckboxWrapper value={survey.id}
+                                                                                               setTaskId={setTaskIdsCheckbox}
+                                        /> : <RadioWrapper
+                                            value={survey.id}
+                                            checked={survey.id === taskId.find(el => el === survey.id)}
+                                            onChange={setTaskIDsRadio}
+                                        />
+                                    }
                                     <InputWrapper value={survey.text}/>
                                 </div>
                             )
