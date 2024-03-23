@@ -14,6 +14,8 @@ export const ButtonWrapper = (props: ButtonWrapperPropsType) => {
                 type={props.type ? "submit" : undefined}
                 variant={props.variant}
                 onClick={props.onclick}
+                endIcon={props.endIcon}
+                startIcon={props.startIcon}
             >{props.text}</Button>
         </div>
     )

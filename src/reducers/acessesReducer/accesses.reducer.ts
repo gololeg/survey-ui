@@ -25,8 +25,8 @@ const fetchAllAccesses = createAsyncThunk<AccessesType[], undefined>(
                 dispatch(errorActions.setAccessesError(error.message));
                 return rejectWithValue(null);
             } else {
-                    dispatch(errorActions.setAccessesError(error.response.data.message));
-                    return rejectWithValue(null);
+                dispatch(errorActions.setAccessesError(error.response.data.message));
+                return rejectWithValue(null);
             }
 
         }
@@ -87,7 +87,8 @@ const createAccesses = createAsyncThunk<AccessesType, AccessesType>(
 
 const initialState: AccessesReducerInitialStateType = {
     allAccesses: [],
-    access: null
+    access: null,
+    createAccess: null
 }
 
 const accessesSlice = createSlice({
@@ -103,7 +104,7 @@ const accessesSlice = createSlice({
                 state.access = action.payload;
             })
             .addCase(createAccesses.fulfilled, (state, action) => {
-
+                state.createAccess = action.payload;
             })
     }
 })

@@ -7,7 +7,7 @@
     text-align: center;
 }
 
-.content {
+.content{
     display: flex;
     flex-direction: column;
     margin-top: 20%;
@@ -78,6 +78,21 @@
 }
 
 .viewAllAccessesContent a:hover{
+    text-decoration: none;
+    color: blue;
+    font-weight: bold;
+    font-size: 23px;
+}
+.createAccessesMain{
+    margin-top: 15px;
+}
+.createAccessesContent a{
+    text-decoration: none;
+    color: black;
+    font-weight: normal;
+    font-size: 20px;
+}
+.createAccessesContent a:hover{
     text-decoration: none;
     color: blue;
     font-weight: bold;

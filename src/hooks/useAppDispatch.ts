@@ -7,6 +7,7 @@ import {settingsThunk} from "reducers/settingsReducer/settings.reducer";
 import {userThunk} from "reducers/userReducer/userReducer";
 import {AppDispatch} from "store/store";
 import {accessesThunk} from "reducers/acessesReducer/accesses.reducer";
+import {surveyThunk} from "reducers/surveyReducer/survey.reducer";
 
 
 
@@ -18,7 +19,8 @@ const actions = {
   ...loadingActions,
   ...settingsThunk,
   ...userThunk,
-  ...accessesThunk
+  ...accessesThunk,
+  ...surveyThunk
 }
 
 export const useAppDispatch = () => {

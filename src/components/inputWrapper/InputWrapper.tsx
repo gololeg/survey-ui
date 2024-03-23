@@ -21,7 +21,7 @@ export const InputWrapper = (props: InputWrapperPropsType) => {
                 multiline
                 maxRows={4}
                 onChange={handleChange}
-                value={state}
+                value={props.value ? props.value : state}
                 {...props.getFieldProps}
             />
         </div>
