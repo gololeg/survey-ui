@@ -28,6 +28,11 @@ export const SideBar = () => {
                         <Link to={'/admin/accesses/all'}>All accesses</Link>
                     </div>
                 </div>
+                <div className={styles.createAccessesMain}>
+                    <div className={styles.createAccessesContent}>
+                        <Link to={'/admin/accesses/create'}>Create accesses</Link>
+                    </div>
+                </div>
             </div>
         </div>
     );
