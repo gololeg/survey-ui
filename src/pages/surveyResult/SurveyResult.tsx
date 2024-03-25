@@ -7,18 +7,23 @@ import InsertEmoticonSharpIcon from '@mui/icons-material/InsertEmoticonSharp';
 import MoodBadSharpIcon from '@mui/icons-material/MoodBadSharp';
 import {ButtonWrapper} from "components/buttonWrapper/ButtonWrapper";
 import PlayCircleFilledSharpIcon from '@mui/icons-material/PlayCircleFilledSharp';
+import {useNavigate} from "react-router-dom";
 
 export const SurveyResult = () => {
     const surveyIdLocalStorage = localStorage.getItem('surveyId');
     const surveyId = JSON.parse(surveyIdLocalStorage as string);
     const {surveyResult} = useAppDispatch();
-    const surveyResultData = useAppSelector(state => state.survey.result)
+    const surveyResultData = useAppSelector(state => state.survey.result);
+    const navigate = useNavigate();
 
     useEffect(() => {
         surveyResult(surveyId)
     }, []);
 
-    // console.log(surveyResultData?.commonPercent as number < 50)
+    const redirectToGenerateSurvey = () => {
+        navigate('/generate/survey')
+    }
+
     return (
         <div className={styles.main}>
             <div className={styles.block}>
@@ -56,7 +61,8 @@ export const SurveyResult = () => {
                         </div>)
                     }
                     <div className={styles.buttonBlock}>
-                        <ButtonWrapper text={'Try again'} variant={"contained"} size={'large'}/>
+                        <ButtonWrapper text={'Try again'} variant={"contained"} size={'large'}
+                                       onclick={redirectToGenerateSurvey}/>
                     </div>
                 </div>
             </div>

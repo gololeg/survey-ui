@@ -37,12 +37,15 @@ export const GenerateSurvey = () => {
             <div className={styles.block}>
                 <div className={styles.contentBlock}>
                     <div className={styles.content}>
-                        <h1>Write email</h1>
+                        <div className={styles.item1}>
+                            <h1>Write email</h1>
+                        </div>
+
                         <InputWrapper
                             text={'Email'}
                             getFieldProps={generateSurveyFormik.getFieldProps('email')}/>
                         {generateSurveyFormik.touched && generateSurveyFormik.errors.email ?
-                            <p style={{ color: 'red' }}>{generateSurveyFormik.errors.email}</p> : null}
+                            <p style={{color: 'red'}}>{generateSurveyFormik.errors.email}</p> : null}
                         <ButtonWrapper
                             variant={"contained"}
                             text={'Send'}

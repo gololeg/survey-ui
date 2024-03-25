@@ -57,7 +57,7 @@ export const Survey = () => {
         return <Navigate to={'/survey/result'}/>
     }
 
-    console.log(surveyTask?.answers)
+    console.log(surveyTask)
     return (
         <form onSubmit={surveyFormik.handleSubmit}>
             <div className={styles.main}>
@@ -66,8 +66,11 @@ export const Survey = () => {
                         <div className={styles.description}>
                             <h1>{surveyTask?.description}</h1>
                         </div>
+                        {
+                            surveyTask?.imageStr && <img className={styles.image} src={surveyTask?.imageStr} alt="survey"/>
+                        }
 
-                        <img className={styles.image} src={surveyTask?.imageStr} alt="survey"/>
+
                         {
                             surveyTask?.answers.map(survey =>
                                 <div key={survey.id}

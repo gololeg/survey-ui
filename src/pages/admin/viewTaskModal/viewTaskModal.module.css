@@ -1,86 +1,32 @@
-.modalContainer {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-}
-
-
-.modalOverlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-.modalContent {
-    background-color: #fff;
-    padding: 20px;
-    border-radius: 5px;
+.main {
+    margin-top: 5%;
 }
 
 .block {
+
+    width: 60%;
+    margin-left: 20%;
+}
+
+.content {
+
+    background-color: darkgrey;
     display: flex;
     flex-direction: column;
     align-items: center;
+    border-radius: 3%;
 }
-
-.description {
+.answerContent{
     display: flex;
     flex-direction: row;
-    justify-content: space-around;
-    width: 100%;
     margin-top: 30px;
+}
+.button{
+    margin-top: 20px;
+}
+h1{
+    margin-right: 32%;
+}
+h2{
     margin-bottom: 30px;
-    margin-right: 80px;
-}
-
-.description label {
-    font-weight: bold;
-    font-size: large;
-}
-
-.description div {
-    font-weight: bold;
-    font-size: large;
-}
-
-.image {
-    margin-bottom: 30px;
-}
-
-.image img {
-    width: 100%;
-}
-
-.answers {
-    display: flex;
-    flex-direction: row;
-    width: 100%;
-    justify-content: space-around;
-    margin-bottom: 30px;
-    margin-right: 80px;
-}
-
-.answers label {
-    font-weight: bold;
-    font-size: large;
-}
-
-.answers div {
-    font-weight: bold;
-    font-size: large;
-}
-
-.closeButton {
-  margin-left: 40%;
-}
-
-.responseError{
-    color: red;
-    margin-left: 35%;
 }
