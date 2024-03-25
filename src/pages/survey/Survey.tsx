@@ -56,6 +56,7 @@ export const Survey = () => {
     if (arrayTasksIds.length === 0) {
         return <Navigate to={'/survey/result'}/>
     }
+
     console.log(surveyTask?.answers)
     return (
         <form onSubmit={surveyFormik.handleSubmit}>
