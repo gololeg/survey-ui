@@ -43,6 +43,7 @@ const getSurveyTask = createAsyncThunk<GetSurveyTasksType, number>(
     'survey/getSurveyTask',
     async (taskId: number, {dispatch, rejectWithValue}) => {
         dispatch(loadingActions.setLoadingStatus('loading'));
+
         try {
             const response = await SurveyService.getSurveyTask(taskId);
             if (response.status === ResponseStatusEnum.successful) {
@@ -51,6 +52,7 @@ const getSurveyTask = createAsyncThunk<GetSurveyTasksType, number>(
                 return rejectWithValue(null);
             }
         } catch (error: any) {
+
             if (!error.response) {
                 dispatch(errorActions.setSurveyError(error.message));
                 return rejectWithValue(null);
@@ -75,7 +77,6 @@ const createSurvey = createAsyncThunk<string, { surveyId: string, values: Create
                 const arrayTasksId = localStorage.getItem('tasksIds');
                 const tasksId = JSON.parse(arrayTasksId as string);
                 localStorage.setItem('tasksIds', JSON.stringify(tasksId.slice(1)))
-
                 return response.data as string;
             } else {
                 return rejectWithValue(null);
@@ -140,8 +141,14 @@ const surveySlice = createSlice({
             .addCase(getSurveyTask.fulfilled, (state, action) => {
                 state.surveyTask = action.payload;
             })
+            .addCase(getSurveyTask.rejected, (state, action) => {
+                // state.surveyTask = null
+            })
             .addCase(createSurvey.fulfilled, (state, action) => {
-                state.surveyString = [...state.surveyString,action.payload];
+                state.surveyString = [...state.surveyString as string[], action.payload];
+            })
+            .addCase(createSurvey.rejected, (state, action) => {
+                state.surveyString = null;
             })
             .addCase(surveyResult.fulfilled, (state, action) => {
                 state.result = action.payload;

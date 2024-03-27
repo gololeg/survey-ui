@@ -8,26 +8,26 @@ import {useFormik} from "formik";
 import {InputWrapper} from "components/inputWrapper/InputWrapper";
 import {ButtonWrapper} from "components/buttonWrapper/ButtonWrapper";
 import SendRoundedIcon from '@mui/icons-material/SendRounded';
-import {Navigate} from "react-router-dom";
+import {Navigate, useNavigate} from "react-router-dom";
+import {LinearProgress} from "@mui/material";
 
 export const Survey = () => {
     const tasksIds = localStorage.getItem('tasksIds');
     const arrayTasksIds = JSON.parse(tasksIds as string);
+
     const secondsCount = localStorage.getItem('secondsCount');
     const surveyIdLocalStorage = localStorage.getItem('surveyId');
+    const statusLoading = useAppSelector(state => state.loading.statusLoading)
     const {getSurveyTask, createSurvey} = useAppDispatch();
     const surveyTask = useAppSelector(state => state.survey.surveyTask);
     const surveyString = useAppSelector(state => state.survey.surveyString);
-
     const [taskId, setTaskId] = useState<number[]>([]);
 
 
-    useEffect(() => {
-        if (arrayTasksIds.length !== 0) {
-            getSurveyTask(arrayTasksIds[0]);
-        }
 
-    }, [surveyString]);
+    useEffect(() => {
+        getSurveyTask(arrayTasksIds[0]);
+    }, [surveyString, tasksIds]);
 
     const setTaskIdsCheckbox = (taskId: number) => {
         setTaskId((state) => [...state, taskId])
@@ -50,16 +50,18 @@ export const Survey = () => {
             const surveyId = JSON.parse(surveyIdLocalStorage as string)
             createSurvey({surveyId, values})
             setTaskId([]);
+
         }
     })
 
-    if (arrayTasksIds.length === 0) {
+    if (!arrayTasksIds.length) {
         return <Navigate to={'/survey/result'}/>
     }
 
-    console.log(surveyTask)
+
     return (
         <form onSubmit={surveyFormik.handleSubmit}>
+            {statusLoading === 'loading' && <LinearProgress/>}
             <div className={styles.main}>
                 <div className={styles.block}>
                     <div className={styles.content}>
@@ -67,7 +69,8 @@ export const Survey = () => {
                             <h1>{surveyTask?.description}</h1>
                         </div>
                         {
-                            surveyTask?.imageStr && <img className={styles.image} src={surveyTask?.imageStr} alt="survey"/>
+                            surveyTask?.imageStr &&
+                            <img className={styles.image} src={surveyTask?.imageStr} alt="survey"/>
                         }
 
 
@@ -93,7 +96,7 @@ export const Survey = () => {
                             <ButtonWrapper text={'Next'}
                                            variant={"contained"}
                                            type={'submit'}
-                                           endIcon={<SendRoundedIcon/>}
+                                           size={'large'}
                             />
                         </div>
                     </div>

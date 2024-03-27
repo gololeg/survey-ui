@@ -7,7 +7,7 @@ import InsertEmoticonSharpIcon from '@mui/icons-material/InsertEmoticonSharp';
 import MoodBadSharpIcon from '@mui/icons-material/MoodBadSharp';
 import {ButtonWrapper} from "components/buttonWrapper/ButtonWrapper";
 import PlayCircleFilledSharpIcon from '@mui/icons-material/PlayCircleFilledSharp';
-import {useNavigate} from "react-router-dom";
+import {Navigate, useNavigate} from "react-router-dom";
 
 export const SurveyResult = () => {
     const surveyIdLocalStorage = localStorage.getItem('surveyId');
@@ -15,15 +15,23 @@ export const SurveyResult = () => {
     const {surveyResult} = useAppDispatch();
     const surveyResultData = useAppSelector(state => state.survey.result);
     const navigate = useNavigate();
+    const tasksIds = localStorage.getItem('tasksIds');
+    const arrayTasksIds = JSON.parse(tasksIds as string);
 
     useEffect(() => {
-        surveyResult(surveyId)
+        if (arrayTasksIds.length){
+            return ;
+        }
+        surveyResult(surveyId);
     }, []);
 
     const redirectToGenerateSurvey = () => {
-        navigate('/generate/survey')
+        navigate('/generate/survey');
     }
 
+    if (arrayTasksIds.length){
+        return  <Navigate to={'/'}/>
+    }
     return (
         <div className={styles.main}>
             <div className={styles.block}>

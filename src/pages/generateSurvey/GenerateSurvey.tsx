@@ -5,7 +5,7 @@ import {ButtonWrapper} from "components/buttonWrapper/ButtonWrapper";
 import {useFormik} from "formik";
 import {useAppDispatch} from "hooks/useAppDispatch";
 import {useAppSelector} from "hooks/useAppSelector";
-import {Navigate} from "react-router-dom";
+import {Navigate, useNavigate} from "react-router-dom";
 import {LinearProgress} from "@mui/material";
 import {CustomizedSnackBar} from "components/customizedSnackBar/CustomizedSnackBar";
 import {generateSurveyValidate} from "utils/validation/generateSurveyValidate";
@@ -15,6 +15,9 @@ export const GenerateSurvey = () => {
     const startSurvey = useAppSelector(state => state.survey.startSurvey);
     const statusLoading = useAppSelector(state => state.loading.statusLoading);
     const surveyError = useAppSelector(state => state.error.surveyError);
+    const navigate = useNavigate();
+    const tasksIds = localStorage.getItem('tasksIds');
+    const arrayTasksIds = JSON.parse(tasksIds as string);
 
     const generateSurveyFormik = useFormik({
         validate: generateSurveyValidate,
@@ -24,13 +27,17 @@ export const GenerateSurvey = () => {
 
         onSubmit: values => {
             getStartSurvey(values.email)
+            navigate('/')
             generateSurveyFormik.resetForm()
+
         }
     })
 
-    if (startSurvey) {
-        return <Navigate to={'/'}/>
-    }
+
+    // if (arrayTasksIds.length) {
+    //     return <Navigate to={'/'}/>
+    // }
+
     return (
         <form onSubmit={generateSurveyFormik.handleSubmit}>
             {statusLoading === 'loading' && <LinearProgress/>}
