@@ -27,32 +27,41 @@
 .resultPercent {
     display: flex;
     flex-direction: row;
-
 }
+
 
 .resultPercentContent {
     width: 40%;
-    margin-left: 25%;
+    margin-left: 23%;
+    justify-content: center;
     display: flex;
+    padding-right: 20%;
 }
 
-.resultPercentContent span {
+.resultPercentContent p {
     margin-top: 30px;
-    margin-left: 15px;
+    margin-left: -30%;
     font-size: x-large;
     font-weight: 900;
 }
 
 .lowPercent {
     color: red;
+
 }
 
 .highPercent {
     color: green;
+
 }
-.buttonBlock{
+
+.buttonBlock {
     margin-left: 45%;
     margin-top: 20px;
+}
+
+h1 {
+    min-width: 200px;
 }
 
 svg {

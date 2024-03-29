@@ -14,33 +14,61 @@
     width: 100%;
     background: darkgrey;
     border-radius: 4px;
-    padding-top: 30px;
+    padding-top: 20px;
+}
+
+.timer {
+    width: 50%;
+    margin-left: 25%;
+    margin-bottom: 30px;
 }
 
 .description {
-    margin-left: 15%;
+    text-align: center;
 }
+
 .description h1 {
     font-size: 2em;
     color: #333;
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
     margin: 0;
 }
+
 .image {
     display: inline-block;
     margin-left: 35%;
     margin-top: 5%;
     margin-bottom: 20px;
+    width: 300px;
+
 }
 
 .answer {
     display: flex;
-    margin-left: 35%;
+    flex-direction: row;
+    flex-wrap: wrap;
+    margin-left: 25%;
     margin-top: 20px;
+    margin-right: 35%;
+    width: 50%;
+}
+
+.answerContent {
+    display: flex;
+}
+
+.checkboxWrapper {
+    /*border: 1px solid red;*/
+    transform: translateY(-20%);
+}
+
+.radioWrapper {
+    /*border: 1px solid black;*/
+    transform: translateY(-20%);
 }
 
 .buttonBlock {
     margin-top: 40px;
-    margin-left: 43%;
+    margin-left: 45%;
     padding-bottom: 40px;
 }

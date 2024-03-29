@@ -10,6 +10,7 @@ import {ButtonWrapper} from "components/buttonWrapper/ButtonWrapper";
 import SendRoundedIcon from '@mui/icons-material/SendRounded';
 import {Navigate, useNavigate} from "react-router-dom";
 import {LinearProgress} from "@mui/material";
+import {Timer} from "components/timer/Timer";
 
 export const Survey = () => {
     const tasksIds = localStorage.getItem('tasksIds');
@@ -24,10 +25,12 @@ export const Survey = () => {
     const [taskId, setTaskId] = useState<number[]>([]);
 
 
-
     useEffect(() => {
-        getSurveyTask(arrayTasksIds[0]);
-    }, [surveyString, tasksIds]);
+        if (arrayTasksIds.length) {
+            getSurveyTask(arrayTasksIds[0]);
+        }
+
+    }, [surveyString]);
 
     const setTaskIdsCheckbox = (taskId: number) => {
         setTaskId((state) => [...state, taskId])
@@ -65,6 +68,9 @@ export const Survey = () => {
             <div className={styles.main}>
                 <div className={styles.block}>
                     <div className={styles.content}>
+                        <div className={styles.timer}>
+                            <Timer seconds={Number(secondsCount)}/>
+                        </div>
                         <div className={styles.description}>
                             <h1>{surveyTask?.description}</h1>
                         </div>
@@ -73,25 +79,28 @@ export const Survey = () => {
                             <img className={styles.image} src={surveyTask?.imageStr} alt="survey"/>
                         }
 
-
-                        {
-                            surveyTask?.answers.map(survey =>
-                                <div key={survey.id}
-                                     className={styles.answer}
-                                >
-                                    {
-                                        surveyTask.type.name === 'CHECKBOX' ? <CheckboxWrapper value={survey.id}
-                                                                                               setTaskId={setTaskIdsCheckbox}
-                                        /> : <RadioWrapper
-                                            value={survey.id}
-                                            checked={survey.id === taskId.find(el => el === survey.id)}
-                                            onChange={setTaskIDsRadio}
-                                        />
-                                    }
-                                    <InputWrapper value={survey.text}/>
-                                </div>
-                            )
-                        }
+                        <div className={styles.answer}>
+                            {
+                                surveyTask?.answers.map(survey =>
+                                    <div key={survey.id}
+                                         className={styles.answerContent}
+                                    >
+                                        {
+                                            surveyTask.type.name === 'CHECKBOX' ?
+                                                <div className={styles.checkboxWrapper}><CheckboxWrapper
+                                                    value={survey.id}
+                                                    setTaskId={setTaskIdsCheckbox}
+                                                /></div> : <div className={styles.radioWrapper}><RadioWrapper
+                                                    value={survey.id}
+                                                    checked={survey.id === taskId.find(el => el === survey.id)}
+                                                    onChange={setTaskIDsRadio}
+                                                /></div>
+                                        }
+                                        <InputWrapper value={survey.text}/>
+                                    </div>
+                                )
+                            }
+                        </div>
                         <div className={styles.buttonBlock}>
                             <ButtonWrapper text={'Next'}
                                            variant={"contained"}

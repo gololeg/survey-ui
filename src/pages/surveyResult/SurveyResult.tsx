@@ -38,9 +38,10 @@ export const SurveyResult = () => {
                 <div className={styles.content}>
                     <div className={styles.resultPercent}>
                         <div className={styles.resultPercentContent}>
-                            <h1>Your result is </h1>
-                            <span
-                                className={Math.round(surveyResultData?.commonPercent as number) < 50 ? styles.lowPercent : styles.highPercent}>{Math.round(surveyResultData?.commonPercent as number)}%</span>
+                                <h1>Your result is </h1>
+
+                            <p
+                                className={Math.round(surveyResultData?.commonPercent as number) < 50 ? styles.lowPercent : styles.highPercent}>{Math.round(surveyResultData?.commonPercent as number)}%</p>
                             {
                                 surveyResultData?.commonPercent && surveyResultData?.commonPercent < 50 ?
                                     <MoodBadSharpIcon fontSize={'large'}/> : <InsertEmoticonSharpIcon/>
