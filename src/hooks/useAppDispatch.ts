@@ -10,20 +10,18 @@ import {accessesThunk} from "reducers/acessesReducer/accesses.reducer";
 import {surveyThunk} from "reducers/surveyReducer/survey.reducer";
 
 
-
-
 const actions = {
-  ...tasksActions,
-  ...tasksThunk,
-  ...answerActions,
-  ...loadingActions,
-  ...settingsThunk,
-  ...userThunk,
-  ...accessesThunk,
-  ...surveyThunk
+    ...tasksActions,
+    ...tasksThunk,
+    ...answerActions,
+    ...loadingActions,
+    ...settingsThunk,
+    ...userThunk,
+    ...accessesThunk,
+    ...surveyThunk,
 }
 
 export const useAppDispatch = () => {
-  const dispatch = useDispatch<AppDispatch>()
-  return bindActionCreators(actions as any, dispatch as AppDispatch)
+    const dispatch = useDispatch<AppDispatch>()
+    return bindActionCreators(actions as any, dispatch as AppDispatch)
 }

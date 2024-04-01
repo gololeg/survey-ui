@@ -7,8 +7,7 @@ import {RadioWrapper} from "components/radioWrapper/RadioWrapper";
 import {useFormik} from "formik";
 import {InputWrapper} from "components/inputWrapper/InputWrapper";
 import {ButtonWrapper} from "components/buttonWrapper/ButtonWrapper";
-import SendRoundedIcon from '@mui/icons-material/SendRounded';
-import {Navigate, useNavigate} from "react-router-dom";
+import {Navigate} from "react-router-dom";
 import {LinearProgress} from "@mui/material";
 import {Timer} from "components/timer/Timer";
 
@@ -23,7 +22,6 @@ export const Survey = () => {
     const surveyTask = useAppSelector(state => state.survey.surveyTask);
     const surveyString = useAppSelector(state => state.survey.surveyString);
     const [taskId, setTaskId] = useState<number[]>([]);
-
 
     useEffect(() => {
         if (arrayTasksIds.length) {
@@ -61,7 +59,6 @@ export const Survey = () => {
         return <Navigate to={'/survey/result'}/>
     }
 
-
     return (
         <form onSubmit={surveyFormik.handleSubmit}>
             {statusLoading === 'loading' && <LinearProgress/>}
@@ -76,7 +73,8 @@ export const Survey = () => {
                         </div>
                         {
                             surveyTask?.imageStr &&
-                            <img className={styles.image} src={surveyTask?.imageStr} alt="survey"/>
+                            <div className={styles.image}> <img  src={surveyTask?.imageStr} alt="survey"/></div>
+
                         }
 
                         <div className={styles.answer}>

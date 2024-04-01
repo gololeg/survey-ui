@@ -1,18 +1,35 @@
 import React, {useEffect, useState} from 'react';
 import styles from './timer.module.css'
+import {Navigate} from "react-router-dom";
+import {useDispatch} from "react-redux";
+import {AppDispatch} from "store/store";
+import {errorActions} from "reducers/errorReducer/error.reducer";
+
 
 type TimerPropsType = {
     seconds: number
 }
 export const Timer = (props: TimerPropsType) => {
-    const [time, setTime] = useState(props.seconds);
+    const dispatch = useDispatch<AppDispatch>()
+    const [time, setTime] = useState(() => {
+        const savedTime = localStorage.getItem('timerTime');
+        return savedTime ? parseInt(savedTime, 10) : props.seconds;
+    });
 
     useEffect(() => {
         const timer = setInterval(() => {
-            setTime((prevTime) => prevTime - 1);
+            setTime((prevTime) => {
+                let state = prevTime - 1;
+                localStorage.setItem('timerTime', JSON.stringify(prevTime))
+                return state
+            });
         }, 1000);
 
         return () => clearInterval(timer);
+    }, []);
+
+    useEffect(() => {
+        return () => localStorage.removeItem('timerTime')
     }, []);
 
     const formatTime = (time: number): string => {
@@ -31,6 +48,11 @@ export const Timer = (props: TimerPropsType) => {
         barColor = '#FFBA00'
     } else {
         barColor = 'red'
+    }
+
+    if (time === 0) {
+        dispatch(errorActions.setTimerTimeError('Time is over!'))
+        return <Navigate to={'/generate/survey'}/>;
     }
 
     return (

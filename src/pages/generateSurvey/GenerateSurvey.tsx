@@ -5,19 +5,17 @@ import {ButtonWrapper} from "components/buttonWrapper/ButtonWrapper";
 import {useFormik} from "formik";
 import {useAppDispatch} from "hooks/useAppDispatch";
 import {useAppSelector} from "hooks/useAppSelector";
-import {Navigate, useNavigate} from "react-router-dom";
+import {useNavigate} from "react-router-dom";
 import {LinearProgress} from "@mui/material";
 import {CustomizedSnackBar} from "components/customizedSnackBar/CustomizedSnackBar";
 import {generateSurveyValidate} from "utils/validation/generateSurveyValidate";
 
 export const GenerateSurvey = () => {
     const {getStartSurvey} = useAppDispatch();
-    const startSurvey = useAppSelector(state => state.survey.startSurvey);
     const statusLoading = useAppSelector(state => state.loading.statusLoading);
-    const surveyError = useAppSelector(state => state.error.surveyError);
+    const timerTimeError = useAppSelector(state => state.error.timerTimeError)
     const navigate = useNavigate();
-    const tasksIds = localStorage.getItem('tasksIds');
-    const arrayTasksIds = JSON.parse(tasksIds as string);
+
 
     const generateSurveyFormik = useFormik({
         validate: generateSurveyValidate,
@@ -33,10 +31,6 @@ export const GenerateSurvey = () => {
         }
     })
 
-
-    // if (arrayTasksIds.length) {
-    //     return <Navigate to={'/'}/>
-    // }
 
     return (
         <form onSubmit={generateSurveyFormik.handleSubmit}>
@@ -63,7 +57,7 @@ export const GenerateSurvey = () => {
                 </div>
             </div>
             {
-                surveyError && <CustomizedSnackBar error={surveyError}/>
+                timerTimeError && <CustomizedSnackBar error={timerTimeError}/>
             }
         </form>
     );

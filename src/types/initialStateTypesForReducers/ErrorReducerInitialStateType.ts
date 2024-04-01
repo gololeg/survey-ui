@@ -8,5 +8,6 @@ export type ErrorReducerInitialStateType = {
     createSettingsError: null | string,
     authError: null | string,
     accessesError: null | string,
-    surveyError: null | string
+    surveyError: null | string,
+    timerTimeError: null | string
 }

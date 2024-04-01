@@ -1,4 +1,4 @@
-import {createAsyncThunk, createSlice} from "@reduxjs/toolkit";
+import {createAsyncThunk, createSlice, PayloadAction} from "@reduxjs/toolkit";
 import {SurveyStartType} from "types/surveyType/SurveyStartType";
 import {loadingActions} from "reducers/loadingReducer/loading.reducer";
 import {SurveyService} from "services/surveyService";
@@ -126,13 +126,15 @@ const initialState: SurveyInitialStateType = {
     survey: null,
     surveyTask: null,
     surveyString: [],
-    result: null
+    result: null,
+
 }
 
 const surveySlice = createSlice({
     name: 'survey',
     initialState,
-    reducers: {},
+    reducers: {
+    },
     extraReducers: builder => {
         builder
             .addCase(getStartSurvey.fulfilled, (state, action) => {
@@ -142,7 +144,7 @@ const surveySlice = createSlice({
                 state.surveyTask = action.payload;
             })
             .addCase(getSurveyTask.rejected, (state, action) => {
-                // state.surveyTask = null
+
             })
             .addCase(createSurvey.fulfilled, (state, action) => {
                 state.surveyString = [...state.surveyString as string[], action.payload];
@@ -157,7 +159,7 @@ const surveySlice = createSlice({
     }
 })
 
-export const surveyThunk = {getStartSurvey, getSurveyTask, createSurvey, surveyResult,};
+export const surveyThunk = {getStartSurvey, getSurveyTask, createSurvey, surveyResult};
 export const surveyReducer = surveySlice.reducer;
 
 

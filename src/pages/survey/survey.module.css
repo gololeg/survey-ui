@@ -35,12 +35,11 @@
 }
 
 .image {
-    display: inline-block;
-    margin-left: 35%;
-    margin-top: 5%;
-    margin-bottom: 20px;
-    width: 300px;
+    margin: 5% 35% 20px 35%;
+}
 
+.image img {
+    width: 100%;
 }
 
 .answer {
@@ -58,12 +57,10 @@
 }
 
 .checkboxWrapper {
-    /*border: 1px solid red;*/
     transform: translateY(-20%);
 }
 
 .radioWrapper {
-    /*border: 1px solid black;*/
     transform: translateY(-20%);
 }
 

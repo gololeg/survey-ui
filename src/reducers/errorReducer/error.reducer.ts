@@ -11,7 +11,8 @@ const initialState: ErrorReducerInitialStateType = {
     createTaskError: null,
     authError: null,
     accessesError: null,
-    surveyError: null
+    surveyError: null,
+    timerTimeError: null
 }
 
 const errorSlice = createSlice({
@@ -44,6 +45,9 @@ const errorSlice = createSlice({
         },
         setSurveyError(state, action: PayloadAction<string>) {
             state.surveyError = action.payload;
+        },
+        setTimerTimeError(state, action: PayloadAction<string>) {
+            state.timerTimeError = action.payload;
         }
     }
 })
